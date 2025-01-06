@@ -7,16 +7,12 @@ function BookRoomPage() {
   const location = useLocation();
   const { room } = location.state || {}; // Get room details from navigation state
 
-  const [bookingDuration, setBookingDuration] = useState("1"); // Default is 1 month duration
-  const [customDuration, setCustomDuration] = useState(""); // For custom duration input
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [refundableFee, setRefundableFee] = useState(0);
+  
   const [paymentOption, setPaymentOption] = useState("physical"); // Default to physical payment
   const [agreeToTerms, setAgreeToTerms] = useState(false); // Track if user agrees to terms
   const [activeImageIndex, setActiveImageIndex] = useState(0); // Track active image index for carousel
 
-  // Define the booking fee
-  const bookingFee = 500; // Example booking fee
+  
 
   
   
