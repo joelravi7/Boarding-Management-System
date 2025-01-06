@@ -1,0 +1,95 @@
+/* AdminLogin.css */
+
+/* General Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #2ec0c0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+  /* Login Container Styles */
+  .Login-container {
+    background-color: #ffffff;
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.325); /* Subtle shadow */
+    border-radius: 8px;
+  }
+  
+  h2 {
+    text-align: center;
+    font-weight: bold;
+    color: #0e6835; /* Darker green */
+    margin-bottom: 20px;
+  }
+  
+  /* Form Styles */
+  .Loginform-label {
+    font-weight: bold;
+    color:  #2e5952;
+  }
+  
+  .Loginform-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  .Loginform-control:focus {
+    border-color: #0e6835; /* Highlight border on focus */
+    outline: none;
+    box-shadow: 0 0 4px rgba(14, 104, 53, 0.5); /* Green glow */
+}
+  
+  /* Button Styles */
+  .Loginbtn {
+    background-color: #2e5952;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #0e6835; /* Darker green on hover */
+}
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+  }
+  
+  /* Alert Styles */
+  .alert {
+    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .alert-success {
+    background-color: #2ecc71;
+    color: #ffffff;
+  }
+  
+  .alert-danger {
+    background-color: #e74c3c;
+    color: #ffffff;
+  }
+  
+  /* Link Styles */
+  .text-primary {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .text-primary:hover {
+    text-decoration: underline;
+  }
+  

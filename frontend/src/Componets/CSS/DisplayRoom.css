@@ -1,0 +1,286 @@
+/* DisplayRoom.css */
+
+/* Style for the RoomList container */
+.RoomList-container {
+  padding: 40px 20px;
+  background-color: #f8f9fa; /* Light background for better contrast */
+  border-radius: 8px;
+ 
+
+}
+
+/* Flexbox for Room List */
+.room-list-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between the cards */
+  justify-content: center;
+}
+
+/* Styling for the room card */
+.Room-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Ensures child elements respect the rounded corners */
+  background-color: #fff;
+  flex: 1 1 300px; /* Flexbox property to ensure equal width */
+  max-width: 950px; /* Set maximum width */
+  min-height: 400px; /* Ensure cards have a minimum height */
+}
+
+.Room-card:hover {
+  transform: scale(1.05);  /* Slight zoom effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Subtle shadow effect */
+  background-color: #f1f1f1; /* Light background color on hover */
+}
+
+/* Style for the card image */
+.Room-card-img {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0; /* Rounded top corners */
+  width: 100%; /* Ensures image is responsive */
+}
+
+/* Styling for card titles */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  flex-grow: 1; /* Ensures title does not shrink */
+}
+
+/* Styling for card text */
+.card-text {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.card-text strong {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Card body styling */
+.card-body {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 0 0 8px 8px;
+  flex-grow: 2; /* Ensures the content inside the card grows */
+}
+
+/* Link styling in card body */
+.card-body a {
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #0056b3;
+  color: white;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.card-body a:hover {
+  background-color: #003b6e;  /* Darker blue on hover */
+}
+
+/* Book button styling */
+.Book-button {
+  background-color: #2e5952; /* Primary blue color */
+  color: #fff; /* White text */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  padding: 12px 30px; /* Padding */
+  border: none; /* Remove borders */
+  border-radius: 10px; /* Rounded corners for button */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transition */
+  width: 100%; /* Full width on mobile */
+  max-width: 220px; /* Max width for button */
+  margin-top: 15px; /* Space between button and content */
+  display: block;
+  text-align: center;
+}
+
+/* Hover effect on the Book button */
+.Book-button:hover {
+  background-color: #0e6835; /* Darker blue */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+/* Focus effect on Book button */
+.Book-button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+}
+
+/* Filter section */
+.filter-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for filter section */
+  margin-bottom: 40px; /* Space between filter and room list */
+}
+
+/* Styling for Filter labels */
+.filter-section label {
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.filter-section input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.filter-section input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  background: #ddd;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.filter-section input[type="range"]:hover {
+  background: #ccc;
+}
+
+.filter-section input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #0056b3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.filter-section input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #0056b3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.filter-section .price-slider-container {
+  position: relative;
+}
+
+.filter-section .price-display {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Room list section */
+.room-list-section {
+  margin-top: 40px;
+}
+
+.room-list-section .no-rooms-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 992px) {
+  .RoomList-container {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .Room-card {
+    margin-bottom: 20px;
+  }
+
+  .filter-section {
+    margin-bottom: 20px;
+  }
+
+  .Book-button {
+    padding: 10px 20px;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .room-list-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .Room-card {
+    flex: 1 0 100%; /* Full width for cards on smaller screens */
+    margin-bottom: 20px;
+    min-height: auto; /* Adjust height for smaller screens */
+  }
+
+  .filter-section {
+    margin-bottom: 20px;
+  }
+
+  .Book-button {
+    padding: 12px 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .RoomList-container {
+    padding: 15px;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-text {
+    font-size: 0.8rem;
+  }
+
+  .Book-button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .room-list-section {
+    flex-direction: column;
+  }
+
+  .Room-card {
+    width: 100%; /* Full width cards */
+  }
+}

@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body{
+  background-color: #f8fcfc ;
+}
+
+/* Container for Registration Form */
+.Registration-container{
+  max-width: 500px;
+  margin: 50px auto; /* Center the form */
+  padding: 30px;
+  background-color: #f8fcfc ;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.325); /* Subtle shadow */
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  font-weight: bold;
+  color: #0e6835; /* Darker green */
+  margin-bottom: 20px;
+}
+
+/* Form Labels */
+.form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #2e5952;
+}
+
+/* Input Fields */
+.form-control {
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #0e6835; /* Highlight border on focus */
+  box-shadow: 0 0 4px rgba(14, 104, 53, 0.5); /* Green glow */
+}
+
+/* Submit Button */
+.btn-primary {
+  background-color: #2e5952;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0e6835; /* Darker green on hover */
+  transform: scale(1.05); /* Slight enlarge effect */
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+}
+
+/* Alert Messages */
+.alert {
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Success Alert */
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Danger Alert */
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .btn-primary {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,372 @@
+/* dash.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+}
+
+/* navbar Styles */
+.navbar {
+ 
+  height: 80px;
+  background-color: #f8fcfc;
+}
+
+
+
+.navbar-logo {
+  width: 150px; /* Set the desired width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the image fits well without distortion */
+  margin-left: 25px; /* Optional: Add some spacing */
+  margin-top: 10%;
+}
+
+/* Navbar Links */
+.nav-link {
+  color:#0e6835 !important;
+  font-size: 18px;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+  margin-bottom: 25px;
+  margin-top: 15px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  color: #0e6835 !important;
+  font-weight: bold;
+}
+
+  /* welcome Section */
+  
+/* Container styles for text and image */
+.Homesector1-container{
+  display: flex;
+  height: 450px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8fcfc ;  
+}
+
+
+
+/* Text Section (h1 and p) */
+.Homesector1-container .text-section {
+  max-width: 60%; /* Restrict width for the text */
+}
+
+.dash-Maintopic1 {
+  font-size: 60px;
+  color: #034d23;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 15%;
+  text-align: left; /* Align text to the left */
+  margin-top: 8%;
+}
+
+.dash-Mainpara1{
+  font-size: 20px;
+  margin-bottom: 45px;
+  color: #0e6835;
+  text-align: left; /* Align text to the left */
+  margin-bottom: 5%;
+  margin-left: 15%;
+  margin-top: 5%;
+}
+
+/* Image */
+.welcomeimage{
+  width: 500px; /* Adjust the image size */
+  height: auto; /* Maintain aspect ratio */
+  flex-shrink: 0; /* Prevent shrinking of the image */
+  margin-top: 0%;
+  margin-right: 5%;
+}
+
+
+  /* Styles for the getstart-button */
+.getstart-button{
+  background-color:#0e6835; /* Primary Blue Color */
+  color: #fff; /* White Text */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  padding: 10px 20px; /* Padding */
+  border: none; /* Remove borders */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  margin-left:15%;
+}
+
+/* Hover Effect */
+.getstart-button:hover {
+  background-color: #0e6835; /* Darker Blue */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Focus Effect */
+.getstart-button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+}
+
+
+/* Styles for the Login Button */
+.Login-button{
+  background-color: #ebfaf2; /* Primary Blue Color */
+  color: #2e5952; /* White Text */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  padding: 10px 20px; /* Padding */
+  border: none; /* Remove borders */
+  margin-left: 4%;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+/* Hover Effect */
+.Login-button:hover {
+  background-color: #c0f6d3; /* Darker Blue */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Focus Effect */
+.Login-button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+}
+
+
+
+
+/* Process.css */
+.process-section {
+  background-color: #f8fcfc ;
+  margin-bottom: 0%;
+  margin-top: 0%;
+}
+
+.process-title {
+  font-size: 55px;
+  font-weight: bold;
+  margin-left: 15%;
+  margin-right: 15%;
+  text-align: center;
+  margin-top: 3%;
+}
+
+.process-description {
+  font-size: 20px;
+  margin-bottom: 45px;
+  color: #2e5952;
+  text-align: center; /* Align text to the left */
+  margin-bottom: 40px;
+  margin-left: 15%;
+  margin-right: 15%;
+margin-top: 0%;
+}
+
+.process-step {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.process-step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgb(126, 187, 128);
+}
+
+.process-step.active {
+  background-color:#c0f6d3;
+  color: #2e5952;
+}
+
+.process-step .icon-box {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.process-step .icon-box img {
+  max-width: 50px;
+  height: auto;
+}
+
+.step-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: inherit;
+  margin-bottom: 15px;
+}
+
+.process-step{
+  height: 300px;
+}
+
+
+ 
+
+
+/* FAQ.css */
+
+.FAQ-container{
+  height: 350px, auto;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8fcfc;  
+  
+}
+
+.faq-heading {
+  font-size: 45px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-align: center; /* Align text to the left */
+  margin-top: 0%;
+}
+
+.accordion-item {
+  margin-bottom: 1rem; 
+  margin-left: 15%;
+  margin-right: 15%;/* Add bottom margin to each accordion item */
+  
+}
+
+.accordion-button {
+  background-color: #ffffff; /* Bootstrap primary color */
+  color: #023613;
+}
+
+.accordion-button:focus {
+  border-color: #eaebeb; /* Focus color */
+  box-shadow: none;
+}
+
+.accordion-body {
+  font-size: 1rem;
+  color: #292828;
+  
+}
+
+
+
+
+
+
+
+ /*footer.css */
+
+/* Footer General Styling */
+#contact {
+  background-color: #0D1328; /* Dark background */
+  color: #fff; /* White text */
+  padding: 20px 0;
+}
+
+#footer_content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#footer_contacts {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.footer-logo {
+  max-width: 100px;
+  height: auto;
+}
+
+/* Footer Columns */
+#footer_content .row {
+  display: flex;
+  flex-wrap: wrap;
+  
+  
+}
+
+#footer_content .col-md-4 {
+  flex: 1;
+  min-width: 100px;
+  margin-bottom: 0px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  color: #f1c40f; /* Highlight color */
+}
+
+/* Footer Links */
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #ecf0f1;
+  transition: color 0.3s ease;
+}
+
+ul li a:hover {
+  color: #f1c40f; /* Highlight color on hover */
+}
+
+/* Contact Details */
+#footer_content .col-md-4 ul li {
+  color: #bdc3c7;
+  font-size: 14px;
+}
+
+/* Social Media Icons */
+#footer_social_media {
+  display: flex;
+  justify-content: left;
+  gap: 15px;
+}
+
+#footer_social_media a {
+  color: #ecf0f1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+#footer_social_media a img {
+  width: 34px;
+  height: 34px;
+  transition: transform 0.3s ease;
+}
+
+#footer_social_media a:hover img {
+  transform: scale(1.2);
+}
+
+/* Footer Copyright */
+#footer_copyright {
+  font-size: 14px;
+  color: #deeff0;
+  padding-top: 5px;
+  border-top: 1px solid #0D1328;
+  margin-top: 10px;
+  text-align: center;
+}
+
+ 

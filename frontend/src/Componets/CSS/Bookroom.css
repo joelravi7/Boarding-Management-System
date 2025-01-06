@@ -1,0 +1,135 @@
+/* BookRoomPage.css */
+
+
+/* Container for Content */
+.containerbody {
+  max-width: 900px; /* Set maximum width to keep it centered and not too wide */
+  margin: 0 auto;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+  /* Card styling */
+  .card {
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Image styling */
+  .card-img-top {
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  /* Header and text */
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+  }
+  
+  /* Form control styling */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Radio buttons and labels */
+  .form-check-input {
+    margin-right: 10px;
+  }
+  
+  .form-check-label {
+    font-size: 1rem;
+  }
+  
+  h4 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Terms and Conditions styling */
+  .form-check {
+    margin-top: 15px;
+    font-size: 1rem;
+  }
+  
+  .form-check-label {
+    font-size: 1rem;
+  }
+  
+
+  .form-check-input {
+    margin-top: 3px;
+  }
+  
+  /* Confirm Booking button */
+  .btn-primary {
+    background-color:#0e6835; /* Primary Blue Color */
+  color: #fff; /* White Text */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  padding: 10px 20px; /* Padding */
+  border: none; /* Remove borders */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  }
+  
+  .btn-primary:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+  }
+  
+  .btn-primary:hover:enabled {
+    background-color: #0e6835;
+  }
+  
+  /* Alerts */
+  .alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+  }
+  
+  /* Total payment styling */
+  h4.mt-3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .carousel-inner {
+    display: block;
+    text-align: center;
+  }
+  
+  .carousel-item {
+    display: inline-block;
+  }
+  
+
+  
+  
+ 
+
+
+
+
+
+
