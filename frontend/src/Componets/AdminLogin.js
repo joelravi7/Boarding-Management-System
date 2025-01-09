@@ -17,7 +17,7 @@ const AdminLogin = () => {
       setMessage(`Welcome back, ${response.data.username}!`);
       setAlertType("success");
       localStorage.setItem("adminToken", response.data.token); // Save the admin token in localStorage
-      navigate("/admin/dashboard", { state: { message: `Welcome, ${response.data.username}!`, alertType: "success" } });
+      navigate("/Admindash", { state: { message: `Welcome, ${response.data.username}!`, alertType: "success" } });
     } catch (err) {
       setMessage(err.response?.data?.error || "Admin login failed!");
       setAlertType("danger");

@@ -69,79 +69,34 @@ function Addmember() {
   return (
     <>
     {/* Navigation Bar*/}
-    <nav className="navbar navbar-expand-lg">
-      <div className="container">
-        <a className="navbar-brand" href="/">
-          
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarContent">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <a className="nav-link" href="/therapists">
-                Therapists
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/Profile">
-                Profile
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Resources
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a className="dropdown-item" href="/blogs">
-                    Blogs
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#faq">
-                    FAQ
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#contact">
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/Login">
-                Log In
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+               {/* Navigation Bar */}
+               <nav className="navbar navbar-expand-lg">
+                 <div className="container">
+                   <a className="navbar-brand" href="/">
+                     
+                   </a>
+                   <button
+                     className="navbar-toggler"
+                     type="button"
+                     data-bs-toggle="collapse"
+                     data-bs-target="#navbarContent"
+                     aria-controls="navbarContent"
+                     aria-expanded="false"
+                     aria-label="Toggle navigation"
+                   >
+                     <span className="navbar-toggler-icon"></span>
+                   </button>
+         
+                   <div className="collapse navbar-collapse" id="navbarContent">
+                     <ul className="navbar-nav ms-auto">
+                       <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
+                       <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
+                       <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
+                       <li className="nav-item"><a className="nav-link" href="/Login">Login</a></li>                  
+                     </ul>
+                   </div>
+                 </div>
+               </nav>
 
 
 

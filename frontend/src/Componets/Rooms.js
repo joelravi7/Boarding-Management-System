@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './CSS/DisplayRoom.css';
 
-function RoomList() {
+function Rooms() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,8 +13,14 @@ function RoomList() {
   const navigate = useNavigate();
 
   const handleBooking = (room) => {
-    navigate("/Bookroom", { state: { room } });
+    const proceed = window.confirm(
+      "You need to log in before booking a room. Do you want to proceed to the login page?"
+    );
+    if (proceed) {
+      navigate("/Login", { state: { room } });
+    }
   };
+  
 
   const handlePriceChange = (event) => {
     setPriceFilter(event.target.value);
@@ -69,14 +75,6 @@ function RoomList() {
     return <div className="alert alert-danger">{error}</div>;
   }
 
-  // Logout function
-  const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
-    // Redirect to login page
-    navigate("/login", { replace: true });
-  };
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -92,12 +90,7 @@ function RoomList() {
               <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
               <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
-              {/* Conditionally render the Logout button */}
-          {localStorage.getItem("token") && (
-                <li className="nav-item">
-                  <button className="nav-link " onClick={handleLogout}>Logout</button>
-                </li>
-                )}
+              <li className="nav-item"><a className="nav-link" href="/Login">Logout</a></li>
             </ul>
           </div>
         </div>
@@ -179,4 +172,4 @@ function RoomList() {
   );
 }
 
-export default RoomList;
+export default Rooms;

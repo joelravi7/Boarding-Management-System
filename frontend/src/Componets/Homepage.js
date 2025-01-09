@@ -53,7 +53,7 @@ const HomePage = () => {
                        <li className="nav-item"><a className="nav-link" href="/dash">Home</a></li>
                        <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
                        <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-                       <li className="nav-item"><a className="nav-link" href="/">Support</a></li>                  
+                       <li className="nav-item"><a className="nav-link" href="/Profile">Profile</a></li>                  
                      </ul>
                    </div>
                  </div>
@@ -74,7 +74,7 @@ const HomePage = () => {
                   Get Start
                   </button>
                   <button className="Login-button" onClick={handleLoginIn}>
-                  Login In
+                  Log In
                   </button>
 
                 </div>

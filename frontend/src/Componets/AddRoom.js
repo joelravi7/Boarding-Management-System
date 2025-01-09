@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AddRoom() {
@@ -10,6 +11,7 @@ function AddRoom() {
   const [ownerContactNumber, setOwnerContactNumber] = useState("");
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -85,6 +87,14 @@ function AddRoom() {
     }
   };
 
+   // Logout function
+   const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    // Redirect to login page
+    navigate("/login", { replace: true });
+  };
+
   return (
   <>
      {/* Navigation Bar */}
@@ -100,7 +110,12 @@ function AddRoom() {
            <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
            <li className="nav-item"><a className="nav-link" href="/staff">Maintenance</a></li>
            <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
-           <li className="nav-item"><a className="nav-link" href="/Login">Logout</a></li>
+          {/* Conditionally render the Logout button */}
+          {localStorage.getItem("token") && (
+                <li className="nav-item">
+                  <button className="nav-link " onClick={handleLogout}>Logout</button>
+                </li>
+                )}
          </ul>
        </div>
      </div>

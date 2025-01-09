@@ -6,6 +6,7 @@ import "./CSS/Profile.css";
 
 function LoggedCustomer() {
   const [customer, setCustomer] = useState(null);
+  const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("");
@@ -18,42 +19,40 @@ function LoggedCustomer() {
     images: [],
   });
   const [imagePreviews, setImagePreviews] = useState([]);
-  const navigate = useNavigate();
 
-  // Fetch customer details
   useEffect(() => {
-    async function fetchDetails() {
+    // Check if the token exists in localStorage
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      navigate("/login"); // Redirect if token does not exist
+      return;
+    }
+  
+    // Fetch customer details if token exists
+    async function fetchCustomerDetails() {
       try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          alert("You are not logged in!");
-          navigate("/login");
-          return;
-        }
-
-        const customerResponse = await axios.get("http://localhost:8070/customer/display", {
+        const response = await axios.get("http://localhost:8070/customer/display", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        setCustomer(customerResponse.data);
-      } catch (err) {
-        console.error("Error fetching details:", err.message);
-        if (err.response && err.response.status === 401) {
-          alert("Session expired. Please log in again.");
-          localStorage.removeItem("token");
-          navigate("/login");
+        if (response.status === 200) {
+          setCustomer(response.data);
         } else {
-          alert("An error occurred while fetching your details.");
+          // If the response is not successful, redirect to login
+          navigate("/login");
         }
+      } catch (err) {
+        console.error("Error fetching customer details", err);
+        navigate("/login"); // Redirect if error occurs
       }
     }
-
-    fetchDetails();
-    fetchRooms(); // Call fetchRooms to load rooms
+  
+    fetchCustomerDetails();
+    fetchRooms(); // Fetch rooms after customer details are fetched
   }, [navigate]);
+  
 
-  // Fetch rooms function
+  // Fetch rooms
   const fetchRooms = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -74,7 +73,6 @@ function LoggedCustomer() {
     }
   };
 
-  // Handle customer update
   const handleCustomerUpdate = () => {
     if (customer && customer._id) {
       navigate(`/update-customer/${customer._id}`);
@@ -83,7 +81,6 @@ function LoggedCustomer() {
     }
   };
 
-  // Handle customer delete
   const handleCustomerDelete = () => {
     if (customer && window.confirm("Are you sure you want to delete your account?")) {
       axios
@@ -102,7 +99,6 @@ function LoggedCustomer() {
     }
   };
 
-  // Delete room
   const deleteRoom = async (roomId) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -127,7 +123,6 @@ function LoggedCustomer() {
     }
   };
 
-  // Update room
   const updateRoom = async (roomId, formData) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -142,15 +137,14 @@ function LoggedCustomer() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData, // Send FormData object containing updated room data
+        body: formData,
       });
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Room updated:", data);
         alert("Room updated successfully!");
         fetchRooms(); // Reload rooms after update
-        setSelectedRoom(null); // Close the update form by resetting selectedRoom
+        setSelectedRoom(null); // Close the update form
       } else {
         console.error("Update failed:", data.error);
         alert(`Failed to update room: ${data.error}`);
@@ -161,7 +155,6 @@ function LoggedCustomer() {
     }
   };
 
-  // Handle room update
   const handleRoomUpdate = (room) => {
     setSelectedRoom(room);
     setUpdatedRoomData({
@@ -173,53 +166,49 @@ function LoggedCustomer() {
     });
     setImagePreviews([]); // Start with no previews for new uploads
   };
-  
-  // Handle room form submit
+
   const handleRoomFormSubmit = (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
-  
+
     // Add new image files to FormData
     imagePreviews.forEach((preview) => {
       if (preview.file) {
         formData.append("images", preview.file);
       }
     });
-  
+
     // Include a list of existing images to keep
     const imagesToKeep = updatedRoomData.images;
     formData.append("keepImages", JSON.stringify(imagesToKeep));
-  
+
     // Include other room data
     for (const key in updatedRoomData) {
       if (key !== "images") {
         formData.append(key, updatedRoomData[key]);
       }
     }
-  
+
     updateRoom(selectedRoom._id, formData);
   };
-  
-  
-  
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     const newImagePreviews = files.map((file) => ({
       file,
-      url: URL.createObjectURL(file), // Object URL for new image preview
+      url: URL.createObjectURL(file),
     }));
-  
+
     // Ensure total images (existing + new) do not exceed 10
     if (updatedRoomData.images.length + imagePreviews.length + newImagePreviews.length > 10) {
       alert("You can upload up to 10 images only.");
       return;
     }
-  
+
     setImagePreviews((prev) => [...prev, ...newImagePreviews]);
   };
-  
-  
+
   const handleImageDelete = (index, isExisting) => {
     if (isExisting) {
       // Remove from existing images
@@ -230,7 +219,15 @@ function LoggedCustomer() {
       setImagePreviews((prev) => prev.filter((_, i) => i !== index));
     }
   };
-  
+
+  // Logout function
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    // Redirect to login page
+    navigate("/login", { replace: true });
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -250,11 +247,16 @@ function LoggedCustomer() {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="/dash">Dashboard</a></li>
-              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
+              <li className="nav-item"><a className="nav-link" href="/">Rooms</a></li>
               <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
               <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
-              <li className="nav-item"><a className="nav-link" href="/login">Logout</a></li>
+               {/* Conditionally render the Logout button */}
+                {localStorage.getItem("token") && (
+                <li className="nav-item">
+                  <button className="nav-link " onClick={handleLogout}>Logout</button>
+                </li>
+                )}
             </ul>
           </div>
         </div>
@@ -320,7 +322,6 @@ function LoggedCustomer() {
           {rooms.length > 0 ? (
             rooms.map((room) => (
               <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
-                {/* Image Carousel */}
                 <div className="image-carousel me-3" style={{ width: "200px" }}>
                   <div className="image-display">
                     <img
@@ -346,9 +347,6 @@ function LoggedCustomer() {
           ) : (
             <p>No rooms available.</p>
           )}
-
-
-
           {/* Room Update Form */}
           {selectedRoom && (
             <div className="update-room-form">
@@ -379,7 +377,7 @@ function LoggedCustomer() {
               <div className="mb-3">
                 <label className="form-label">Price</label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control"
                   value={updatedRoomData.price}
                   onChange={(e) =>
@@ -398,74 +396,49 @@ function LoggedCustomer() {
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Images</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="roomImages"
-                    accept="image/*"
-                    multiple
-                    onChange={handleImageChange}
-                    disabled={updatedRoomData.images.length + imagePreviews.length >= 10}
-                  />
-                  <small className="form-text text-muted">
-                    {updatedRoomData.images.length + imagePreviews.length} / 10 images selected.
-                  </small>
-
-                {/* Display existing images */}
-                  {updatedRoomData.images.length > 0 && (
-                <div className="mt-3">
-                  {updatedRoomData.images.map((image, index) => (
-                <div
-                  key={`existing-${index}`}
-                  className="image-preview-container position-relative d-inline-block me-2"
-                >
-                <img
-                  src={`http://localhost:8070${image}`} // Use server URL
-                  alt={`Existing Image ${index}`}
-                  className="img-thumbnail"
-                  width="100"
+                <label className="form-label">Room Images</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  multiple
+                  onChange={handleImageChange}
                 />
-              <button
-                type="button"
-                className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                onClick={() => handleImageDelete(index, true)} // Pass true for existing images
-              >
-              X
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Display new image previews */}
-      {imagePreviews.length > 0 && (
-        <div className="mt-3">
-          {imagePreviews.map((preview, index) => (
-            <div
-              key={`preview-${index}`}
-              className="image-preview-container position-relative d-inline-block me-2"
-            >
-            <img
-              src={preview.url} // Use Object URL
-              alt={`Preview ${index}`}
-              className="img-thumbnail"
-              width="100"
-            />
-            <button
-              type="button"
-              className="btn btn-sm btn-danger position-absolute top-0 end-0"
-              onClick={() => handleImageDelete(index, false)} // Pass false for new previews
-            >
-              X
-            </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-
-              <button type="submit" className="btn btn-success">Update Room</button>
+                <div className="image-previews mt-3">
+                  {updatedRoomData.images.map((image, index) => (
+                    <div key={index} className="image-preview">
+                      <img
+                        src={`http://localhost:8070${image}`}
+                        alt={`Room image ${index + 1}`}
+                        style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleImageDelete(index, true)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index} className="image-preview">
+                      <img
+                        src={preview.url}
+                        alt={`Preview ${index + 1}`}
+                        style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleImageDelete(index, false)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button type="submit" className="btn btn-primary">Update Room</button>
             </form>
           </div>
           )}

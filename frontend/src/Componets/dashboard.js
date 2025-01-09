@@ -26,6 +26,14 @@ const HomePage = () => {
     navigate("/RoomList"); // Navigate to the Addrom page
   };
 
+  // Logout function
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    // Redirect to login page
+    navigate("/login", { replace: true });
+  };
+
   return (
     <>
       
@@ -65,20 +73,16 @@ const HomePage = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Support
-                </a>
-              </li>
-              <li className="nav-item">
                 <a className="nav-link" href="/profile">
                   Profile
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/Login">
-                  Logout
-                </a>
-              </li>
+              {/* Conditionally render the Logout button */}
+              {localStorage.getItem("token") && (
+                <li className="nav-item">
+                  <button className="nav-link " onClick={handleLogout}>Logout</button>
+                </li>
+                )}
               {message && (
                 <li className="nav-item">
                   <div className="nav-link text-danger">{message}</div>
