@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
 import UpdateCustomer from "./Componets/UpdateCustomer.js";
+
 import Dashborad from "./Componets/dashboard.js";
 import Homepage from "./Componets/Homepage.js";
 import Login from "./Componets/CustomerLogin.js";
@@ -22,6 +23,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+     
           <Route path="/" element={<Homepage />} />     
           <Route path="/dash" element={<Dashborad />} />
           <Route path="/login" element={<Login />} />
