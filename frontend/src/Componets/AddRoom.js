@@ -30,14 +30,14 @@ function AddRoom() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const token = localStorage.getItem("token");
-
+  
+    const token = sessionStorage.getItem("token");
+  
     if (!token) {
       alert("You must be logged in to add a room.");
       return;
     }
-
+  
     if (
       !roomAddress ||
       !roomType ||
@@ -51,7 +51,7 @@ function AddRoom() {
       alert("Please fill out all required fields and upload between 1 and 10 images.");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("roomAddress", roomAddress);
     formData.append("roomType", roomType);
@@ -61,7 +61,7 @@ function AddRoom() {
     formData.append("ownerContactNumber", ownerContactNumber);
     formData.append("description", description);
     images.forEach((image) => formData.append("images", image));
-
+  
     try {
       const response = await axios.post("http://localhost:8070/addroom", formData, {
         headers: {
@@ -70,7 +70,10 @@ function AddRoom() {
         },
       });
       alert(response.data.message);
-
+  
+      // Navigate to DisplayRoom page upon success
+      navigate("/RoomList");
+  
       // Reset form fields
       setRoomAddress("");
       setRoomType("");
@@ -86,7 +89,7 @@ function AddRoom() {
       alert(errorMessage);
     }
   };
-
+  
    // Logout function
    const handleLogout = () => {
     // Remove token from localStorage

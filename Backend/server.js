@@ -337,6 +337,8 @@ app.delete("/deleteroom/:id", verifyToken, async (req, res) => {
   }
 });
 
+
+
 // Access Customer routes
 const CustomerRouter = require("./Routes/Customer.js");
 app.use("/Customer", CustomerRouter);

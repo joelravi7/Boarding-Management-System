@@ -58,9 +58,7 @@ body {
     transition: background-color 0.3s ease;
   }
   
-  .btn:hover {
-    background-color: #0e6835; /* Darker green on hover */
-}
+  
 .btn-primary:focus {
     outline: none;
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */

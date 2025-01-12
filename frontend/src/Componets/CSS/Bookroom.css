@@ -79,7 +79,7 @@
   border: none; /* Remove borders */
   border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-shadow:none;
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
   }
   

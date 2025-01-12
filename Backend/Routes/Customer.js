@@ -16,11 +16,19 @@ const verifyToken = (req, res, next) => {
 
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key");
-    req.user = verified; // Attach user info to request
+    req.user = verified;
     next();
   } catch (err) {
     return res.status(400).json({ message: "Invalid or Expired Token!" });
   }
+};
+
+// Middleware to verify Admin role
+const verifyAdmin = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Access Denied: Admins Only!" });
+  }
+  next();
 };
 
 // Add a new customer
@@ -52,7 +60,7 @@ router.post("/add", async (req, res) => {
 
     await newCustomer.save();
 
-    const token = jwt.sign({ id: newCustomer._id }, process.env.JWT_SECRET || "your-secret-key", { expiresIn: "1h" });
+    const token = jwt.sign({ id: newCustomer._id, role: "customer" }, process.env.JWT_SECRET || "your-secret-key", { expiresIn: "1h" });
     res.status(201).json({ status: "Registration successful", token, customer: newCustomer });
   } catch (err) {
     res.status(500).json({ status: "Error", message: err.message });
@@ -113,6 +121,23 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
+// Admin Route - Fetch ALL customer details (including sensitive data)
+router.get("/admin/displayall", verifyToken, verifyAdmin, async (req, res) => {
+  try {
+    const customers = await Customer.find(); // Fetches all fields
+
+    if (customers.length === 0) {
+      return res.status(404).json({ status: "Error", message: "No customers found" });
+    }
+
+    res.status(200).json({ status: "Success", customers });
+  } catch (err) {
+    console.error("Error fetching all customer details:", err.message);
+    res.status(500).json({ status: "Error", message: "Server Error: Unable to fetch customer details" });
+  }
+});
+
+
 
 // Get a customer by ID
 router.get("/get/:id", verifyToken, async (req, res) => {
@@ -136,23 +161,19 @@ router.delete("/delete/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ status: "Error", message: "Invalid Customer ID" });
     }
 
-    // Ensure only the logged-in user can delete their account
-    if (req.user.id !== id) {
+    if (req.user.id !== id && req.user.role !== "admin") {
       return res.status(403).json({ error: "Unauthorized action" });
     }
 
-    // Delete customer
     const deletedCustomer = await Customer.findByIdAndDelete(id);
     if (!deletedCustomer) {
       return res.status(404).json({ status: "Error", message: "Customer not found" });
     }
 
-    // Delete associated rooms
     const deletedRooms = await Room.deleteMany({ customerId: id });
     console.log(`${deletedRooms.deletedCount} rooms deleted for customer ID: ${id}`);
 

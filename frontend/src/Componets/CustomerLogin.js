@@ -12,7 +12,7 @@ const Login = () => {
 
   // Check if a token exists when the component mounts (for auto-login behavior)
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (sessionStorage.getItem("token")) {
       navigate("/dash", { replace: true });
     }
   }, [navigate]);
@@ -24,9 +24,9 @@ const Login = () => {
       const response = await axios.post("http://localhost:8070/login", { email, password });
       setMessage(`Welcome back, ${response.data.username}!`);
       setAlertType("success"); // Set alert type to success
-      localStorage.setItem("token", response.data.token); // Save the token in localStorage
+      sessionStorage.setItem("token", response.data.token); // Save the token in sessionStorage
       // Pass success message to /dash page
-      navigate("/dash", { state: { message: `Welcome , ${response.data.username}!`, alertType: "success" } });
+      navigate("/dash", { state: { message: `Welcome, ${response.data.username}!`, alertType: "success" } });
     } catch (err) {
       setMessage(err.response?.data?.error || "Login failed!");
       setAlertType("danger"); // Set alert type to danger
@@ -35,8 +35,8 @@ const Login = () => {
 
   // Logout function
   const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
+    // Remove token from sessionStorage
+    sessionStorage.removeItem("token");
     // Redirect to login page
     navigate("/login", { replace: true });
   };
@@ -66,7 +66,7 @@ const Login = () => {
               <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
               <li className="nav-item"><a className="nav-link" href="/register">Register</a></li>
               {/* Conditionally render the Logout button if the user is logged in */}
-              {localStorage.getItem("token") && (
+              {sessionStorage.getItem("token") && (
                 <li className="nav-item">
                   <button className="nav-link btn btn-danger" onClick={handleLogout}>Logout</button>
                 </li>

@@ -16,7 +16,8 @@ import Rooms from './Componets/Rooms.js';
 
 import AdminLogin from './Componets/AdminLogin.js';
 import AdminRegister from './Componets/AdminRegister.js';
-import Admindashboard from './Componets/Admindashboard.js'
+import Admindashboard from './Componets/Admindashboard.js';
+
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/AdminLogin" element={<AdminLogin />} />
           <Route path="/AdminRegister" element={<AdminRegister />} />
           <Route path="/Admindash" element={<Admindashboard />} />
+          
         </Routes>
       </div>
     </Router>

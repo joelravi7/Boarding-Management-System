@@ -74,7 +74,7 @@
   
   /* Hover Effect */
 .AddRoom-button:hover {
-    background-color: #0e6835; /* Darker Blue */
+    background-color: #0e6832; /* Darker Blue */
     transform: scale(1.05); /* Slightly enlarge on hover */
   }
   

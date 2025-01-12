@@ -113,6 +113,28 @@ button {
   margin-bottom: 25px; /* Slightly more space between sections */
 }
 
+
+.updatebtn{
+  border-radius: 5px;
+  width: 120px;
+  height: 35px;
+  box-shadow: none;
+}
+
+.deletebtn{
+  border-radius: 5px;
+  width: 120px;
+  height: 35px;
+  box-shadow: none;
+}
+
+.accdelete{
+  border-radius: 5px;
+  width: 170px;
+  height: 35px;
+  box-shadow: none;
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .LoggedCustomer-container {

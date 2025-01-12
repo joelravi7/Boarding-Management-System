@@ -21,8 +21,8 @@ function LoggedCustomer() {
   const [imagePreviews, setImagePreviews] = useState([]);
 
   useEffect(() => {
-    // Check if the token exists in localStorage
-    const token = localStorage.getItem("token");
+    // Check if the token exists in sessionstorage
+    const token = sessionStorage.getItem("token");
   
     if (!token) {
       navigate("/login"); // Redirect if token does not exist
@@ -54,7 +54,7 @@ function LoggedCustomer() {
 
   // Fetch rooms
   const fetchRooms = async () => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       setMessage("Please log in to access your rooms.");
       setAlertType("danger");
@@ -85,11 +85,11 @@ function LoggedCustomer() {
     if (customer && window.confirm("Are you sure you want to delete your account?")) {
       axios
         .delete(`http://localhost:8070/customer/delete/${customer._id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
         })
         .then(() => {
           alert("Account deleted successfully!");
-          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
           navigate("/register");
         })
         .catch((err) => {
@@ -100,7 +100,7 @@ function LoggedCustomer() {
   };
 
   const deleteRoom = async (roomId) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       setMessage("Please log in to delete a room.");
       setAlertType("danger");
@@ -124,7 +124,7 @@ function LoggedCustomer() {
   };
 
   const updateRoom = async (roomId, formData) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       setMessage("Please log in to update a room.");
       setAlertType("danger");
@@ -222,8 +222,8 @@ function LoggedCustomer() {
 
   // Logout function
   const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
+    // Remove token from sessionstorage
+    sessionStorage.removeItem("token");
     // Redirect to login page
     navigate("/login", { replace: true });
   };
@@ -247,12 +247,12 @@ function LoggedCustomer() {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="/dash">Dashboard</a></li>
-              <li className="nav-item"><a className="nav-link" href="/">Rooms</a></li>
+              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
               <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
               <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
                {/* Conditionally render the Logout button */}
-                {localStorage.getItem("token") && (
+                {sessionStorage.getItem("token") && (
                 <li className="nav-item">
                   <button className="nav-link " onClick={handleLogout}>Logout</button>
                 </li>
