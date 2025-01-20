@@ -45,58 +45,5 @@ const handleMulterErrors = (err, req, res, next) => {
   next();
 };
 
-// Route: Add a new room
-router.post("/addroom", verifyToken, upload.array("images", 10), handleMulterErrors, async (req, res) => {
-  try {
-    const {
-      roomAddress,
-      roomType,
-      price,
-      isNegotiable,
-      ownerName,
-      ownerContactNumber,
-      description,
-    } = req.body;
-
-    // Validate required fields
-    if (!roomAddress || !roomType || !price || !ownerName || !ownerContactNumber || !description) {
-      return res.status(400).json({ error: "All fields are required." });
-    }
-
-    // Validate image files
-    if (!req.files || req.files.length < 1 || req.files.length > 10) {
-      return res.status(400).json({ error: "You must upload between 1 and 10 images." });
-    }
-
-    // Map the uploaded files to their paths
-    const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
-
-    // Create a new Room document
-    const newRoom = new Room({
-      roomAddress,
-      roomType,
-      price,
-      isNegotiable: isNegotiable === "true", // Convert isNegotiable to boolean
-      ownerName,
-      ownerContactNumber,
-      images: imagePaths,
-      description,
-      customerId: req.userId, // Assuming `req.userId` is set by the verifyToken middleware
-    });
-
-    // Save the room to the database
-    await newRoom.save();
-
-    // Respond with success message
-    res.status(201).json({ message: "Room added successfully!" });
-  } catch (err) {
-    console.error("Error adding room:", err);
-    res.status(500).json({ error: "An error occurred while adding the room." });
-  }
-});
-
-
-
-
 
 module.exports = router;

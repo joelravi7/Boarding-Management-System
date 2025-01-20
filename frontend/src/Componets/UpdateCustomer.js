@@ -22,7 +22,7 @@ function UpdateCustomer() {
 
   useEffect(() => {
     async function fetchCustomerData() {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (!token) {
         alert("You are not logged in!");
@@ -62,7 +62,7 @@ function UpdateCustomer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     if (!token) {
       alert("You are not logged in!");
@@ -97,8 +97,40 @@ function UpdateCustomer() {
 
   };
 
+  
+
   return (
-    <div className="Registration-container">
+    < nav className="body">
+      {/* Navigation Bar */}
+      <nav className="navbar navbar-expand-lg">
+        <div className="container">
+          <a className="navbar-brand" href="/">LOGO</a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarContent">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
+              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
+              <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
+              <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
+              <li className="nav-item"><a className="nav-link" href="/Profile">Profile</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <div className="updateRegistration-container">
       <h2 className="mt-4">Update Your Account</h2>
 
       {error && (
@@ -269,6 +301,7 @@ function UpdateCustomer() {
         </button>
       </form>
     </div>
+    </nav>
   );
 }
 

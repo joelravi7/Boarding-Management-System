@@ -1,29 +1,29 @@
 /* AdminLogin.css */
 
 /* General Body Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #2ec0c0;
-    margin: 0;
-    padding: 0;
-  }
+.body{
+  background-color: #f8fcfc;
+  height: 690px;
+}
   
   
   /* Login Container Styles */
-  .Login-container {
-    background-color: #ffffff;
-    width: 400px;
-    margin: 50px auto;
+  .CLogin-container {
+    max-width: 500px;
+    margin: 10px auto; /* Center the form */
     padding: 30px;
-    box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.325); /* Subtle shadow */
-    border-radius: 8px;
+    margin-top: 35px;
+    background-color: #f8fcfc ;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); /* Subtle shadow */
+  
   }
   
   h2 {
     text-align: center;
     font-weight: bold;
     color: #0e6835; /* Darker green */
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
   
   /* Form Styles */
@@ -37,7 +37,7 @@ body {
     padding: 10px;
     border: 1px solid #bdc3c7;
     border-radius: 5px;
-    margin-top: 5px;
+    margin-top: 10px;
   }
   
   .Loginform-control:focus {

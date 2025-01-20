@@ -1,0 +1,14 @@
+.body{
+    background-color: #f8fcfc;
+    height: 1100px;
+  }
+  
+.Addroom-container{
+    max-width: 500px;
+    max-height: 1050px;
+    margin: 10px auto; /* Center the form */
+    padding: 30px;
+    background-color: #f8fcfc ;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
+  }

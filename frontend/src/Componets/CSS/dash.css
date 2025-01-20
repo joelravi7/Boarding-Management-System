@@ -31,7 +31,7 @@
   margin-right: 15px;
   transition: color 0.3s ease;
   margin-bottom: 25px;
-  margin-top: 15px;
+  margin-top: 30px;
 }
 
 .nav-link.active,
@@ -80,13 +80,12 @@
 
 /* Image */
 .welcomeimage{
-  width: 500px; /* Adjust the image size */
+  width: 550px; /* Adjust the image size */
   height: auto; /* Maintain aspect ratio */
   flex-shrink: 0; /* Prevent shrinking of the image */
   margin-top: 0%;
-  margin-right: 5%;
+  margin-right: 4%;
 }
-
 
   /* Styles for the getstart-button */
 .getstart-button{

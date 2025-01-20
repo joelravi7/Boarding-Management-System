@@ -65,7 +65,7 @@ connection.once("open", () => {
 // Models
 const Room = require("./models/Room");
 const User = require("./models/Customer"); // Ensure this path is correct
-const Admin = require("./models/Admin")
+const Admin = require("./models/Admin");
 
 // Multer setup for image uploads
 const storage = multer.diskStorage({
@@ -336,7 +336,6 @@ app.delete("/deleteroom/:id", verifyToken, async (req, res) => {
     res.status(500).json({ error: "An error occurred while deleting the room" });
   }
 });
-
 
 
 // Access Customer routes

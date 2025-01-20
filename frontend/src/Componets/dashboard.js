@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom"; // Access state passed from logi
 import { useNavigate } from "react-router-dom"; // Navigation hook
 import styles from "./CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
-import welcomeimage from "./assets/welcome.png"; // Main image
+import welcomeimage from "./assets/house.png"; 
+
 
 import one from './assets/one.png';
 import two from './assets/two.png';
@@ -36,13 +37,11 @@ const HomePage = () => {
 
   return (
     <>
-      
-      {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg">
+      <section id="combined-section">
+        {/* Navigation Bar and Welcome Section Combined */}
+        <div className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="/">
-            
-          </a>
+          <a className="navbar-brand" href="/">LOGO</a>
           <button
             className="navbar-toggler"
             type="button"
@@ -52,102 +51,89 @@ const HomePage = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/dash">
-                  Dashboard
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/AddRoom">
-                  Add-Rooms
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/Userroom">
-                  Staff
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/profile">
-                  Profile
-                </a>
-              </li>
-              {/* Conditionally render the Logout button */}
-              {localStorage.getItem("token") && (
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarContent">
+              <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
-                  <button className="nav-link " onClick={handleLogout}>Logout</button>
+                  <a className="nav-link" href="/dash">Dashboard</a>
                 </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/AddRoom">Add-Rooms</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/Userroom">Staff</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/maintenance">Maintenance</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/profile">Profile</a>
+                </li>
+                {localStorage.getItem("token") && (
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={handleLogout}>Logout</button>
+                  </li>
                 )}
-              {message && (
-                <li className="nav-item">
-                  <div className="nav-link text-danger">{message}</div>
-                </li>
-              )}
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-
-      {/* Welcome Section */}
-      <section id="dash">
-        <div >
-          <div className="Homesector1-container d-flex align-items-center justify-content-between">
-            <div className="text-section">
-              <p className="dash-Maintopic1">Effortless Boarding Management</p>
-              <p className="dash-Mainpara1">
-              Streamline your boarding facility with our advanced management system. 
-              Simplify guest check-ins, track room availability, and optimize operations.
-              </p>
-              <button className="getstart-button" onClick={handleBooking}>
-              Book a Room
-              </button>
+                {message && (
+                  <li className="nav-item">
+                    <div className="nav-link text-danger">{message}</div>
+                  </li>
+                )}
+              </ul>
             </div>
-            <img src={welcomeimage} className="welcomeimage" alt="Main Visual" />
           </div>
+        </div>
+
+        <div className="Homesector1-container">
+          <div className="text-section">
+            <p className="dash-Maintopic1">Effortless Boarding Management</p>
+            <p className="dash-Mainpara1">
+              Streamline your boarding facility with our advanced management system.
+              Simplify guest check-ins, track room availability, and optimize operations.
+            </p>
+            <button className="getstart-button" onClick={handleBooking}>Book a Room</button>
+          </div>
+          <img src={welcomeimage} className="welcomeimage" alt="Main Visual" />
+         
         </div>
       </section>
 
-      {/* Process Section */}
-      <section id="process" className="process-section py-5">
-        <div className="container text-center">
-          <h2 className="process-title mb-4">-How It Works-</h2>        
-            <div className="row">
-                <div className="col-md-4 mb-4">
-                  <div className="process-step p-3">
-                    <div className="icon-box mb-3">
-                      <img src={one} className="image"/>
+            {/* Process Section */}
+            <section id="process" className="process-section py-5">
+              <div className="container text-center">
+                <h2 className="process-title mb-4">-How It Works-</h2>        
+                  <div className="row">
+                      <div className="col-md-4 mb-4">
+                        <div className="process-step p-3">
+                          <div className="icon-box mb-3">
+                            <img src={one} className="image"/>
+                              </div>
+                                <h3 className="step-title">Submit Your Details</h3>
+                                <p>Provide your personal information and preferences to get started.</p>
                         </div>
-                          <h3 className="step-title">Submit Your Details</h3>
-                          <p>Provide your personal information and preferences to get started.</p>
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <div className="process-step active p-3">
+                          <div className="icon-box mb-3">
+                            <img src={two} className="image"/>
+                          </div>
+                          <h3 className="step-title">Confirm Your Stay</h3>
+                          <p>Choose your room and confirm your booking seamlessly.</p>
+                        </div>
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <div className="process-step p-3">
+                          <div className="icon-box mb-3">
+                            <img src={three} className="image"/>
+                          </div>
+                          <h3 className="step-title">Manage Your Boarding</h3>
+                          <p>Access and update your booking details anytime, anywhere.</p>
+                        </div>
+                      </div>
                   </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                  <div className="process-step active p-3">
-                    <div className="icon-box mb-3">
-                      <img src={two} className="image"/>
-                    </div>
-                    <h3 className="step-title">Confirm Your Stay</h3>
-                    <p>Choose your room and confirm your booking seamlessly.</p>
-                  </div>
-                </div>
-                <div className="col-md-4 mb-4">
-                  <div className="process-step p-3">
-                    <div className="icon-box mb-3">
-                      <img src={three} className="image"/>
-                    </div>
-                    <h3 className="step-title">Manage Your Boarding</h3>
-                    <p>Access and update your booking details anytime, anywhere.</p>
-                  </div>
-                </div>
-             </div>
-        </div>
-      </section>
+              </div>
+            </section>
 
       
 

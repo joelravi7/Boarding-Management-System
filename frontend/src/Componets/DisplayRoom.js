@@ -72,13 +72,14 @@ function RoomList() {
   // Logout function
   const handleLogout = () => {
     // Remove token from localStorage
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     // Redirect to login page
     navigate("/login", { replace: true });
   };
 
   return (
     <>
+    < nav className="body">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
         
@@ -175,6 +176,7 @@ function RoomList() {
           </div>
         </div>
       </div>
+      </nav>
     </>
   );
 }

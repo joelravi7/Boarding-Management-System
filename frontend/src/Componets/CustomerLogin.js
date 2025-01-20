@@ -43,6 +43,7 @@ const Login = () => {
 
   return (
     <>
+     < nav className="body">
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg">
         <div className="container">
@@ -64,6 +65,7 @@ const Login = () => {
               <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
               <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
               <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
+              <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/register">Register</a></li>
               {/* Conditionally render the Logout button if the user is logged in */}
               {sessionStorage.getItem("token") && (
@@ -76,8 +78,8 @@ const Login = () => {
         </div>
       </nav>
 
-      <div className="Registration-container">
-        <h2 className="mt-4">Login</h2>
+      <div className="CLogin-container">
+        <h2 className="mt-1">Login</h2>
         <form onSubmit={handleLogin} className="w-60 mt-4">
           <div className="mb-3">
             <label htmlFor="email" className="Loginform-label">Email:</label>
@@ -119,6 +121,7 @@ const Login = () => {
           </p>
         </div>
       </div>
+      </nav>
     </>
   );
 };

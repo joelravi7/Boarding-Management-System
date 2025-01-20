@@ -230,6 +230,7 @@ function LoggedCustomer() {
 
   return (
     <>
+    < nav className="body">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
           <button
@@ -444,6 +445,7 @@ function LoggedCustomer() {
           )}
         </div>
       </div>
+      </nav>
     </>
   );
 }

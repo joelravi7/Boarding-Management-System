@@ -1,17 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-body{
-  background-color: #f8fcfc ;
+.body{
+  background-color: #f8fcfc;
+  height: 600px;
 }
 
 /* Container for Registration Form */
 .Registration-container{
   max-width: 500px;
-  margin: 50px auto; /* Center the form */
+  max-height: 590px;
+  margin: 10px auto; /* Center the form */
   padding: 30px;
   background-color: #f8fcfc ;
   border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.325); /* Subtle shadow */
+  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
+}
+
+.updateRegistration-container{
+  max-width: 500px;
+  max-height: 750px;
+  margin: 10px auto; /* Center the form */
+  padding: 30px;
+  background-color: #f8fcfc ;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
+}
+
+.Addroom-container{
+  max-width: 500px;
+  max-height: 750px;
+  margin: 10px auto; /* Center the form */
+  padding: 30px;
+  background-color: #f8fcfc ;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
 }
 
 /* Heading */
