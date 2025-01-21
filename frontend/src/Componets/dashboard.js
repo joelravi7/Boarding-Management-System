@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom"; // Access state passed from logi
 import { useNavigate } from "react-router-dom"; // Navigation hook
 import styles from "./CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
-import welcomeimage from "./assets/house.png"; 
+import welcomeimage from "./assets/homemobile.png"; 
 
 
 import one from './assets/one.png';
@@ -29,15 +29,20 @@ const HomePage = () => {
 
   // Logout function
   const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
+    // Remove token fromsessionStorage
+  sessionStorage.removeItem("token");
     // Redirect to login page
     navigate("/login", { replace: true });
   };
 
+  const handleAddPosts= () => {
+    navigate("/AddRoom"); // Navigate to the Addrom page
+  };
+  
   return (
     <>
-      <section id="combined-section">
+    < nav className="body">
+      
         {/* Navigation Bar and Welcome Section Combined */}
         <div className="navbar navbar-expand-lg">
         <div className="container">
@@ -55,29 +60,28 @@ const HomePage = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarContent">
               <ul className="navbar-nav ms-auto">
+                
                 <li className="nav-item">
-                  <a className="nav-link" href="/dash">Dashboard</a>
+                  <a className="nav-link" href="/AddRoom">Post add</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/AddRoom">Add-Rooms</a>
+                  <a className="nav-link" href="/Userroom">About Us</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/Userroom">Staff</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/maintenance">Maintenance</a>
+                  <a className="nav-link" href="/maintenance">Blogs</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/profile">Profile</a>
                 </li>
-                {localStorage.getItem("token") && (
-                  <li className="nav-item">
-                    <button className="nav-link" onClick={handleLogout}>Logout</button>
-                  </li>
-                )}
+                
                 {message && (
                   <li className="nav-item">
                     <div className="nav-link text-danger">{message}</div>
+                  </li>
+                )}
+                {sessionStorage.getItem("token") && (
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={handleLogout}>Logout</button>
                   </li>
                 )}
               </ul>
@@ -85,56 +89,64 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="Homesector1-container">
-          <div className="text-section">
-            <p className="dash-Maintopic1">Effortless Boarding Management</p>
-            <p className="dash-Mainpara1">
-              Streamline your boarding facility with our advanced management system.
-              Simplify guest check-ins, track room availability, and optimize operations.
-            </p>
-            <button className="getstart-button" onClick={handleBooking}>Book a Room</button>
-          </div>
-          <img src={welcomeimage} className="welcomeimage" alt="Main Visual" />
-         
-        </div>
-      </section>
+        {/* Welcome Section */}
+                  <section id="dash">
+                    <div  className="sector01">
+                      <div className="Homesector1-container ">
+                        <div className="text-section">
+                          <p className="dash-Maintopic1">Effortless Boarding Management</p>
+                          <p className="dash-Mainpara1">
+                             Streamline your boarding facility with our advanced management system. 
+                               Simplify guest check-ins, track room availability, and optimize operations.
+                          </p>
+                          
+                          <button className="Login-button" onClick={handleBooking}>
+                          Discover
+                          </button>
+        
+                        </div>
+                        <img src={welcomeimage} className="welcomeimage" alt="Main Visual" />
+                      </div>
+                    </div>
+                  </section>
 
             {/* Process Section */}
-            <section id="process" className="process-section py-5">
-              <div className="container text-center">
-                <h2 className="process-title mb-4">-How It Works-</h2>        
-                  <div className="row">
-                      <div className="col-md-4 mb-4">
-                        <div className="process-step p-3">
-                          <div className="icon-box mb-3">
-                            <img src={one} className="image"/>
-                              </div>
-                                <h3 className="step-title">Submit Your Details</h3>
-                                <p>Provide your personal information and preferences to get started.</p>
-                        </div>
-                      </div>
-                      <div className="col-md-4 mb-4">
-                        <div className="process-step active p-3">
-                          <div className="icon-box mb-3">
-                            <img src={two} className="image"/>
-                          </div>
-                          <h3 className="step-title">Confirm Your Stay</h3>
-                          <p>Choose your room and confirm your booking seamlessly.</p>
-                        </div>
-                      </div>
-                      <div className="col-md-4 mb-4">
-                        <div className="process-step p-3">
-                          <div className="icon-box mb-3">
-                            <img src={three} className="image"/>
-                          </div>
-                          <h3 className="step-title">Manage Your Boarding</h3>
-                          <p>Access and update your booking details anytime, anywhere.</p>
-                        </div>
-                      </div>
+            <section className="statistics-section">
+              <div className="container">
+                <div className="stats-left">
+                  <div className="stat-box">
+                    <h2 className="stat-value">5+</h2>
+                    <p className="stat-label">Years of Service</p>
                   </div>
+                  <div className="stat-box">
+                    <h2 className="stat-value">10K+</h2>
+                    <p className="stat-label">Happy Students</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2 className="stat-value">100+</h2>
+                    <p className="stat-label">Verified Listings</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2 className="stat-value">20+</h2>
+                    <p className="stat-label">Universities Covered</p>
+                  </div>
+                </div>
+                <div className="stats-right">
+                  <h1 className="section-title">Find Your Ideal Student Housing</h1>
+                  <p className="section-description">
+                    We make it easy for university students to find affordable and
+                    comfortable housing near their campus. Browse verified listings and
+                    secure your home away from home in just a few clicks.
+                  </p>
+                  <div className="buttons">
+                  <button className="primary-button" onClick={handleBooking}>Explore Listings</button>
+                  <button className="secondary-button" onClick={handleAddPosts}>Add Post</button>
+
+                    
+                  </div>
+                </div>
               </div>
             </section>
-
       
 
 
@@ -202,7 +214,7 @@ const HomePage = () => {
           </div>
 
 
-          {/*Footer section */}
+        
           {/*Footer section */}
           <section id="contact">
             <div className={styles.footer}> {/* Corrected className for custom CSS */}
@@ -253,7 +265,7 @@ const HomePage = () => {
             </footer>
           </div>
       </section>     
-               
+      </nav>         
     </>
   );
 };

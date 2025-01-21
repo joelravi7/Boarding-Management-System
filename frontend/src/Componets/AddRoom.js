@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../Componets/CSS/AddRoom.css'
+import './CSS/AddRoom.css'
 
 function AddRoom() {
   const [roomAddress, setRoomAddress] = useState("");
@@ -101,7 +101,7 @@ function AddRoom() {
 
   return (
   <>
-  < nav className="body">
+  
      {/* Navigation Bar */}
      <nav className="navbar navbar-expand-lg">
      <div className="container">
@@ -126,14 +126,14 @@ function AddRoom() {
      </div>
    </nav>
 
-    <div className="Addroom-container">
+    <div className="Postadd-container">
       <h2 className="mt-1">Add a Room</h2>
       <p>
         Please fill out the form below to add a room. Provide accurate details to ensure better
         visibility for prospective tenants.
       </p>
       <form onSubmit={handleSubmit}>
-        <div className="row mb-3">
+        <div className="row mb-2">
           <div className="col">
             <label htmlFor="roomType" className="form-label">
               Room Type <span className="text-danger">*</span>
@@ -303,7 +303,7 @@ function AddRoom() {
         </button>
       </form>
     </div>
-    </nav>
+
     </>
   );
 }

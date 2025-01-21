@@ -1,5 +1,6 @@
 /* dash.css */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap');
+
 
 @media (max-width: 768px) {
   .container {
@@ -7,50 +8,59 @@
   }
 }
 
+
 /* navbar Styles */
 .navbar {
- 
-  height: 80px;
-  background-color: #f8fcfc;
+  background-color: #fcfdfe;
 }
-
-
 
 .navbar-logo {
   width: 150px; /* Set the desired width */
   height: auto; /* Maintain aspect ratio */
   object-fit: contain; /* Ensure the image fits well without distortion */
-  margin-left: 25px; /* Optional: Add some spacing */
+  margin-left: 25%; /* Optional: Add some spacing */
   margin-top: 10%;
 }
 
 /* Navbar Links */
 .nav-link {
-  color:#0e6835 !important;
+  color:#162A2C;
   font-size: 18px;
   margin-right: 15px;
   transition: color 0.3s ease;
-  margin-bottom: 25px;
-  margin-top: 30px;
+  margin-bottom: 0%;
+  margin-top: 2%;
+ 
 }
+
+
 
 .nav-link.active,
 .nav-link:hover {
-  color: #0e6835 !important;
+  color: #162A2C !important;
   font-weight: bold;
 }
 
   /* welcome Section */
   
 /* Container styles for text and image */
-.Homesector1-container{
-  display: flex;
-  height: 450px;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #f8fcfc ;  
+.sector01{
+  background-color: #fcfdfe; /* Light gray background */
+ 
+
 }
 
+.Homesector1-container{
+  display: flex;
+  align-items: center;
+  padding: 50px;
+  height: 500px;
+  background-color: #D6E0E2; /* Light gray background */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-left:6%;
+  max-width: 87%;
+}
 
 
 /* Text Section (h1 and p) */
@@ -59,72 +69,65 @@
 }
 
 .dash-Maintopic1 {
-  font-size: 60px;
-  color: #034d23;
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-left: 15%;
-  text-align: left; /* Align text to the left */
-  margin-top: 8%;
+  font-size: 57px; /* Large text size for emphasis */
+  font-family: 'Poppins', sans-serif; /* Modern sans-serif font similar to the example */
+  color:#162A2C; /* Dark green color */
+  font-weight: bold; /* Bold for strong emphasis */
+  text-align: left; /* Centered text */
+  margin: 20px auto; /* Top and bottom margin with centered layout */
 }
 
+
 .dash-Mainpara1{
-  font-size: 20px;
+  font-size: 18px;
+  font-family: 'Poppins', sans-serif;
   margin-bottom: 45px;
-  color: #0e6835;
-  text-align: left; /* Align text to the left */
-  margin-bottom: 5%;
-  margin-left: 15%;
-  margin-top: 5%;
+  color: #686867;
+  margin: 20px auto;
 }
 
 /* Image */
 .welcomeimage{
-  width: 550px; /* Adjust the image size */
+  width: 53%; /* Adjust the image size */
   height: auto; /* Maintain aspect ratio */
-  flex-shrink: 0; /* Prevent shrinking of the image */
   margin-top: 0%;
-  margin-right: 4%;
+  margin-right: -10%;
 }
 
   /* Styles for the getstart-button */
 .getstart-button{
-  background-color:#0e6835; /* Primary Blue Color */
+  background-color:#000000; /* Primary Blue Color */
   color: #fff; /* White Text */
   font-size: 16px; /* Font size */
   font-weight: bold; /* Bold text */
-  padding: 10px 20px; /* Padding */
+  padding: 5px 25px; /* Padding */
   border: none; /* Remove borders */
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 20px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-  margin-left:15%;
+  margin-left:5%;
+  margin-top: 0%;
+  margin-bottom: 3%;
 }
 
 /* Hover Effect */
 .getstart-button:hover {
-  background-color: #0e6835; /* Darker Blue */
+  background-color: #1d1d1d; /* Darker Blue */
   transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-/* Focus Effect */
-.getstart-button:focus {
-  outline: none; /* Remove default focus outline */
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
 }
 
 
 /* Styles for the Login Button */
 .Login-button{
-  background-color: #ebfaf2; /* Primary Blue Color */
-  color: #2e5952; /* White Text */
+  background-color: #000000; /* Primary Blue Color */
+  color: #ffffff; /* White Text */
   font-size: 16px; /* Font size */
   font-weight: bold; /* Bold text */
-  padding: 10px 20px; /* Padding */
+  padding: 12px 18px; /* Padding */
   border: none; /* Remove borders */
   margin-left: 4%;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 20px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
@@ -132,89 +135,135 @@
 
 /* Hover Effect */
 .Login-button:hover {
-  background-color: #c0f6d3; /* Darker Blue */
+  background-color: #282828; /* Darker Blue */
   transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-/* Focus Effect */
-.Login-button:focus {
-  outline: none; /* Remove default focus outline */
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
 }
 
 
 
 
 /* Process.css */
-.process-section {
-  background-color: #f8fcfc ;
-  margin-bottom: 0%;
-  margin-top: 0%;
+/* General Section Styling */
+.statistics-section {
+  padding: 50px 0;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
 }
 
-.process-title {
-  font-size: 55px;
-  font-weight: bold;
-  margin-left: 15%;
-  margin-right: 15%;
-  text-align: center;
-  margin-top: 3%;
+.container {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  gap: 50px;
 }
 
-.process-description {
-  font-size: 20px;
-  margin-bottom: 45px;
-  color: #2e5952;
-  text-align: center; /* Align text to the left */
-  margin-bottom: 40px;
-  margin-left: 15%;
-  margin-right: 15%;
-margin-top: 0%;
+/* Left Section Styling */
+.stats-left {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-.process-step {
+.stat-box {
+  background-color: #fff;
+  padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #fff;
-  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.process-step:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgb(126, 187, 128);
-}
-
-.process-step.active {
-  background-color:#c0f6d3;
-  color: #2e5952;
-}
-
-.process-step .icon-box {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.process-step .icon-box img {
-  max-width: 50px;
-  height: auto;
-}
-
-.step-title {
-  font-size: 1.1rem;
+.stat-value {
+  font-size: 2rem;
   font-weight: bold;
-  color: inherit;
-  margin-bottom: 15px;
+  margin: 0;
+  color: #000;
 }
 
-.process-step{
-  height: 300px;
+.stat-label {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Right Section Styling */
+.stats-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.section-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.primary-button,
+.secondary-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.primary-button {
+  background-color: #000;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+  background-color: #333;
+}
+
+.secondary-button {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.secondary-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stats-left {
+    grid-template-columns: 1fr;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 
- 
+
 
 
 /* FAQ.css */
@@ -223,12 +272,13 @@ margin-top: 0%;
   height: 350px, auto;
   align-items: center;
   justify-content: space-between;
-  background-color: #f8fcfc;  
+  background-color: #fcfdfe;  
   
 }
 
 .faq-heading {
   font-size: 45px;
+  color: #000000;
   font-weight: bold;
   margin-bottom: 25px;
   text-align: center; /* Align text to the left */
@@ -291,8 +341,9 @@ margin-top: 0%;
 /* Footer Columns */
 #footer_content .row {
   display: flex;
-  flex-wrap: wrap;
-  
+  flex-wrap: wrap; 
+  margin-left: 20%;
+  gap: 150px;
   
 }
 

@@ -79,7 +79,7 @@ const Login = () => {
       </nav>
 
       <div className="CLogin-container">
-        <h2 className="mt-1">Login</h2>
+        <h2 className="mt-4">Login</h2>
         <form onSubmit={handleLogin} className="w-60 mt-4">
           <div className="mb-3">
             <label htmlFor="email" className="Loginform-label">Email:</label>

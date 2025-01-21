@@ -3,11 +3,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // Navigation hook
 import styles from "./CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
-import welcomeimage from "./assets/welcome.png"; // Main image
+import welcomeimage from "./assets/homemobile.png";  // Main image
 
-import one from './assets/one.png';
-import two from './assets/two.png';
-import three from './assets/three.png';
+
 
 import instagram from './assets/Instagram.webp';
 import facebook from './assets/facebook.png';
@@ -23,16 +21,23 @@ const HomePage = () => {
     navigate('/login'); // This will navigate to the login page
   };
    // Function to handle Sign In button click
-   const handleSignIn = () => {
-    navigate('/register'); // This will navigate to the login page
+   const handleDiscover = () => {
+    navigate('/'); // This will navigate to the login page
   };
 
+  // Function to handle "Submit Your Case" button click
+  const handleBooking = () => {
+    navigate("/RoomList"); // Navigate to the Addrom page
+  };
+  
+ 
   return (
     <>
-         {/* Navigation Bar*/}
+        < nav className="body">
                {/* Navigation Bar */}
                <nav className="navbar navbar-expand-lg">
                  <div className="container">
+                 <a className="navbar-brand" href="/">LOGO</a>
                    <a className="navbar-brand" href="/">
                      
                    </a>
@@ -50,10 +55,12 @@ const HomePage = () => {
          
                    <div className="collapse navbar-collapse" id="navbarContent">
                      <ul className="navbar-nav ms-auto">
-                       <li className="nav-item"><a className="nav-link" href="/dash">Home</a></li>
-                       <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
-                       <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-                       <li className="nav-item"><a className="nav-link" href="/Profile">Profile</a></li>                  
+                     <li className="nav-item"><a className="nav-link" href="/staff">About </a></li>
+                       <li className="nav-item"><a className="nav-link" href="/RoomList">Properties</a></li>
+                       <li className="nav-item"><a className="nav-link" href="/">Blogs</a></li>
+                       
+                       
+                       <button className="getstart-button" onClick={handleLoginIn}>Login </button>              
                      </ul>
                    </div>
                  </div>
@@ -62,19 +69,17 @@ const HomePage = () => {
          
                {/* Welcome Section */}
           <section id="dash">
-            <div >
-              <div className="Homesector1-container d-flex align-items-center justify-content-between">
+            <div className="sector01">
+              <div className="Homesector1-container ">
                 <div className="text-section">
                   <p className="dash-Maintopic1">Effortless Boarding Management</p>
                   <p className="dash-Mainpara1">
                      Streamline your boarding facility with our advanced management system. 
                        Simplify guest check-ins, track room availability, and optimize operations.
                   </p>
-                  <button className="getstart-button" onClick={handleSignIn}>
-                  Get Start
-                  </button>
-                  <button className="Login-button" onClick={handleLoginIn}>
-                  Log In
+                  
+                  <button className="Login-button" onClick={handleDiscover}>
+                  Discover Now
                   </button>
 
                 </div>
@@ -84,40 +89,44 @@ const HomePage = () => {
           </section>
          
                {/* Process Section */}
-               <section id="process" className="process-section py-5">
-                 <div className="container text-center">
-                   <h2 className="process-title mb-4">-How It Works-</h2>        
-                     <div className="row">
-                         <div className="col-md-4 mb-4">
-                           <div className="process-step p-3">
-                             <div className="icon-box mb-3">
-                               <img src={one} className="image"/>
-                                 </div>
-                                   <h3 className="step-title">Submit Your Details</h3>
-                                   <p>Provide your personal information and preferences to get started.</p>
-                           </div>
-                         </div>
-                         <div className="col-md-4 mb-4">
-                           <div className="process-step active p-3">
-                             <div className="icon-box mb-3">
-                               <img src={two} className="image"/>
-                             </div>
-                             <h3 className="step-title">Confirm Your Stay</h3>
-                             <p>Choose your room and confirm your booking seamlessly.</p>
-                           </div>
-                         </div>
-                         <div className="col-md-4 mb-4">
-                           <div className="process-step p-3">
-                             <div className="icon-box mb-3">
-                               <img src={three} className="image"/>
-                             </div>
-                             <h3 className="step-title">Manage Your Boarding</h3>
-                             <p>Access and update your booking details anytime, anywhere.</p>
-                           </div>
-                         </div>
-                      </div>
-                 </div>
-               </section>
+               <section className="statistics-section">
+              <div className="container">
+                <div className="stats-left">
+                  <div className="stat-box">
+                    <h2 className="stat-value">5+</h2>
+                    <p className="stat-label">Years of Service</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2 className="stat-value">10K+</h2>
+                    <p className="stat-label">Happy Students</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2 className="stat-value">100+</h2>
+                    <p className="stat-label">Verified Listings</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2 className="stat-value">20+</h2>
+                    <p className="stat-label">Universities Covered</p>
+                  </div>
+                </div>
+                <div className="stats-right">
+                  <h1 className="section-title">Find Your Ideal Student Housing</h1>
+                  <p className="section-description">
+                    We make it easy for university students to find affordable and
+                    comfortable housing near their campus. Browse verified listings and
+                    secure your home away from home in just a few clicks.
+                  </p>
+                  <div className="buttons">
+                  <button className="primary-button" onClick={handleBooking}>Explore Listings</button>
+                 
+                  </div>
+                </div>
+              </div>
+            </section>
+
+  
+
+
          
                
          
@@ -237,7 +246,7 @@ const HomePage = () => {
                      </footer>
                    </div>
                </section>   
-                           
+               </nav>         
               </>
   );
 };

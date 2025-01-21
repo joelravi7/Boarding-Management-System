@@ -8,7 +8,7 @@
 /* Container for Registration Form */
 .Registration-container{
   max-width: 500px;
-  max-height: 590px;
+  max-height: 800px;
   margin: 10px auto; /* Center the form */
   padding: 30px;
   background-color: #f8fcfc ;
