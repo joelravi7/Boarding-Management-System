@@ -29,7 +29,7 @@
   margin-right: 15px;
   transition: color 0.3s ease;
   margin-bottom: 0%;
-  margin-top: 2%;
+  margin-top: 3%;
  
 }
 
@@ -46,7 +46,7 @@
 /* Container styles for text and image */
 .sector01{
   background-color: #fcfdfe; /* Light gray background */
- 
+  
 
 }
 
@@ -54,12 +54,14 @@
   display: flex;
   align-items: center;
   padding: 50px;
-  height: 500px;
-  background-color: #D6E0E2; /* Light gray background */
+  background-color: #ffffff; /* Light gray background */
   border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  margin-left:6%;
-  max-width: 87%;
+  margin-left:0%;
+  max-width: 100%;
+  margin-bottom: 0%;
+  margin-top: 0%;
+  height: 500px;
+  
 }
 
 
@@ -75,6 +77,8 @@
   font-weight: bold; /* Bold for strong emphasis */
   text-align: left; /* Centered text */
   margin: 20px auto; /* Top and bottom margin with centered layout */
+  margin-left: 2%;
+  margin-top: 2%;
 }
 
 
@@ -84,14 +88,17 @@
   margin-bottom: 45px;
   color: #686867;
   margin: 20px auto;
+  margin-left: 2%;
+  
 }
 
 /* Image */
 .welcomeimage{
-  width: 53%; /* Adjust the image size */
+  width: 47%; /* Adjust the image size */
   height: auto; /* Maintain aspect ratio */
   margin-top: 0%;
-  margin-right: -10%;
+  margin-right: -6%;
+  margin-bottom: 2%;
 }
 
   /* Styles for the getstart-button */
@@ -146,7 +153,7 @@
 /* General Section Styling */
 .statistics-section {
   padding: 50px 0;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   display: flex;
   justify-content: center;
 }

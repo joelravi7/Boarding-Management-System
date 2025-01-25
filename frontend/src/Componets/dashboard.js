@@ -1,31 +1,97 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useLocation } from "react-router-dom"; // Access state passed from login
 import { useNavigate } from "react-router-dom"; // Navigation hook
 import styles from "./CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
 import welcomeimage from "./assets/homemobile.png"; 
 
-
-import one from './assets/one.png';
-import two from './assets/two.png';
-import three from './assets/three.png';
-
 import instagram from './assets/Instagram.webp';
 import facebook from './assets/facebook.png';
 import twitter from './assets/twitter.png'
 import whatsapp from './assets/whatsapp.png'
 
-const HomePage = () => {
-  const location = useLocation(); // Access the state passed from login page
-  const { state } = location || {}; // Safely handle undefined state
-  const message = state?.message || null; // Default to null if undefined
+function HomePage() {
+  const location = useLocation();
+  const { state } = location || {};
+  const message = state?.message || null;
+  const [rooms, setRooms] = useState([]);
+  const [filteredRooms, setFilteredRooms] = useState([]);
+  const [priceFilter, setPriceFilter] = useState(50000);
+  const [locationFilter, setLocationFilter] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const roomsPerPage = 8;
+  
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
-  // Function to handle "Submit Your Case" button click
-  const handleBooking = () => {
-    navigate("/RoomList"); // Navigate to the Addrom page
-  };
+  const handleBooking = (room) => {
+        const token = sessionStorage.getItem("token");
+    
+        if (!token) {
+          const proceed = window.confirm(
+            "You need to log in before booking a room. Do you want to proceed to the login page?"
+          );
+          if (proceed) {
+            navigate("/Login", { state: { room } });
+          }
+        } else {
+          navigate("/Bookroom", { state: { room } });
+        }
+      };
+    
+      useEffect(() => {
+        const fetchRooms = async () => {
+          try {
+            const response = await axios.get("http://localhost:8070/rooms");
+            setRooms(response.data);
+            setFilteredRooms(response.data);
+            setLoading(false);
+          } catch (error) {
+            setError("Error fetching rooms. Please try again later.");
+            setLoading(false);
+          }
+        };
+        fetchRooms();
+      }, []);
+    
+      const applyFilters = () => {
+        const filtered = rooms.filter((room) => {
+          const isPriceValid = room.price <= priceFilter;
+          const isLocationValid = locationFilter
+            ? room.roomAddress.toLowerCase().includes(locationFilter.toLowerCase())
+            : true;
+    
+          return isPriceValid && isLocationValid;
+        });
+        setFilteredRooms(filtered);
+        setCurrentPage(1);
+      };
+    
+      useEffect(() => {
+        applyFilters();
+      }, [priceFilter, locationFilter]);
+    
+      if (loading) {
+        return <div className="loading">Loading...</div>;
+      }
+    
+      if (error) {
+        return <div className="error">{error}</div>;
+      }
+    
+      const indexOfLastRoom = currentPage * roomsPerPage;
+      const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+      const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
+      const totalPages = Math.ceil(filteredRooms.length / roomsPerPage);
+    
+      const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+      };
+    
+  
 
   // Logout function
   const handleLogout = () => {
@@ -90,25 +156,87 @@ const HomePage = () => {
         </div>
 
         {/* Welcome Section */}
-                  <section id="dash">
-                    <div  className="sector01">
-                      <div className="Homesector1-container ">
-                        <div className="text-section">
-                          <p className="dash-Maintopic1">Effortless Boarding Management</p>
-                          <p className="dash-Mainpara1">
-                             Streamline your boarding facility with our advanced management system. 
-                               Simplify guest check-ins, track room availability, and optimize operations.
-                          </p>
-                          
-                          <button className="Login-button" onClick={handleBooking}>
-                          Discover
-                          </button>
-        
-                        </div>
-                        <img src={welcomeimage} className="welcomeimage" alt="Main Visual" />
-                      </div>
-                    </div>
-                  </section>
+        <section id="dash">
+          <div className="sector01">
+            <div className="Homesector1-container">
+              <div className="text-section">
+                <p className="dash-Maintopic1">Effortless Boarding Management</p>
+                <p className="dash-Mainpara1">
+                  Streamline your boarding facility with our advanced management
+                  system. Simplify guest check-ins, track room availability, and
+                  optimize operations.
+                </p>
+                
+              </div>
+              <img
+                src={welcomeimage}
+                className="welcomeimage"
+                alt="Main Visual"
+              />
+            </div>
+            <div className="filters">
+          <div className="filter-item">
+            <label>Max Price (Rs.):</label>
+            <input
+              type="range"
+              min="1000"
+              max="50000"
+              step="500"
+              value={priceFilter}
+              onChange={(e) => setPriceFilter(e.target.value)}
+            />
+            <span>Rs. {priceFilter.toLocaleString()}</span>
+          </div>
+
+          <div className="filter-item">
+            <label>Location:</label>
+            <input
+              type="text"
+              placeholder="Enter location"
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+            />
+          </div>
+        </div>
+          </div>
+        </section>
+      </nav>
+
+      <div className="room-list-container">
+      <div className="room-grid">
+          {currentRooms.length === 0 ? (
+            <div className="no-results">No rooms match your criteria.</div>
+          ) : (
+            currentRooms.map((room) => (
+              <div className="room-card" key={room._id}>
+                <img
+                  src={`http://localhost:8070${room.images[0]}`}
+                  alt="Room"
+                  className="room-image"
+                  onClick={() => handleBooking(room)}
+                />
+                <div className="room-info">
+                  <h5>{room.roomType} Room - {room.roomAddress}</h5>
+                  <p className="room-price">Rs {room.price.toLocaleString()}</p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+            <button
+              key={pageNumber}
+              className={`page-button ${currentPage === pageNumber ? "active" : ""}`}
+              onClick={() => handlePageChange(pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          ))}
+        </div>
+      </div>
+    
 
             {/* Process Section */}
             <section className="statistics-section">
@@ -264,8 +392,7 @@ const HomePage = () => {
                 </div>
             </footer>
           </div>
-      </section>     
-      </nav>         
+      </section>        
     </>
   );
 };

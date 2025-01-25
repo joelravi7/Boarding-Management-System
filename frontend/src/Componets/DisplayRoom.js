@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom"; // Navigation hooks
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 import './CSS/DisplayRoom.css';
 
 function RoomList() {
+  const location = useLocation();
+  const { state } = location || {};
+  const message = state?.message || null;
   const [rooms, setRooms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [priceFilter, setPriceFilter] = useState(50000);
   const [locationFilter, setLocationFilter] = useState("");
-  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const roomsPerPage = 8; // Display 8 rooms per page
   const navigate = useNavigate();
+  
 
   const handleBooking = (room) => {
     const token = sessionStorage.getItem("token");
@@ -24,10 +30,10 @@ function RoomList() {
         navigate("/Login", { state: { room } });
       }
     } else {
-      // If the user is logged in, navigate to the booking page or perform another action
       navigate("/Bookroom", { state: { room } });
     }
   };
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -43,17 +49,17 @@ function RoomList() {
     fetchRooms();
   }, []);
 
-  // Filter function
   const applyFilters = () => {
     const filtered = rooms.filter((room) => {
       const isPriceValid = room.price <= priceFilter;
       const isLocationValid = locationFilter
         ? room.roomAddress.toLowerCase().includes(locationFilter.toLowerCase())
         : true;
-      
-      return isPriceValid && isLocationValid ;
+
+      return isPriceValid && isLocationValid;
     });
     setFilteredRooms(filtered);
+    setCurrentPage(1); // Reset to the first page after filtering
   };
 
   useEffect(() => {
@@ -68,113 +74,127 @@ function RoomList() {
     return <div className="error">{error}</div>;
   }
 
-  // Logout function
-  const handleLogout = () => {
-    // Remove token fromsessionStorage
-  sessionStorage.removeItem("token");
-    // Redirect to login page
-    navigate("/login", { replace: true });
+  // Pagination logic
+  const indexOfLastRoom = currentPage * roomsPerPage;
+  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+  const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
+
+  const totalPages = Math.ceil(filteredRooms.length / roomsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
+
+ 
 
   return (
     <>
-    <nav className="navbar navbar-expand-lg">
-                 <div className="container">
-                 <a className="navbar-brand" href="/">LOGO</a>
-                   <a className="navbar-brand" href="/">
-                     
-                   </a>
-                   <button
-                     className="navbar-toggler"
-                     type="button"
-                     data-bs-toggle="collapse"
-                     data-bs-target="#navbarContent"
-                     aria-controls="navbarContent"
-                     aria-expanded="false"
-                     aria-label="Toggle navigation"
-                   >
-                     <span className="navbar-toggler-icon"></span>
-                   </button>
-         
-                   <div className="collapse navbar-collapse" id="navbarContent">
-                     <ul className="navbar-nav ms-auto">
-                     <li className="nav-item"><a className="nav-link" href="/staff">About </a></li>
-                       <li className="nav-item"><a className="nav-link" href="/AddRoom">Post Add</a></li>
-                       <li className="nav-item"><a className="nav-link" href="/Profile">Profile</a></li>
-                       <li className="nav-item"><a className="nav-link" href="/">Blogs</a></li>
-                       {sessionStorage.getItem("token") && (
-                        <li className="nav-item">
-                          <button className="nav-link" onClick={handleLogout}>Logout</button>
-                        </li>
-                          )}      
-                     </ul>
-                   </div>
-                 </div>
-               </nav>
-         
-    <div className="room-list-container">
-      <h2 className="title">
-        Featured <span className="highlight">Properties</span>
-      </h2>
+      
 
-      {/* Filter Options */}
-      <div className="filters">
-        <div className="filter-item">
-          <label>Max Price (Rs.):</label>
-          <input
-            type="range"
-            min="1000"
-            max="100000"
-            step="500"
-            value={priceFilter}
-            onChange={(e) => setPriceFilter(e.target.value)}
-          />
-          <span>Rs. {priceFilter.toLocaleString()}</span>
+      {/* Navbar */}
+      <nav className="navbar navbar-expand-lg">
+        <div className="container">
+          <a className="navbar-brand" href="/">LOGO</a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarContent">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/AddRoom">Post Add</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/Userroom">About Us</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/maintenance">Blogs</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/profile">Profile</a>
+              </li>
+              {message && (
+                <li className="nav-item">
+                  <div className="nav-link text-danger">{message}</div>
+                </li>
+              )}
+              {sessionStorage.getItem("token") && (
+                <li className="nav-item">
+                  <button className="nav-link" onClick={() => navigate("/login", { replace: true })}>Logout</button>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* Room Listings */}
+      <div className="room-list-container">
+        <div className="filters">
+          <div className="filter-item">
+            <label>Max Price (Rs.):</label>
+            <input
+              type="range"
+              min="1000"
+              max="50000"
+              step="500"
+              value={priceFilter}
+              onChange={(e) => setPriceFilter(e.target.value)}
+            />
+            <span>Rs. {priceFilter.toLocaleString()}</span>
+          </div>
+          <div className="filter-item">
+            <label>Location:</label>
+            <input
+              type="text"
+              placeholder="Enter location"
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="filter-item">
-          <label>Location:</label>
-          <input
-            type="text"
-            placeholder="Enter location"
-            value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-          />
-        </div>
-      </div>
-
-
-      {/* Room Grid */}
-      <div className="room-grid">
-        {filteredRooms.length === 0 ? (
-          <div className="no-results">No rooms match your criteria.</div>
-        ) : (
-          filteredRooms.map((room) => (
-            <div className="room-card" key={room._id}>
-              <img
-                src={`http://localhost:8070${room.images[0]}`}
-                alt="Room"
-                className="room-image"
-              />
-              <div className="room-info">
-                <h5><strong>{room.roomType} Room</strong> - {room.roomAddress}</h5>
-                <p className="room-price">Rs {room.price.toLocaleString()}</p>
+        <div className="room-grid">
+          {currentRooms.length === 0 ? (
+            <div className="no-results">No rooms match your criteria.</div>
+          ) : (
+            currentRooms.map((room) => (
+              <div className="room-card" key={room._id}>
+                <img
+                  src={`http://localhost:8070${room.images[0]}`}
+                  alt="Room"
+                  className="room-image"
+                  onClick={() => handleBooking(room)}
+                />
+                <div className="room-info">
+                  <h5>{room.roomType} Room - {room.roomAddress}</h5>
+                  <p className="room-price">Rs {room.price.toLocaleString()}</p>
+                </div>
               </div>
-              <button className="btn btn-primary mt-auto" onClick={() => handleBooking(room)}>Book Now</button>
+            ))
+          )}
+        </div>
 
-            </div>
-          ))
-        )}
+        {/* Pagination */}
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+            <button
+              key={pageNumber}
+              className={`page-button ${currentPage === pageNumber ? "active" : ""}`}
+              onClick={() => handlePageChange(pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          ))}
+        </div>
       </div>
-
-      {/* Pagination */}
-      <div className="pagination">
-        <button className="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>›</button>
-      </div>
-    </div>
     </>
   );
 }
