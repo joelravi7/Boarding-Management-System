@@ -2,7 +2,7 @@
 
 .body{
   background-color: #f8fcfc;
-  height: 600px;
+  height: 700px;
 }
 
 /* Container for Registration Form */
@@ -13,7 +13,7 @@
   padding: 30px;
   background-color: #f8fcfc ;
   border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
+  box-shadow: 0 4px 6px  rgba(0, 0, 0, 0.64); 
 }
 
 .updateRegistration-container{
@@ -23,24 +23,15 @@
   padding: 30px;
   background-color: #f8fcfc ;
   border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
+  box-shadow: 0 4px 6px  rgba(0, 0, 0, 0.716); 
 }
 
-.Addroom-container{
-  max-width: 500px;
-  max-height: 750px;
-  margin: 10px auto; /* Center the form */
-  padding: 30px;
-  background-color: #f8fcfc ;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); 
-}
 
 /* Heading */
 h2 {
   text-align: center;
   font-weight: bold;
-  color: #0e6835; /* Darker green */
+  color: #000000; /* Darker green */
   margin-bottom: 20px;
 }
 
@@ -49,7 +40,7 @@ h2 {
   font-weight: bold;
   margin-bottom: 5px;
   display: block;
-  color: #2e5952;
+  color: #171717;
 }
 
 /* Input Fields */
@@ -65,13 +56,13 @@ h2 {
 
 .form-control:focus {
   outline: none;
-  border-color: #0e6835; /* Highlight border on focus */
-  box-shadow: 0 0 4px rgba(14, 104, 53, 0.5); /* Green glow */
+  border-color: #050505; /* Highlight border on focus */
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Green glow */
 }
 
 /* Submit Button */
 .btn-primary {
-  background-color: #2e5952;
+  background-color: #000000;
   color: #ffffff;
   font-size: 18px;
   font-weight: bold;
@@ -84,7 +75,7 @@ h2 {
 }
 
 .btn-primary:hover {
-  background-color: #0e6835; /* Darker green on hover */
+  background-color: #252525; /* Darker green on hover */
   transform: scale(1.05); /* Slight enlarge effect */
 }
 
@@ -105,7 +96,7 @@ h2 {
 /* Success Alert */
 .alert-success {
   background-color: #d4edda;
-  color: #155724;
+  color: #1e1e1e;
   border: 1px solid #c3e6cb;
 }
 

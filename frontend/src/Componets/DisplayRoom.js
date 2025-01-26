@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Navigation hooks
 import axios from "axios";
-
+import searchIcon from "./assets/searchimage.png";
 import './CSS/DisplayRoom.css';
 
 function RoomList() {
@@ -15,6 +15,8 @@ function RoomList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
+  const uniqueRoomTypes = [...new Set(rooms.map((room) => room.roomType))]; // Extract unique room types
   const roomsPerPage = 8; // Display 8 rooms per page
   const navigate = useNavigate();
   
@@ -51,39 +53,40 @@ function RoomList() {
 
   const applyFilters = () => {
     const filtered = rooms.filter((room) => {
-      const isPriceValid = room.price <= priceFilter;
+      const isPriceValid =
+      priceFilter === 4000
+      ? room.price < 10000
+      : priceFilter === 12000
+      ? room.price >= 10000 && room.price <= 15000
+      : priceFilter === 20000
+      ? room.price > 15000
+      : true;
+  
       const isLocationValid = locationFilter
-        ? room.roomAddress.toLowerCase().includes(locationFilter.toLowerCase())
-        : true;
+      ? room.roomAddress.toLowerCase().startsWith(locationFilter.toLowerCase())
+      : true;
 
-      return isPriceValid && isLocationValid;
-    });
+  const isPropertyTypeValid = propertyTypeFilter
+    ? room.roomType.toLowerCase() === propertyTypeFilter.toLowerCase()
+    : true;
+
+ 
+  return isPriceValid && isLocationValid && isPropertyTypeValid;
+  });
+  
     setFilteredRooms(filtered);
-    setCurrentPage(1); // Reset to the first page after filtering
+    setCurrentPage(1); // Reset to the first page
   };
-
-  useEffect(() => {
-    applyFilters();
-  }, [priceFilter, locationFilter]);
-
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="error">{error}</div>;
-  }
-
-  // Pagination logic
-  const indexOfLastRoom = currentPage * roomsPerPage;
-  const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
-  const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
-
-  const totalPages = Math.ceil(filteredRooms.length / roomsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  
+      
+        const indexOfLastRoom = currentPage * roomsPerPage;
+        const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
+        const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
+        const totalPages = Math.ceil(filteredRooms.length / roomsPerPage);
+      
+        const handlePageChange = (pageNumber) => {
+          setCurrentPage(pageNumber);
+        };
 
  
 
@@ -135,66 +138,97 @@ function RoomList() {
         </div>
       </nav>
 
-      {/* Room Listings */}
       <div className="room-list-container">
-        <div className="filters">
-          <div className="filter-item">
-            <label>Max Price (Rs.):</label>
-            <input
-              type="range"
-              min="1000"
-              max="50000"
-              step="500"
-              value={priceFilter}
-              onChange={(e) => setPriceFilter(e.target.value)}
-            />
-            <span>Rs. {priceFilter.toLocaleString()}</span>
-          </div>
-          <div className="filter-item">
-            <label>Location:</label>
-            <input
-              type="text"
-              placeholder="Enter location"
-              value={locationFilter}
-              onChange={(e) => setLocationFilter(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="room-grid">
-          {currentRooms.length === 0 ? (
-            <div className="no-results">No rooms match your criteria.</div>
-          ) : (
-            currentRooms.map((room) => (
-              <div className="room-card" key={room._id}>
-                <img
-                  src={`http://localhost:8070${room.images[0]}`}
-                  alt="Room"
-                  className="room-image"
-                  onClick={() => handleBooking(room)}
-                />
-                <div className="room-info">
-                  <h5>{room.roomType} Room - {room.roomAddress}</h5>
-                  <p className="room-price">Rs {room.price.toLocaleString()}</p>
-                </div>
+            <div className="filter-bar2">
+            <div className="filter-item">
+              <label htmlFor="location">Location</label>
+              <input
+                type="text"
+                placeholder="Enter City"
+                value={locationFilter}
+                onChange={(e) => {
+                  setLocationFilter(e.target.value);
+                  applyFilters();
+                }}
+              />
+            </div>
+      
+              <div className="filter-item">
+                <label htmlFor="propertyType">Property Type</label>
+                <select
+                  id="propertyType"
+                  value={propertyTypeFilter}
+                  onChange={(e) => setPropertyTypeFilter(e.target.value)}
+                >
+                  <option value="">Select Property Type</option>
+                  {uniqueRoomTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
               </div>
-            ))
-          )}
-        </div>
+      
+      
+              <div className="filter-item">
+                <label htmlFor="priceRange">Price Range</label>
+                <select
+                  id="priceRange"
+                  value={priceFilter}
+                  onChange={(e) => setPriceFilter(Number(e.target.value))}
+                >
+                  
+                  <option value="">All</option>
+                  <option value={4000}>Below Rs.10,000 / month</option>
+                  <option value={12000}>Rs.10,000 - Rs.15,000 / month</option>
+                  <option value={20000}> Above Rs.15,000  / month</option>
+                  </select>
+                 
+              </div>
+      
+              <button className="filter-search-btn" onClick={applyFilters}>
+              <img src={searchIcon} alt="Search" className="search-icon" />
+              </button>
+            </div>
+      
+      
+            <div className="room-grid">
+                {currentRooms.length === 0 ? (
+                  <div className="no-results">No rooms match your criteria.</div>
+                ) : (
+                  currentRooms.map((room) => (
+                    <div className="room-card" key={room._id}>
+                      <img
+                        src={`http://localhost:8070${room.images[0]}`}
+                        alt="Room"
+                        className="room-image"
+                        onClick={() => handleBooking(room)}
+                      />
+                      <div className="room-info">
+                        <h5>{room.roomType} Room - {room.roomAddress}</h5>
+                        <p className="room-price">Rs {room.price.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+      
+              <div className="pagination">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    className={`page-button ${currentPage === pageNumber ? "active" : ""}`}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </button>
+                ))}
+              </div>
+            </div>
+          
 
-        {/* Pagination */}
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
-            <button
-              key={pageNumber}
-              className={`page-button ${currentPage === pageNumber ? "active" : ""}`}
-              onClick={() => handlePageChange(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          ))}
-        </div>
-      </div>
+        
+     
     </>
   );
 }

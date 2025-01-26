@@ -9,9 +9,10 @@
 }
 
 
+
 /* navbar Styles */
 .navbar {
-  background-color: #fcfdfe;
+  background-color: #ffffff;
 }
 
 .navbar-logo {
@@ -52,13 +53,15 @@
 
 .Homesector1-container{
   display: flex;
+  background-image: url('../assets/homemobile.png'); /* Path to your image */
+  background-size: 700px;
+  background-position: 110%;
+  background-repeat: no-repeat;
   align-items: center;
   padding: 50px;
   background-color: #ffffff; /* Light gray background */
-  border-radius: 10px; /* Rounded corners */
   margin-left:0%;
   max-width: 100%;
-  margin-bottom: 0%;
   margin-top: 0%;
   height: 500px;
   
@@ -77,7 +80,7 @@
   font-weight: bold; /* Bold for strong emphasis */
   text-align: left; /* Centered text */
   margin: 20px auto; /* Top and bottom margin with centered layout */
-  margin-left: 2%;
+  margin-left: 3%;
   margin-top: 2%;
 }
 
@@ -88,18 +91,12 @@
   margin-bottom: 45px;
   color: #686867;
   margin: 20px auto;
-  margin-left: 2%;
+  margin-left: 3%;
+  margin-right: 13%;
   
 }
 
-/* Image */
-.welcomeimage{
-  width: 47%; /* Adjust the image size */
-  height: auto; /* Maintain aspect ratio */
-  margin-top: 0%;
-  margin-right: -6%;
-  margin-bottom: 2%;
-}
+
 
   /* Styles for the getstart-button */
 .getstart-button{
@@ -285,7 +282,7 @@
 
 .faq-heading {
   font-size: 45px;
-  color: #000000;
+  color: #162A2C;
   font-weight: bold;
   margin-bottom: 25px;
   text-align: center; /* Align text to the left */
@@ -315,7 +312,59 @@
   
 }
 
+ /*Newletter.css */
+ .newsletter-container {
+  background-color: #ffffff;
+  max-height: 300px;
+ 
+}
 
+.newsletter-card {
+  box-shadow: #000000;
+  overflow: hidden;
+  margin-bottom: 40px;
+  
+}
+
+.newsletter-card .illustration {
+  background-image: url("../assets/drawinghouse.png");
+  background-size: cover;
+  background-position: 455px;
+  width: 250px;
+  height: 250px;
+  margin-right: -10%;
+}
+
+.submit-btn{
+  width: 90px;
+  height: 45px;
+  border-radius: 20px;
+  border: 0px;
+  background-color: #162A2C;
+  color: white;
+  margin-left: -19%;
+  margin-top: 0px;
+}
+
+.input-box{
+  width: 400px;
+  height: 45px;
+  border-radius: 20px;
+  border: 10px;
+  background-color: #e4e4e4;
+  color: rgb(0, 0, 0);
+  margin-left: 5%;
+  padding: 15px;
+}
+.input-box::placeholder {
+  color: #6c757d; /* Optional: Change the placeholder color */
+  margin: 5%;
+}
+
+.newlettertopic{
+  color: #162A2C;
+  font-family:Arial, Helvetica, sans-serif;
+}
 
 
 
@@ -349,7 +398,7 @@
 #footer_content .row {
   display: flex;
   flex-wrap: wrap; 
-  margin-left: 20%;
+  margin-left: 3%;
   gap: 150px;
   
 }
@@ -383,9 +432,7 @@ ul li a {
   transition: color 0.3s ease;
 }
 
-ul li a:hover {
-  color: #f1c40f; /* Highlight color on hover */
-}
+
 
 /* Contact Details */
 #footer_content .col-md-4 ul li {

@@ -1,21 +1,23 @@
 /* AdminLogin.css */
 
 /* General Body Styles */
-.body{
+body{
   background-color: #f8fcfc;
-  height: 600px;
+  height: 400px;
 }
   
   
   /* Login Container Styles */
   .CLogin-container {
-    max-width: 500px;
+   
+    max-width: 400px;
+    max-height: 450px;
     margin: 10px auto; /* Center the form */
     padding: 30px;
     margin-top: 1%;
     background-color: #f8fcfc ;
     border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.64); /* Subtle shadow */
+    box-shadow: 0 4px 6px  rgba(0, 0, 0, 0.721); /* Subtle shadow */
   
   }
   
@@ -23,14 +25,14 @@
     font-family: 'Poppins', sans-serif;
     text-align: center;
     font-weight: bold;
-    color: #0e6835; /* Darker green */
+    color: #000000;
     margin-bottom: 0px;
   }
   
   /* Form Styles */
   .Loginform-label {
     font-weight: bold;
-    color:  #2e5952;
+    color:  #000000;
   }
   
   .Loginform-control {
@@ -42,14 +44,14 @@
   }
   
   .Loginform-control:focus {
-    border-color: #0e6835; /* Highlight border on focus */
+    border-color: #000000; /* Highlight border on focus */
     outline: none;
-    box-shadow: 0 0 4px rgba(14, 104, 53, 0.5); /* Green glow */
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Green glow */
 }
   
   /* Button Styles */
   .Loginbtn {
-    background-color: #2e5952;
+    background-color: #000000;
     color: #ffffff;
     border: none;
     padding: 10px;
@@ -62,7 +64,7 @@
   
 .btn-primary:focus {
     outline: none;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+    box-shadow: 0 0 4px rgba(41, 41, 41, 0.5); /* Blue focus outline */
   }
   
   /* Alert Styles */

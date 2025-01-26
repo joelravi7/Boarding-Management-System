@@ -10,6 +10,7 @@ import instagram from './assets/Instagram.webp';
 import facebook from './assets/facebook.png';
 import twitter from './assets/twitter.png'
 import whatsapp from './assets/whatsapp.png'
+import searchIcon from "./assets/searchimage.png";
 
 function HomePage() {
   const location = useLocation();
@@ -22,6 +23,8 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
+    const uniqueRoomTypes = [...new Set(rooms.map((room) => room.roomType))]; // Extract unique room types
   const roomsPerPage = 8;
   
 
@@ -59,28 +62,30 @@ function HomePage() {
     
       const applyFilters = () => {
         const filtered = rooms.filter((room) => {
-          const isPriceValid = room.price <= priceFilter;
-          const isLocationValid = locationFilter
-            ? room.roomAddress.toLowerCase().includes(locationFilter.toLowerCase())
-            : true;
-    
-          return isPriceValid && isLocationValid;
-        });
+          const isPriceValid =
+          priceFilter === 4000
+          ? room.price < 10000
+          : priceFilter === 12000
+          ? room.price >= 10000 && room.price <= 15000
+          : priceFilter === 20000
+          ? room.price > 15000
+          : true;
+
+      const isLocationValid = locationFilter
+      ? room.roomAddress.toLowerCase().startsWith(locationFilter.toLowerCase())
+      : true;
+  
+      const isPropertyTypeValid = propertyTypeFilter
+        ? room.roomType.toLowerCase() === propertyTypeFilter.toLowerCase()
+        : true;
+  
+     
+      return isPriceValid && isLocationValid && isPropertyTypeValid;
+      });
+      
         setFilteredRooms(filtered);
-        setCurrentPage(1);
+        setCurrentPage(1); // Reset to the first page
       };
-    
-      useEffect(() => {
-        applyFilters();
-      }, [priceFilter, locationFilter]);
-    
-      if (loading) {
-        return <div className="loading">Loading...</div>;
-      }
-    
-      if (error) {
-        return <div className="error">{error}</div>;
-      }
     
       const indexOfLastRoom = currentPage * roomsPerPage;
       const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
@@ -131,6 +136,9 @@ function HomePage() {
                   <a className="nav-link" href="/AddRoom">Post add</a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link" href="/RoomList">Properties</a>
+                </li>
+                <li className="nav-item">
                   <a className="nav-link" href="/Userroom">About Us</a>
                 </li>
                 <li className="nav-item">
@@ -168,41 +176,65 @@ function HomePage() {
                 </p>
                 
               </div>
-              <img
-                src={welcomeimage}
-                className="welcomeimage"
-                alt="Main Visual"
-              />
+              
             </div>
-            <div className="filters">
-          <div className="filter-item">
-            <label>Max Price (Rs.):</label>
-            <input
-              type="range"
-              min="1000"
-              max="50000"
-              step="500"
-              value={priceFilter}
-              onChange={(e) => setPriceFilter(e.target.value)}
-            />
-            <span>Rs. {priceFilter.toLocaleString()}</span>
-          </div>
-
-          <div className="filter-item">
-            <label>Location:</label>
-            <input
-              type="text"
-              placeholder="Enter location"
-              value={locationFilter}
-              onChange={(e) => setLocationFilter(e.target.value)}
-            />
-          </div>
-        </div>
           </div>
         </section>
       </nav>
 
-      <div className="room-list-container">
+      
+         <div className="room-list-container">
+              <div className="filter-bar">
+              <div className="filter-item">
+                <label htmlFor="location">Location</label>
+                <input
+                  type="text"
+                  placeholder="Enter City"
+                  value={locationFilter}
+                  onChange={(e) => {
+                    setLocationFilter(e.target.value);
+                    applyFilters();
+                  }}
+                />
+              </div>
+        
+                <div className="filter-item">
+                  <label htmlFor="propertyType">Property Type</label>
+                  <select
+                    id="propertyType"
+                    value={propertyTypeFilter}
+                    onChange={(e) => setPropertyTypeFilter(e.target.value)}
+                  >
+                    <option value="">Select Property Type</option>
+                    {uniqueRoomTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+        
+        
+                <div className="filter-item">
+                  <label htmlFor="priceRange">Price Range</label>
+                  <select
+                    id="priceRange"
+                    value={priceFilter}
+                    onChange={(e) => setPriceFilter(Number(e.target.value))}
+                  >
+                    
+                    <option value="">All</option>
+                    <option value={4000}>Below Rs.10,000 / month</option>
+                    <option value={12000}>Rs.10,000 - Rs.15,000 / month</option>
+                    <option value={20000}> Above Rs.15,000  / month</option>
+                    </select>
+                </div>
+        
+                <button className="filter-search-btn" onClick={applyFilters}>
+                <img src={searchIcon} alt="Search" className="search-icon" />
+                </button>
+              </div>
+        
       <div className="room-grid">
           {currentRooms.length === 0 ? (
             <div className="no-results">No rooms match your criteria.</div>
@@ -267,7 +299,7 @@ function HomePage() {
                     secure your home away from home in just a few clicks.
                   </p>
                   <div className="buttons">
-                  <button className="primary-button" onClick={handleBooking}>Explore Listings</button>
+                  <button className="primary-button" onClick={handleBooking}>Rate Us</button>
                   <button className="secondary-button" onClick={handleAddPosts}>Add Post</button>
 
                     
@@ -275,6 +307,7 @@ function HomePage() {
                 </div>
               </div>
             </section>
+      
       
 
 
@@ -341,7 +374,36 @@ function HomePage() {
             </section>
           </div>
 
-
+{/* Newsletter Section */}
+<div className="newsletter-container d-flex justify-content-center align-items-center vh-100">
+      <div className="card newsletter-card">
+        <div className="row g-0">
+          <div className="col-md-8 p-4">
+            <h3 className="newlettertopic" >
+              Subscribe our <strong>Newsletter</strong>
+            </h3>
+            <p className="text-muted">
+              Join our newsletter to stay on top of current information and
+              events.
+            </p>
+            <form className="d-flex mt-3">
+              <input
+                type="email"
+                className="input-box"
+                placeholder="Enter your email address"
+                required
+              />
+              <button type="submit" className="submit-btn">
+                Submit
+              </button>
+            </form>
+          </div>
+          <div className="col-md-4 d-flex align-items-center justify-content-center">
+            <div className="illustration"></div>
+          </div>
+        </div>
+      </div>
+    </div>
         
           {/*Footer section */}
           <section id="contact">

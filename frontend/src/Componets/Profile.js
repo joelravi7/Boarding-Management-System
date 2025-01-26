@@ -248,7 +248,7 @@ function LoggedCustomer() {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="/dash">Dashboard</a></li>
-              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
+              <li className="nav-item"><a className="nav-link" href="/RoomList">Rooms</a></li>
               <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
               <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
@@ -319,35 +319,36 @@ function LoggedCustomer() {
         </div>
 
         <div className="my-rooms-container w-45 p-3">
-          <h2>My Rooms</h2>
-          {rooms.length > 0 ? (
-            rooms.map((room) => (
-              <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
-                <div className="image-carousel me-3" style={{ width: "200px" }}>
-                  <div className="image-display">
-                    <img
-                      src={`http://localhost:8070${room.images[0]}`} // Display the first image initially
-                      alt="Room"
-                      className="card-img-top"
-                      style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius:"10px" }}
-                    />
-                  </div>
-                </div>
-
-                <div className="room-details">
-                  <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
-                  <p><strong>Rs.{room.price} /month</strong></p>
-                  <p>{room.description}</p>
-                  <div className="d-flex justify-content-start">
-                    <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}>Update Room</button>
-                    <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}>Delete Room</button>
-                  </div>
+        <h2>My Rooms</h2>
+        {rooms.length > 0 ? (
+          rooms.map((room) => (
+            <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
+              <div className="image-carousel me-3" style={{ width: "200px" }}>
+                <div className="image-display">
+                  <img
+                    src={`http://localhost:8070${room.images[0]}`}
+                    alt="Room"
+                    className="card-img-top"
+                    style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
+                  />
                 </div>
               </div>
-            ))
-          ) : (
-            <p>No rooms available.</p>
-          )}
+              <div className="room-details">
+                <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
+                <p><strong>Rs.{room.price} /month</strong></p>
+                <p>{room.description}</p>
+                <div className="d-flex justify-content-start">
+                  <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}>Update Room</button>
+                  <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}>Delete Room</button>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No rooms available.</p>
+        )}
+     
+
           {/* Room Update Form */}
           {selectedRoom && (
             <div className="update-room-form">

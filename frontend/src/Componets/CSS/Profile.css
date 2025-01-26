@@ -19,13 +19,13 @@
   box-sizing: border-box;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 6px  rgba(14, 104, 53, 0.355); /* Subtle shadow for better separation */
+  box-shadow: 0 4px 6px  rgba(8, 8, 8, 0.618); /* Subtle shadow for better separation */
 }
 
 .customer-details-container h2,
 .my-rooms-container h2 {
   font-size: 35px;
-  color: #034d23;
+  color: #040404;
   font-weight: bold;
   margin-bottom: 4%;
   text-align: center; /* Align text to the left */
@@ -98,7 +98,7 @@ button {
 
 .update-room-form button {
   margin-top: 15px;
-  background-color:  #2e5952;
+  background-color:  #0d0e0d;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -111,11 +111,20 @@ button {
 }
 
 /* Reduce gap between customer and room forms */
-.customer-details-container,
-.my-rooms-container {
+.customer-details-container{
   margin-bottom: 25px; /* Slightly more space between sections */
 }
 
+.my-rooms-container {
+  max-height: none; /* Allow the container to expand */
+  overflow: visible; /* Prevent scrollbars unless explicitly needed */
+  margin-bottom: 25px;
+}
+
+.LoggedCustomer-container {
+  flex-wrap: wrap; /* Allow items to stack as needed */
+  align-items: flex-start; /* Prevent uneven alignment */
+}
 
 .updatebtn{
   border-radius: 5px;

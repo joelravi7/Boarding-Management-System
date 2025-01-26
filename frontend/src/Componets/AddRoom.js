@@ -190,7 +190,7 @@ function AddRoom() {
               type="text"
               className="form-control"
               id="roomAddress"
-              placeholder="Enter the room address (add Land Marks)"
+              placeholder="Enter the City"
               value={roomAddress}
               onChange={(e) => setRoomAddress(e.target.value)}
               required
@@ -205,7 +205,7 @@ function AddRoom() {
             className="form-control"
             id="description"
             rows="5"
-            placeholder="Provide a description for the room"
+            placeholder="Provide a description for the room (add landmarks)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required

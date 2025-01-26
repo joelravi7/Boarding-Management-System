@@ -71,7 +71,7 @@
   
   /* Confirm Booking button */
   .btn-primary {
-    background-color:#0e6835; /* Primary Blue Color */
+    background-color:#171717; /* Primary Blue Color */
   color: #fff; /* White Text */
   font-size: 16px; /* Font size */
   font-weight: bold; /* Bold text */
@@ -89,7 +89,7 @@
   }
   
   .btn-primary:hover:enabled {
-    background-color: #0e6835;
+    background-color: #171717;
   }
   
   /* Alerts */

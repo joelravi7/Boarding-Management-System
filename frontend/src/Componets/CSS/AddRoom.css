@@ -45,7 +45,7 @@
 
 /* Button styles */
 .Postadd-container .btn-primary {
-  background-color:  #0e6835;
+  background-color:  #060606;
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -55,7 +55,7 @@
 }
 
 .Postadd-container .btn-primary:hover {
-  background-color:  #0e6835;
+  background-color:  #212222;
 }
 
 /* Image preview */
