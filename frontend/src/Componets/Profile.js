@@ -335,7 +335,7 @@ function LoggedCustomer() {
               </div>
               <div className="room-details">
                 <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
-                <p><strong>Rs.{room.price} /month</strong></p>
+                <p className="room-price"><strong>Price</strong>Rs {room.price.toLocaleString()} / month</p>
                 <p>{room.description}</p>
                 <div className="d-flex justify-content-start">
                   <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}>Update Room</button>

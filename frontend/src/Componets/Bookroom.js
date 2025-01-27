@@ -93,7 +93,7 @@ function BookRoomPage() {
           </div>
 
           {/* Card Body Content */}
-          <h5 className="card-title"><strong>Price:</strong> Rs.{room.price} / month</h5>
+          <h5 className="card-title"><strong> Price </strong> Rs. {room.price.toLocaleString()}/ month</h5>
           <p className="card-text">{room.description}</p>
           <p className="card-text"><strong>Owner:</strong> {room.ownerName} ({room.ownerContactNumber})</p>
           <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}</p>

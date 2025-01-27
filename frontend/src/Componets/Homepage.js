@@ -21,8 +21,14 @@ function HomePage() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
-  const uniqueRoomTypes = [...new Set(rooms.map((room) => room.roomType))]; // Extract unique room types
-  const roomsPerPage = 8;
+  const uniqueRoomTypes = [
+    ...new Set(
+      rooms.map((room) => {
+        const normalized = room.roomType.toLowerCase().trim(); // Normalize to lowercase and trim
+        return normalized.charAt(0).toUpperCase() + normalized.slice(1); // Capitalize the first letter
+      })
+    ),
+  ];  const roomsPerPage = 8;
 
 
 
@@ -193,7 +199,7 @@ function HomePage() {
           >
             <option value="">Select Property Type</option>
             {uniqueRoomTypes.map((type) => (
-              <option key={type} value={type}>
+              <option  value={type}>
                 {type}
               </option>
             ))}

@@ -129,7 +129,7 @@ function AddRoom() {
     <div className="Postadd-container">
       <h2 className="mt-1">Add a Room</h2>
       <p>
-        Please fill out the form below to add a room. Provide accurate details to ensure better
+        Please fill out the form below to Post your room. Provide accurate details to ensure better
         visibility for prospective tenants.
       </p>
       <form onSubmit={handleSubmit}>
