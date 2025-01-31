@@ -63,7 +63,7 @@ function LoggedCustomer() {
     }
 
     try {
-      const response = await axios.get("http://localhost:8070/myrooms", {
+      const response = await axios.get("http://localhost:8070/Room/myrooms", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRooms(response.data);
@@ -109,7 +109,7 @@ function LoggedCustomer() {
 
     if (window.confirm("Are you sure you want to delete this room?")) {
       try {
-        const response = await axios.delete(`http://localhost:8070/deleteroom/${roomId}`, {
+        const response = await axios.delete(`http://localhost:8070/Room/deleteroom/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -132,7 +132,7 @@ function LoggedCustomer() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8070/updateroom/${roomId}`, {
+      const response = await fetch(`http://localhost:8070/Room/updateroom/${roomId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -246,18 +246,31 @@ function LoggedCustomer() {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item"><a className="nav-link" href="/dash">Dashboard</a></li>
-              <li className="nav-item"><a className="nav-link" href="/RoomList">Rooms</a></li>
-              <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-              <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
-              <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
-               {/* Conditionally render the Logout button */}
-                {sessionStorage.getItem("token") && (
-                <li className="nav-item">
-                  <button className="nav-link " onClick={handleLogout}>Logout</button>
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+                <a className="nav-link" href="/dash">Dashboard</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/AddRoom">Post Add</a>
+              </li>
+              <li className="nav-item">
+                  <a className="nav-link" href="/RoomList">Properties</a>
                 </li>
-                )}
+              <li className="nav-item">
+                <a className="nav-link" href="/Userroom">About Us</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/maintenance">Blogs</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/profile">Profile</a>
+              </li>
+             
+              {sessionStorage.getItem("token") && (
+                <li className="nav-item">
+                  <button className="nav-link" onClick={() => navigate("/login", { replace: true })}>Logout</button>
+                </li>
+              )}
             </ul>
           </div>
         </div>

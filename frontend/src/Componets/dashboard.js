@@ -20,6 +20,7 @@ function HomePage() {
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [priceFilter, setPriceFilter] = useState(50000);
   const [locationFilter, setLocationFilter] = useState("");
+  const [locations, setLocations] = useState([]); // For dropdown suggestions
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,18 +47,25 @@ function HomePage() {
       };
     
       useEffect(() => {
-        const fetchRooms = async () => {
+        const fetchRoomsAndLocations = async () => {
           try {
             const response = await axios.get("http://localhost:8070/rooms");
             setRooms(response.data);
             setFilteredRooms(response.data);
+        
+            // Extract unique locations for the dropdown
+            const uniqueLocations = [
+            ...new Set(response.data.map((room) => room.roomAddress)),
+            ];
+            setLocations(uniqueLocations);
+        
             setLoading(false);
-          } catch (error) {
-            setError("Error fetching rooms. Please try again later.");
-            setLoading(false);
-          }
+            } catch (error) {
+              setError("Error fetching rooms. Please try again later.");
+              setLoading(false);
+              }
         };
-        fetchRooms();
+        fetchRoomsAndLocations();
       }, []);
     
       const applyFilters = () => {
@@ -184,56 +192,57 @@ function HomePage() {
 
       
          <div className="room-list-container">
-              <div className="filter-bar">
+            <div className="filter-bar">
               <div className="filter-item">
                 <label htmlFor="location">Location</label>
-                <input
-                  type="text"
-                  placeholder="Enter City"
+                <select
+                  id="location"
                   value={locationFilter}
-                  onChange={(e) => {
-                    setLocationFilter(e.target.value);
-                    applyFilters();
-                  }}
-                />
+                  onChange={(e) => setLocationFilter(e.target.value)}
+                >
+                  <option value="">All Locations</option>
+                    {locations.map((location, index) => (
+                      <option key={index} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                </select>
               </div>
-        
-                <div className="filter-item">
-                  <label htmlFor="propertyType">Property Type</label>
+          
+              <div className="filter-item">
+                <label htmlFor="propertyType">Property Type</label>
                   <select
                     id="propertyType"
                     value={propertyTypeFilter}
                     onChange={(e) => setPropertyTypeFilter(e.target.value)}
                   >
-                    <option value="">Select Property Type</option>
-                    {uniqueRoomTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
+                  <option value="">Select Property Type</option>
+                    {uniqueRoomTypes.map((type, index) => (
+                    <option key={index} value={type}>
+                      {type}
+                    </option>
                     ))}
                   </select>
                 </div>
-        
-        
+          
                 <div className="filter-item">
                   <label htmlFor="priceRange">Price Range</label>
-                  <select
-                    id="priceRange"
-                    value={priceFilter}
-                    onChange={(e) => setPriceFilter(Number(e.target.value))}
-                  >
-                    
-                    <option value="">All</option>
-                    <option value={4000}>Below Rs.10,000 / month</option>
-                    <option value={12000}>Rs.10,000 - Rs.15,000 / month</option>
-                    <option value={20000}> Above Rs.15,000  / month</option>
+                    <select
+                      id="priceRange"
+                      value={priceFilter}
+                      onChange={(e) => setPriceFilter(Number(e.target.value))}
+                    >
+                      <option value="">All</option>
+                      <option value={4000}>Below Rs.10,000 / month</option>
+                      <option value={12000}>Rs.10,000 - Rs.15,000 / month</option>
+                      <option value={20000}>Above Rs.15,000 / month</option>
                     </select>
-                </div>
-        
-                <button className="filter-search-btn" onClick={applyFilters}>
-                <img src={searchIcon} alt="Search" className="search-icon" />
-                </button>
-              </div>
+                  </div>
+          
+                  <button className="filter-search-btn" onClick={applyFilters}>
+                    <img src={searchIcon} alt="Search" className="search-icon" />
+                  </button>
+            </div>
         
       <div className="room-grid">
           {currentRooms.length === 0 ? (

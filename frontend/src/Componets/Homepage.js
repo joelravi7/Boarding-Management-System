@@ -17,6 +17,7 @@ function HomePage() {
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [priceFilter, setPriceFilter] = useState(50000);
   const [locationFilter, setLocationFilter] = useState("");
+  const [locations, setLocations] = useState([]); // For dropdown suggestions
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,20 +51,27 @@ function HomePage() {
     };
   
     useEffect(() => {
-      const fetchRooms = async () => {
+      const fetchRoomsAndLocations = async () => {
         try {
           const response = await axios.get("http://localhost:8070/rooms");
-          console.log("Fetched Rooms:", response.data); // Debug log to inspect room data
           setRooms(response.data);
           setFilteredRooms(response.data);
+  
+          // Extract unique locations for the dropdown
+          const uniqueLocations = [
+            ...new Set(response.data.map((room) => room.roomAddress)),
+          ];
+          setLocations(uniqueLocations);
+  
           setLoading(false);
         } catch (error) {
           setError("Error fetching rooms. Please try again later.");
           setLoading(false);
         }
       };
-      fetchRooms();
+      fetchRoomsAndLocations();
     }, []);
+  
   
     const applyFilters = () => {
       const filtered = rooms.filter((room) => {
@@ -177,18 +185,21 @@ function HomePage() {
 
       <div className="room-list-container">
       <div className="filter-bar">
-      <div className="filter-item">
-        <label htmlFor="location">Location</label>
-        <input
-          type="text"
-          placeholder="Enter City"
-          value={locationFilter}
-          onChange={(e) => {
-            setLocationFilter(e.target.value);
-            applyFilters();
-          }}
-        />
-      </div>
+        <div className="filter-item">
+          <label htmlFor="location">Location</label>
+          <select
+            id="location"
+            value={locationFilter}
+            onChange={(e) => setLocationFilter(e.target.value)}
+          >
+            <option value="">All Locations</option>
+            {locations.map((location, index) => (
+              <option key={index} value={location}>
+                {location}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="filter-item">
           <label htmlFor="propertyType">Property Type</label>
@@ -198,14 +209,13 @@ function HomePage() {
             onChange={(e) => setPropertyTypeFilter(e.target.value)}
           >
             <option value="">Select Property Type</option>
-            {uniqueRoomTypes.map((type) => (
-              <option  value={type}>
+            {uniqueRoomTypes.map((type, index) => (
+              <option key={index} value={type}>
                 {type}
               </option>
             ))}
           </select>
         </div>
-
 
         <div className="filter-item">
           <label htmlFor="priceRange">Price Range</label>
@@ -214,17 +224,15 @@ function HomePage() {
             value={priceFilter}
             onChange={(e) => setPriceFilter(Number(e.target.value))}
           >
-            
             <option value="">All</option>
             <option value={4000}>Below Rs.10,000 / month</option>
             <option value={12000}>Rs.10,000 - Rs.15,000 / month</option>
-            <option value={20000}> Above Rs.15,000  / month</option>
-            </select>
-           
+            <option value={20000}>Above Rs.15,000 / month</option>
+          </select>
         </div>
 
         <button className="filter-search-btn" onClick={applyFilters}>
-        <img src={searchIcon} alt="Search" className="search-icon" />
+          <img src={searchIcon} alt="Search" className="search-icon" />
         </button>
       </div>
 

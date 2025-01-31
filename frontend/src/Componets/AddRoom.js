@@ -64,7 +64,7 @@ function AddRoom() {
     images.forEach((image) => formData.append("images", image));
   
     try {
-      const response = await axios.post("http://localhost:8070/addroom", formData, {
+      const response = await axios.post("http://localhost:8070/Room/addroom", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -93,8 +93,8 @@ function AddRoom() {
   
    // Logout function
    const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
+    // Remove token from sessionStorage
+    sessionStorage.removeItem("token");
     // Redirect to login page
     navigate("/login", { replace: true });
   };

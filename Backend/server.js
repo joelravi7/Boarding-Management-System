@@ -225,122 +225,17 @@ app.get("/rooms", async (req, res) => {
   }
 });
 
-// Route to fetch rooms by the logged-in customer (only the customer's rooms)
-app.get("/myrooms", verifyToken, async (req, res) => {
-  try {
-    const rooms = await Room.find({ customerId: req.userId });
-    if (rooms.length === 0) {
-      return res.status(404).json({ message: "No rooms found for this customer" });
-    }
-    res.json(rooms);
-  } catch (err) {
-    res.status(500).json({ error: "An error occurred while retrieving rooms" });
-  }
-});
-
-// Route to add a new room (protected)
-app.post("/addroom", verifyToken, upload.array("images", 10), async (req, res) => {
-  try {
-    const { roomAddress, roomType, price, isNegotiable, ownerName, ownerContactNumber, description } = req.body;
-
-    // Validate required fields
-    if (!roomAddress || !roomType || !price || !ownerName || !ownerContactNumber || !description) {
-      return res.status(400).json({ error: "All fields are required." });
-    }
-
-    // Validate image files
-    if (!req.files || req.files.length < 1 || req.files.length > 10) {
-      return res.status(400).json({ error: "You must upload between 1 and 10 images." });
-    }
-
-    // Map the uploaded files to their paths
-    const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
-
-    // Create a new Room document
-    const newRoom = new Room({
-      roomAddress,
-      roomType,
-      price,
-      isNegotiable: isNegotiable === "true", // Convert isNegotiable to boolean
-      ownerName,
-      ownerContactNumber,
-      images: imagePaths,
-      description,
-      customerId: req.userId, // Assuming `req.userId` is set by the verifyToken middleware
-    });
-
-    // Save the room to the database
-    await newRoom.save();
-
-    // Respond with success message
-    res.status(201).json({ message: "Room added successfully!" });
-  } catch (err) {
-    console.error("Error adding room:", err);
-    res.status(500).json({ error: "An error occurred while adding the room." });
-  }
-});
-
-
-app.put("/updateroom/:id", upload.array("images", 10), async (req, res) => {
-  const roomId = req.params.id;
-
-  try {
-    const room = await Room.findById(roomId);
-    if (!room) {
-      return res.status(404).json({ error: "Room not found" });
-    }
-
-    // Parse the list of images to keep
-    const { keepImages = "[]" } = req.body;
-    const imagesToKeep = JSON.parse(keepImages);
-
-    // Filter out images that are not in the keep list
-    room.images = room.images.filter((image) => imagesToKeep.includes(image));
-
-    // Add new images
-    if (req.files && req.files.length > 0) {
-      const uploadedImages = req.files.map((file) => `/uploads/${file.filename}`);
-      room.images = [...room.images, ...uploadedImages]; // Append new images
-    }
-
-    // Update room details
-    room.roomType = req.body.roomType || room.roomType;
-    room.roomAddress = req.body.roomAddress || room.roomAddress;
-    room.price = req.body.price || room.price;
-    room.description = req.body.description || room.description;
-
-    await room.save();
-    res.json({ message: "Room updated successfully", room });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to update room" });
-  }
-});
-
-
-
-
-// Route to delete a room (protected)
-app.delete("/deleteroom/:id", verifyToken, async (req, res) => {
-  try {
-    const roomId = req.params.id;
-    const deletedRoom = await Room.findOneAndDelete({ _id: roomId, customerId: req.userId });
-
-    if (!deletedRoom) {
-      return res.status(404).json({ error: "Room not found or not authorized" });
-    }
-
-    res.status(200).json({ message: "Room deleted successfully" });
-  } catch (err) {
-    console.error("Error deleting room:", err.message);
-    res.status(500).json({ error: "An error occurred while deleting the room" });
-  }
-});
 
 
 // Access Customer routes
 const CustomerRouter = require("./Routes/Customer.js");
 app.use("/Customer", CustomerRouter);
+
+// Access Customer routes
+const RoomRouter = require("./Routes/Room.js");
+app.use("/Room", RoomRouter);
+
+
 
 // Error handling for unhandled routes
 app.use((req, res) => {

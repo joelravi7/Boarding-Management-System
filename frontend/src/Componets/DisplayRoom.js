@@ -65,10 +65,10 @@ function RoomList() {
       const isLocationValid = locationFilter
       ? room.roomAddress.toLowerCase().startsWith(locationFilter.toLowerCase())
       : true;
-
-  const isPropertyTypeValid = propertyTypeFilter
-    ? room.roomType.toLowerCase() === propertyTypeFilter.toLowerCase()
-    : true;
+  
+      const isPropertyTypeValid = propertyTypeFilter
+        ? room.roomType.toLowerCase() === propertyTypeFilter.toLowerCase()
+        : true;
 
  
   return isPriceValid && isLocationValid && isPropertyTypeValid;
@@ -111,6 +111,9 @@ function RoomList() {
           </button>
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+                <a className="nav-link" href="/dash">Dashboard</a>
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="/AddRoom">Post Add</a>
               </li>
@@ -153,21 +156,21 @@ function RoomList() {
               />
             </div>
       
-              <div className="filter-item">
-                <label htmlFor="propertyType">Property Type</label>
-                <select
-                  id="propertyType"
-                  value={propertyTypeFilter}
-                  onChange={(e) => setPropertyTypeFilter(e.target.value)}
-                >
-                  <option value="">Select Property Type</option>
-                  {uniqueRoomTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="filter-item">
+                  <label htmlFor="propertyType">Property Type</label>
+                  <select
+                    id="propertyType"
+                    value={propertyTypeFilter}
+                    onChange={(e) => setPropertyTypeFilter(e.target.value)}
+                  >
+                    <option value="">Select Property Type</option>
+                    {uniqueRoomTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
       
       
               <div className="filter-item">
