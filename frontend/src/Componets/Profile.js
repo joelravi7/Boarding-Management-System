@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line
 import "./CSS/Profile.css";
+
 
 function LoggedCustomer() {
   const [customer, setCustomer] = useState(null);
@@ -145,6 +147,8 @@ function LoggedCustomer() {
         alert("Room updated successfully!");
         fetchRooms(); // Reload rooms after update
         setSelectedRoom(null); // Close the update form
+
+   
       } else {
         console.error("Update failed:", data.error);
         alert(`Failed to update room: ${data.error}`);
@@ -165,7 +169,12 @@ function LoggedCustomer() {
       images: room.images, // Keep track of existing images
     });
     setImagePreviews([]); // Start with no previews for new uploads
+     // Open the modal for room update
+     const modal = new window.bootstrap.Modal(document.getElementById('roomUpdateModal'));
+     modal.show();
   };
+
+
 
   const handleRoomFormSubmit = (e) => {
     e.preventDefault();
@@ -332,133 +341,142 @@ function LoggedCustomer() {
         </div>
 
         <div className="my-rooms-container w-45 p-3">
-        <h2>My Rooms</h2>
-        {rooms.length > 0 ? (
-          rooms.map((room) => (
-            <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
-              <div className="image-carousel me-3" style={{ width: "200px" }}>
-                <div className="image-display">
-                  <img
-                    src={`http://localhost:8070${room.images[0]}`}
-                    alt="Room"
-                    className="card-img-top"
-                    style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
-                  />
+          <h2>My Rooms</h2>
+          {rooms.length > 0 ? (
+            rooms.map((room) => (
+              <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
+                <div className="image-carousel me-3" style={{ width: "200px" }}>
+                  <div className="image-display">
+                    <img
+                      src={`http://localhost:8070${room.images[0]}`}
+                      alt="Room"
+                      className="card-img-top"
+                      style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
+                    />
+                  </div>
+                </div>
+                <div className="room-details">
+                  <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
+                  <p className="room-price"><strong>Price</strong>Rs {room.price.toLocaleString()} / month</p>
+                  <p>{room.description}</p>
+                  <div className="d-flex justify-content-start">
+                    <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}>Update Room</button>
+                    <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}>Delete Room</button>
+                  </div>
                 </div>
               </div>
-              <div className="room-details">
-                <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
-                <p className="room-price"><strong>Price</strong>Rs {room.price.toLocaleString()} / month</p>
-                <p>{room.description}</p>
-                <div className="d-flex justify-content-start">
-                  <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}>Update Room</button>
-                  <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}>Delete Room</button>
-                </div>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No rooms available.</p>
-        )}
-     
-
-          {/* Room Update Form */}
-          {selectedRoom && (
-            <div className="update-room-form">
-            <h2>Update Room</h2>
-            <form onSubmit={handleRoomFormSubmit}>
-              <div className="mb-3">
-                <label className="form-label">Room Type</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={updatedRoomData.roomType}
-                  onChange={(e) =>
-                    setUpdatedRoomData({ ...updatedRoomData, roomType: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Room Location</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={updatedRoomData.roomAddress}
-                  onChange={(e) =>
-                    setUpdatedRoomData({ ...updatedRoomData, roomAddress: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Price</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={updatedRoomData.price}
-                  onChange={(e) =>
-                    setUpdatedRoomData({ ...updatedRoomData, price: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Description</label>
-                <textarea
-                  className="form-control"
-                  value={updatedRoomData.description}
-                  onChange={(e) =>
-                    setUpdatedRoomData({ ...updatedRoomData, description: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Room Images</label>
-                <input
-                  type="file"
-                  className="form-control"
-                  multiple
-                  onChange={handleImageChange}
-                />
-                <div className="image-previews mt-3">
-                  {updatedRoomData.images.map((image, index) => (
-                    <div key={index} className="image-preview">
-                      <img
-                        src={`http://localhost:8070${image}`}
-                        alt={`Room image ${index + 1}`}
-                        style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleImageDelete(index, true)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
-                  {imagePreviews.map((preview, index) => (
-                    <div key={index} className="image-preview">
-                      <img
-                        src={preview.url}
-                        alt={`Preview ${index + 1}`}
-                        style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleImageDelete(index, false)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <button type="submit" className="btn btn-primary">Update Room</button>
-            </form>
-          </div>
+            ))
+          ) : (
+            <p>No rooms available.</p>
           )}
         </div>
+      
+
+      {/* Modal for Room Update Form */}
+      <div className="modal fade" id="roomUpdateModal" tabIndex="-1" aria-labelledby="roomUpdateModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="roomUpdateModalLabel">Update Room</h5>
+             
+    
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleRoomFormSubmit}>
+                <div className="mb-3">
+                  <label className="form-label">Room Type</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={updatedRoomData.roomType}
+                    onChange={(e) =>
+                      setUpdatedRoomData({ ...updatedRoomData, roomType: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Room Location</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={updatedRoomData.roomAddress}
+                    onChange={(e) =>
+                      setUpdatedRoomData({ ...updatedRoomData, roomAddress: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Price</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={updatedRoomData.price}
+                    onChange={(e) =>
+                      setUpdatedRoomData({ ...updatedRoomData, price: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Description</label>
+                  <textarea
+                    className="form-control"
+                    value={updatedRoomData.description}
+                    onChange={(e) =>
+                      setUpdatedRoomData({ ...updatedRoomData, description: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">Room Images</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    multiple
+                    onChange={handleImageChange}
+                  />
+                  <div className="image-previews mt-3">
+                    {updatedRoomData.images.map((image, index) => (
+                      <div key={index} className="image-preview">
+                        <img
+                          src={`http://localhost:8070${image}`}
+                          alt={`Room image ${index + 1}`}
+                          style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleImageDelete(index, true)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                    {imagePreviews.map((preview, index) => (
+                      <div key={index} className="image-preview">
+                        <img
+                          src={preview.url}
+                          alt={`Preview ${index + 1}`}
+                          style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleImageDelete(index, false)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-primary">Update Room</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
+      </div>
+      
       </nav>
     </>
   );

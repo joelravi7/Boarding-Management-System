@@ -109,28 +109,41 @@ router.post("/addroom", verifyToken, upload.array("images", 10), async (req, res
   }
 });
 
-// Route to update a room
+
 // Route to update a room
 router.put("/updateroom/:id", upload.array("images", 10), async (req, res) => {
   const roomId = req.params.id;
 
   try {
+    // Log the roomId to verify it's passed correctly
+    console.log("Room ID to update:", roomId);
+
+    // Find the room by ID
     const room = await Room.findById(roomId);
     if (!room) {
+      // Room not found, send an error response
+      console.log(`Room with ID ${roomId} not found.`);
       return res.status(404).json({ error: "Room not found" });
     }
+
+    // Log the room data before updates
+    console.log("Existing room data:", room);
 
     // Parse the list of images to keep
     const { keepImages = "[]" } = req.body;
     const imagesToKeep = JSON.parse(keepImages);
 
+    // Log the images to keep
+    console.log("Images to keep:", imagesToKeep);
+
     // Filter out images that are not in the keep list
     room.images = room.images.filter((image) => imagesToKeep.includes(image));
 
-    // Add new images
+    // Add new images if they exist in the request
     if (req.files && req.files.length > 0) {
       const uploadedImages = req.files.map((file) => `/uploads/${file.filename}`);
       room.images = [...room.images, ...uploadedImages]; // Append new images
+      console.log("New images added:", uploadedImages);
     }
 
     // Update room details
@@ -139,13 +152,21 @@ router.put("/updateroom/:id", upload.array("images", 10), async (req, res) => {
     room.price = req.body.price || room.price;
     room.description = req.body.description || room.description;
 
+    // Log updated room data
+    console.log("Updated room data:", room);
+
+    // Save the updated room to the database
     await room.save();
+
+    // Return success response with updated room
     res.json({ message: "Room updated successfully", room });
   } catch (err) {
-    console.error(err);
+    // Log the error for debugging
+    console.error("Error updating room:", err);
     res.status(500).json({ error: "Failed to update room" });
   }
 });
+
 
 // Route to delete a room
 router.delete("/deleteroom/:id", verifyToken, async (req, res) => {
