@@ -73,7 +73,7 @@ function AddRoom() {
       alert(response.data.message);
   
       // Navigate to DisplayRoom page upon success
-      navigate("/RoomList");
+      navigate("/profile");
   
       // Reset form fields
       setRoomAddress("");

@@ -12,27 +12,7 @@ const fs = require("fs");
 const app = express();
 const PORT = process.env.PORT || 8070; // Fallback to 8070 if PORT is not defined
 
-// Middleware to verify JWT token
-const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
 
-  if (!token) {
-    return res.status(403).json({ error: "No token provided" });
-  }
-
-  // Remove 'Bearer ' prefix from the token if it exists
-  const tokenWithoutBearer = token.startsWith("Bearer ") ? token.slice(7) : token;
-
-  jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: "Invalid or expired token" });
-    }
-
-    // Add user ID to request object
-    req.userId = decoded.id;
-    next(); // Proceed to the next middleware or route handler
-  });
-};
 
 // Middleware
 app.use(cors());

@@ -10,6 +10,7 @@ const roomSchema = new mongoose.Schema({
   description: { type: String, required: true },
   images: [{ type: String, required: true }], // Array of image URLs
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the customer who added the room
+  isVerified: { type: Boolean, default: false }, // New field for admin verification
 }, { timestamps: true });
 
 module.exports = mongoose.model("Room", roomSchema);

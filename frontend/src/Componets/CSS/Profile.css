@@ -21,7 +21,14 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px  rgba(8, 8, 8, 0.618); /* Subtle shadow for better separation */
 }
-
+.CustomerBox{
+  border: 1px solid #e0e0e0;
+  padding: 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  transition: box-shadow 0.3s ease;
+}
 .customer-details-container h2,
 .my-rooms-container h2 {
   font-size: 35px;

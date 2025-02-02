@@ -184,4 +184,43 @@ router.delete("/deleteroom/:id", verifyToken, async (req, res) => {
 });
 
 
+// Route to get all unverified rooms
+router.get("/unverified", async (req, res) => {
+  try {
+    const rooms = await Room.find({ isVerified: false });
+    res.json(rooms);
+  } catch (err) {
+    console.error("Error fetching unverified rooms:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+
+// Approve or Reject a Room
+router.put("/verify/:id", async (req, res) => {
+  try {
+    if (typeof req.body.isVerified !== "boolean") {
+      return res.status(400).json({ error: "Invalid value for isVerified" });
+    }
+
+    const updatedRoom = await Room.findByIdAndUpdate(
+      req.params.id,
+      { isVerified: req.body.isVerified },
+      { new: true }
+    );
+
+    if (!updatedRoom) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+
+    res.json(updatedRoom);
+  } catch (err) {
+    console.error("Error updating room verification status:", err);
+    res.status(500).json({ error: "Error updating room verification status" });
+  }
+});
+
+
+
 module.exports = router;

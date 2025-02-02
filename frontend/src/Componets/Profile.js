@@ -286,55 +286,23 @@ function LoggedCustomer() {
       </nav>
 
       <div className="LoggedCustomer-container d-flex flex-wrap justify-content-between p-3">
-        <div className="customer-details-container w-45 p-3">
+      <div className="customer-details-container w-45 p-3">
           <h2>My Details</h2>
           {customer ? (
-            <form>
-              <div className="row mb-3">
-                <div className="col">
-                  <label htmlFor="firstname" className="form-label">First Name</label>
-                  <input type="text" className="form-control" id="firstname" value={customer.name} readOnly />
-                </div>
-                <div className="col">
-                  <label htmlFor="lastname" className="form-label">Last Name</label>
-                  <input type="text" className="form-control" id="lastname" value={customer.Lname || "N/A"} readOnly />
-                </div>
-              </div>
-
-              <div className="row mb-3">
-                <div className="col">
-                  <label htmlFor="dob" className="form-label">Date of Birth</label>
-                  <input type="text" className="form-control" id="dob" value={customer.DOB || "N/A"} readOnly />
-                </div>
-                <div className="col">
-                  <label htmlFor="gender" className="form-label">Gender</label>
-                  <input type="text" className="form-control" id="gender" value={customer.Gender || "N/A"} readOnly />
-                </div>
-              </div>
-
-              <div className="row mb-3">
-                <div className="col">
-                  <label htmlFor="phone1" className="form-label">Phone Number 1</label>
-                  <input type="text" className="form-control" id="phone1" value={customer.Phonenumber1 || "N/A"} readOnly />
-                </div>
-                <div className="col">
-                  <label htmlFor="phone2" className="form-label">Phone Number 2</label>
-                  <input type="text" className="form-control" id="phone2" value={customer.Phonenumber2 || "N/A"} readOnly />
-                </div>
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email</label>
-                <input type="email" className="form-control" id="email" value={customer.email || "N/A"} readOnly />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="address" className="form-label">Address</label>
-                <input type="text" className="form-control" id="address" value={customer.Address || "N/A"} readOnly />
-              </div>
-
-              <button type="button" className="btn btn-primary" onClick={handleCustomerUpdate}>Update</button>
-              <button type="button" className="btn btn-danger" onClick={handleCustomerDelete}>Delete Account</button>
-            </form>
+            <div className="CustomerBox">
+                  <p><strong>First Name:</strong> {customer.name}</p>
+                  <p><strong>Last Name:</strong> {customer.Lname || "N/A"}</p>
+                  <p><strong>Date of Birth:</strong> {customer.DOB || "N/A"}</p>
+                  <p><strong>Gender:</strong> {customer.Gender || "N/A"}</p>
+                  <p><strong>Phone Number 1:</strong> {customer.Phonenumber1 || "N/A"}</p>
+                  <p><strong>Phone Number 2:</strong> {customer.Phonenumber2 || "N/A"}</p>
+                  <p><strong>Email:</strong> {customer.email || "N/A"}</p>
+                  <p><strong>Address:</strong> {customer.Address || "N/A"}</p>
+                
+             
+              <button type="button" className="btn btn-warning me-2" onClick={handleCustomerUpdate}><strong>Update Customer</strong></button>
+              <button type="button" className="btn btn-danger" onClick={handleCustomerDelete}><strong>Delete Account</strong></button>
+            </div>
           ) : (
             <p>Loading...</p>
           )}
@@ -357,11 +325,27 @@ function LoggedCustomer() {
                 </div>
                 <div className="room-details">
                   <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
-                  <p className="room-price"><strong>Price</strong>Rs {room.price.toLocaleString()} / month</p>
-                  <p>{room.description}</p>
+                  <p className="room-price"><strong>Price</strong> Rs {room.price.toLocaleString()} / month</p>
+                  <p><strong>Description</strong>{room.description}</p>
+                  
+                    <p>
+                      <strong>Status:</strong>{" "}
+                      {room.isVerified ? (
+                        <>
+                          <span className="badge bg-success">Verified</span>
+                          <span className="ms-2">Your room is listed.</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="badge bg-warning text-dark">Unverified</span>
+                          <span className="ms-2">Verification takes 3 working days.</span>
+                        </>
+                      )}
+                    </p>
+
                   <div className="d-flex justify-content-start">
-                    <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}>Update Room</button>
-                    <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}>Delete Room</button>
+                    <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}><strong>Update Room</strong></button>
+                    <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}><strong>Delete Room</strong></button>
                   </div>
                 </div>
               </div>
@@ -369,6 +353,7 @@ function LoggedCustomer() {
           ) : (
             <p>No rooms available.</p>
           )}
+
         </div>
       
 

@@ -41,24 +41,24 @@ function RoomList() {
          const fetchRoomsAndLocations = async () => {
            try {
              const response = await axios.get("http://localhost:8070/rooms");
-             setRooms(response.data);
-             setFilteredRooms(response.data);
-         
+             const verifiedRooms = response.data.filter((room) => room.isVerified); // Ensure filtering
+             setRooms(verifiedRooms);
+             setFilteredRooms(verifiedRooms);
+           
              // Extract unique locations for the dropdown
-             const uniqueLocations = [
-             ...new Set(response.data.map((room) => room.roomAddress)),
-             ];
+             const uniqueLocations = [...new Set(verifiedRooms.map((room) => room.roomAddress))];
              setLocations(uniqueLocations);
-         
+             
              setLoading(false);
-             } catch (error) {
-               setError("Error fetching rooms. Please try again later.");
-               setLoading(false);
-               }
+           } catch (error) {
+             setError("Error fetching rooms. Please try again later.");
+             setLoading(false);
+           }
          };
-         fetchRoomsAndLocations();
-       }, []);
-     
+         
+                fetchRoomsAndLocations();
+              }, []);
+      
        const applyFilters = () => {
          const filtered = rooms.filter((room) => {
            const isPriceValid =
