@@ -3,6 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useLocation } from "react-router-dom";
 
+
 function AdminDashboard() {
   const location = useLocation();
   const message1 = location.state?.message || "";
@@ -112,7 +113,7 @@ function AdminDashboard() {
           {activeSection === "room" && (
             <section id="room-management" className="mb-4">
               <h3>Room Management</h3>
-
+             
               {/* Unverified Rooms */}
               <h4>Unverified Rooms</h4>
               {unverifiedRooms.length === 0 ? (
@@ -148,6 +149,7 @@ function AdminDashboard() {
                                 </div>
                                 <p><strong>Owner Name:</strong> {room.ownerName || "N/A"}</p>
                                 <p><strong>Owner Contact:</strong> {room.ownerContactNumber || "N/A"}</p>
+                                <p><strong>Negotiable:</strong> {room.isNegotiable|| "NO"}</p>
                                 <p><strong>Description:</strong> {room.description || "N/A"}</p>
                                 <button onClick={() => handleVerification(room._id)} className="approve-btn">Approve ✅</button>
                               </div>
@@ -174,12 +176,35 @@ function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {verifiedRooms.map((room) => (
-                      <tr key={room._id}>
-                        <td>{room.roomType} - {room.ownerName || "N/A"}</td>
-                        <td>{room.roomAddress}</td>
-                        <td>Rs {room.price.toLocaleString()}</td>
-                      </tr>
+                  {verifiedRooms.map((room) => (
+                      <React.Fragment key={room._id}>
+                        <tr onClick={() => handleRoomClick(room)} style={{ cursor: 'pointer' }}>
+                          <td>{room.roomType} - {room.ownerName || "N/A"}</td>
+                          <td>{room.roomAddress}</td>
+                          <td>Rs {room.price.toLocaleString()}</td>
+                        </tr>
+                        {selectedRoom?._id === room._id && (
+                          <tr>
+                            <td colSpan="3">
+                              <div className="accordion-body">
+                                <img src={`http://localhost:8070${room.images[activeImageIndex]}`} alt={`Room ${activeImageIndex + 1}`} className="d-block w-100" style={{ maxWidth: '400px', maxHeight: '200px', margin: 'auto', borderRadius: '10px', marginTop: '15px' }} />
+                                <div className="row mt-3 justify-content-center">
+                                  {room.images.map((image, index) => (
+                                    <div key={index} className="col-1">
+                                      <img src={`http://localhost:8070${image}`} alt={`Thumbnail ${index + 1}`} className="img-thumbnail" onClick={() => handleThumbnailClick(index)} />
+                                    </div>
+                                  ))}
+                                </div>
+                                <p><strong>Owner Name:</strong> {room.ownerName || "N/A"}</p>
+                                <p><strong>Owner Contact:</strong> {room.ownerContactNumber || "N/A"}</p>
+                                <p><strong>Negotiable:</strong> {room.isNegotiable|| "NO"}</p>
+                                <p><strong>Description:</strong> {room.description || "N/A"}</p>
+                                <button  className="approve-btn">Approved ✅</button>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
                     ))}
                   </tbody>
                 </table>

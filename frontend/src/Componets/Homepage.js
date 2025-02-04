@@ -168,11 +168,11 @@ function HomePage() {
           <div className="sector01">
             <div className="Homesector1-container">
               <div className="text-section">
-                <p className="dash-Maintopic1">Effortless Boarding Management</p>
+                <p className="dash-Maintopic1">Perfect Stay Near Campus!</p>
                 <p className="dash-Mainpara1">
-                  Streamline your boarding facility with our advanced management
-                  system. Simplify guest check-ins, track room availability, and
-                  optimize operations.
+                Easily search for boarding houses near your university using our filter-bar choose your location,
+                 property type, and budget to find the best options in seconds. No more endless scrolling—just quick, 
+                 hassle-free results!
                 </p>
                 
               </div>

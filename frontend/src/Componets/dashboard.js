@@ -150,22 +150,22 @@ function HomePage() {
                   <a className="nav-link" href="/Userroom">About Us</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/admin/verify-rooms">Blogs</a>
+                  <a className="nav-link" href="/">Blogs</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/profile">Profile</a>
                 </li>
-                
-                {message && (
-                  <li className="nav-item">
-                    <div className="nav-link text-danger">{message}</div>
-                  </li>
-                )}
                 {sessionStorage.getItem("token") && (
                   <li className="nav-item">
                     <button className="nav-link" onClick={handleLogout}>Logout</button>
                   </li>
                 )}
+                {message && (
+                  <li className="nav-item">
+                    <div className="nav-link2 text-danger">{message}</div>
+                  </li>
+                )}
+                
               </ul>
             </div>
           </div>
@@ -176,11 +176,11 @@ function HomePage() {
           <div className="sector01">
             <div className="Homesector1-container">
               <div className="text-section">
-                <p className="dash-Maintopic1">Effortless Boarding Management</p>
+              <p className="dash-Maintopic1">Perfect Stay Near Campus!</p>
                 <p className="dash-Mainpara1">
-                  Streamline your boarding facility with our advanced management
-                  system. Simplify guest check-ins, track room availability, and
-                  optimize operations.
+                Easily search for boarding houses near your university using our filter-bar choose your location,
+                 property type, and budget to find the best options in seconds. No more endless scrolling—just quick, 
+                 hassle-free results!
                 </p>
                 
               </div>
@@ -188,6 +188,7 @@ function HomePage() {
             </div>
           </div>
         </section>
+        
       </nav>
 
       
@@ -244,39 +245,39 @@ function HomePage() {
                   </button>
             </div>
         
-      <div className="room-grid">
-          {currentRooms.length === 0 ? (
-            <div className="no-results">No rooms match your criteria.</div>
-          ) : (
-            currentRooms.map((room) => (
-              <div className="room-card" key={room._id}>
-                <img
-                  src={`http://localhost:8070${room.images[0]}`}
-                  alt="Room"
-                  className="room-image"
-                  onClick={() => handleBooking(room)}
-                />
-                <div className="room-info">
-                  <h5>{room.roomType} Room - {room.roomAddress}</h5>
-                  <p className="room-price">Rs {room.price.toLocaleString()}</p>
-                </div>
+            <div className="room-grid">
+                {currentRooms.length === 0 ? (
+                  <div className="no-results">No rooms match your criteria.</div>
+                ) : (
+                  currentRooms.map((room) => (
+                    <div className="room-card" key={room._id}>
+                      <img
+                        src={`http://localhost:8070${room.images[0]}`}
+                        alt="Room"
+                        className="room-image"
+                        onClick={() => handleBooking(room)}
+                      />
+                      <div className="room-info">
+                        <h5>{room.roomType} Room - {room.roomAddress}</h5>
+                        <p className="room-price">Rs {room.price.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
-            ))
-          )}
-        </div>
 
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
-            <button
-              key={pageNumber}
-              className={`page-button ${currentPage === pageNumber ? "active" : ""}`}
-              onClick={() => handlePageChange(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          ))}
-        </div>
-      </div>
+              <div className="pagination">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    className={`page-button ${currentPage === pageNumber ? "active" : ""}`}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </button>
+                ))}
+              </div>
+            </div>
     
 
             {/* Process Section */}

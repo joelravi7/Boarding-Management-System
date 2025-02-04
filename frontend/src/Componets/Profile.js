@@ -276,10 +276,10 @@ function LoggedCustomer() {
               </li>
              
               {sessionStorage.getItem("token") && (
-                <li className="nav-item">
-                  <button className="nav-link" onClick={() => navigate("/login", { replace: true })}>Logout</button>
-                </li>
-              )}
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={handleLogout}>Logout</button>
+                  </li>
+                )}
             </ul>
           </div>
         </div>
