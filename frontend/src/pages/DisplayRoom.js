@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Navigation hooks
 import axios from "axios";
-import searchIcon from "./assets/searchimage.png";
-import './CSS/DisplayRoom.css';
+import searchIcon from "../Componets/assets/searchimage.png";
+import '../Componets/CSS/DisplayRoom.css';
 
 function RoomList() {
   const location = useLocation();

@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom"; // Access state passed from login
 import { useNavigate } from "react-router-dom"; // Navigation hook
-import styles from "./CSS/dash.css"; // Import CSS styles
+import styles from "../Componets/CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
-import welcomeimage from "./assets/homemobile.png"; 
 
-import instagram from './assets/Instagram.webp';
-import facebook from './assets/facebook.png';
-import twitter from './assets/twitter.png'
-import whatsapp from './assets/whatsapp.png'
-import searchIcon from "./assets/searchimage.png";
+import instagram from '../Componets/assets/Instagram.webp';
+import facebook from '../Componets/assets/facebook.png';
+import twitter from '../Componets/assets/twitter.png'
+import whatsapp from '../Componets/assets/whatsapp.png'
+import searchIcon from "../Componets/assets/searchimage.png";
 
 function HomePage() {
   const location = useLocation();

@@ -3,15 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-import styles from "./CSS/dash.css"; // Import CSS styles
+import styles from "../Componets/CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
 
-import instagram from "./assets/Instagram.webp";
-import facebook from "./assets/facebook.png";
-import twitter from "./assets/twitter.png";
-import whatsapp from "./assets/whatsapp.png";
-import searchIcon from "./assets/searchimage.png";
-
+import instagram from '../Componets/assets/Instagram.webp';
+import facebook from '../Componets/assets/facebook.png';
+import twitter from '../Componets/assets/twitter.png'
+import whatsapp from '../Componets/assets/whatsapp.png'
+import searchIcon from "../Componets/assets/searchimage.png";
 function HomePage() {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
@@ -166,20 +165,18 @@ function HomePage() {
 
         {/* Welcome Section */}
         <section id="dash">
-          <div className="sector01">
+        <div className="sector01">
             <div className="Homesector1-container">
               <div className="text-section">
-                <p className="dash-Maintopic1">Perfect Stay Near Campus!</p>
+              <p className="dash-Maintopic1">Stay Closer, Live Smarter – Your Perfect Home Near Campus!</p>
                 <p className="dash-Mainpara1">
-                Easily search for boarding houses near your university using our filter-bar choose your location,
-                 property type, and budget to find the best options in seconds. No more endless scrolling—just quick, 
-                 hassle-free results!
+                Find boarding houses near your university instantly! 
+                Use our filters to select location, property type, and budget—no more endless scrolling!
                 </p>
                 
               </div>
               
             </div>
-            
           </div>
         </section>
       </nav>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import './CSS/Register.css'
+import '../Componets/CSS/Register.css'
 
 function Addmember() {
   const [name, setName] = useState("");

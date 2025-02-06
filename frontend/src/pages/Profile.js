@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line
-import "./CSS/Profile.css";
+import "../Componets/CSS/Profile.css";
 
 
 function LoggedCustomer() {

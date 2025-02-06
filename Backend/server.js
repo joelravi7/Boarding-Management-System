@@ -209,11 +209,11 @@ app.get("/rooms", async (req, res) => {
 
 
 // Access Customer routes
-const CustomerRouter = require("./Routes/Customer.js");
+const CustomerRouter = require("./Routes/customerRoute.js");
 app.use("/Customer", CustomerRouter);
 
 // Access Customer routes
-const RoomRouter = require("./Routes/Room.js");
+const RoomRouter = require("./Routes/roomRoute.js");
 app.use("/Room", RoomRouter);
 
 

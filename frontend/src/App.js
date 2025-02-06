@@ -2,22 +2,22 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
-import UpdateCustomer from "./Componets/UpdateCustomer.js";
+import UpdateCustomer from "./pages/UpdateCustomer.js";
 
-import Dashborad from "./Componets/dashboard.js";
-import Homepage from "./Componets/Homepage.js";
-import Login from "./Componets/CustomerLogin.js";
-import AddRoom from './Componets/AddRoom.js';
-import RoomList from './Componets/DisplayRoom.js';
-import Bookroom from './Componets/Bookroom.js';
-import Register from "./Componets/CustomerRegister.js";
-import Profilepage from './Componets/Profile.js';
+import Dashborad from "./pages/dashboard.js";
+import Homepage from "./pages/Homepage.js";
+import Login from "./pages/CustomerLogin.js";
+import AddRoom from './pages/AddRoom.js';
+import RoomList from './pages/DisplayRoom.js';
+import Bookroom from './pages/Bookroom.js';
+import Register from "./pages/CustomerRegister.js";
+import Profilepage from './pages/Profile.js';
 
 
 
-import AdminLogin from './Componets/AdminLogin.js';
-import AdminRegister from './Componets/AdminRegister.js';
-import Admindashboard from './Componets/Admindashboard.js';
+import AdminLogin from './pages/AdminLogin.js';
+import AdminRegister from './pages/AdminRegister.js';
+import Admindashboard from './pages/Admindashboard.js';
 
 
 function App() {

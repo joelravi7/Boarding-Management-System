@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './CSS/Bookroom.css'; // Ensure the CSS is linked here
+import '../Componets/CSS/Bookroom.css'; // Ensure the CSS is linked here
 
 function BookRoomPage() {
   const location = useLocation();

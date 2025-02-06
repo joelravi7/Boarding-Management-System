@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import './CSS/AddRoom.css'
+import '../Componets/CSS/AddRoom.css'
 
 function AddRoom() {
   const [roomAddress, setRoomAddress] = useState("");
