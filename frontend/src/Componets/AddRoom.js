@@ -125,7 +125,7 @@ function AddRoom() {
        </div>
      </div>
    </nav>
-
+   <div className="Postadd-container-body">
     <div className="Postadd-container">
       <h2 className="mt-1">Add a Room</h2>
       <p>
@@ -146,8 +146,8 @@ function AddRoom() {
               required
             >
               <option value="">Select Room Type</option>
-              <option value="Single">Single Room</option>
-              <option value="Double">Double Room</option>
+              <option value="Single Room">Single Room</option>
+              <option value="Double Room">Double Room</option>
             </select>
           </div>
         </div>
@@ -302,6 +302,7 @@ function AddRoom() {
           Add Room
         </button>
       </form>
+    </div>
     </div>
 
     </>

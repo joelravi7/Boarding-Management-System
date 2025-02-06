@@ -3,11 +3,12 @@
 
 /* Container for Content */
 .containerbody {
-  max-width: 900px; /* Set maximum width to keep it centered and not too wide */
-  margin: 0 auto;
-  padding: 20px;
+  width: 100%; /* Set maximum width to keep it centered and not too wide */
+  padding-right: 10%;
+  padding-left: 10%;
   justify-content: center;
   align-items: center;
+  background-color: #F0F0F0;
 }
 
   /* Card styling */

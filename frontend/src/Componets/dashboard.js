@@ -176,11 +176,10 @@ function HomePage() {
           <div className="sector01">
             <div className="Homesector1-container">
               <div className="text-section">
-              <p className="dash-Maintopic1">Perfect Stay Near Campus!</p>
+              <p className="dash-Maintopic1">Stay Closer, Live Smarter – Your Perfect Home Near Campus!</p>
                 <p className="dash-Mainpara1">
-                Easily search for boarding houses near your university using our filter-bar choose your location,
-                 property type, and budget to find the best options in seconds. No more endless scrolling—just quick, 
-                 hassle-free results!
+                Find boarding houses near your university instantly! 
+                Use our filters to select location, property type, and budget—no more endless scrolling!
                 </p>
                 
               </div>

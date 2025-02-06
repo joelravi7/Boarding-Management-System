@@ -63,9 +63,6 @@ const Login = () => {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
-              <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-              <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/register">Register</a></li>
               {/* Conditionally render the Logout button if the user is logged in */}
               {sessionStorage.getItem("token") && (
@@ -78,7 +75,8 @@ const Login = () => {
         </div>
       </nav>
 
-      <div className="CLogin-container">
+      <div className="CLogin-container-body">
+        <div className="CLogin-container">
         <h2 className="mt-4">Login</h2>
         <form onSubmit={handleLogin} className="w-60 mt-4">
           <div className="mb-3">
@@ -120,6 +118,7 @@ const Login = () => {
             </Link>
           </p>
         </div>
+      </div>
       </div>
       </nav>
     </>

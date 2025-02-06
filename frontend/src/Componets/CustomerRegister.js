@@ -88,9 +88,6 @@ function Addmember() {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
-              <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-              <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
               <li className="nav-item"><a className="nav-link" href="/Login">Login</a></li>                  
             </ul>
           </div>
@@ -101,8 +98,8 @@ function Addmember() {
 
 
 
-    <div className="Registration-container">
-      
+    <div className="Registration-container-body">
+      <div className="Registration-container">
         <h2 className="mt-1">Sign Up</h2>
         <form onSubmit={sendData}>
           <div className="row mb-3">
@@ -208,6 +205,7 @@ function Addmember() {
           </p>
         </div>
       
+    </div>
     </div>
     </nav>
   </>

@@ -12,7 +12,7 @@
 
 /* navbar Styles */
 .navbar {
-  background-color: #ffffff;
+  background-color: #f0f0f0;
 }
 
 .navbar-logo {
@@ -68,7 +68,7 @@
   background-repeat: no-repeat;
   align-items: center;
   padding: 35px;
-  background-color: #ffffff; /* Light gray background */
+  background-color: #f0f0f0; /* Light gray background */
   margin-left:0%;
   max-width: 100%;
   margin-top: 0%;
@@ -79,11 +79,11 @@
 
 /* Text Section (h1 and p) */
 .Homesector1-container .text-section {
-  max-width: 70%; /* Restrict width for the text */
+  max-width: 65%; /* Restrict width for the text */
 }
 
 .dash-Maintopic1 {
-  font-size: 51px; /* Large text size for emphasis */
+  font-size: 45px; /* Large text size for emphasis */
   font-family: 'Poppins', sans-serif; /* Modern sans-serif font similar to the example */
   color:#162A2C; /* Dark green color */
   font-weight: bold; /* Bold for strong emphasis */
@@ -115,7 +115,7 @@
   font-weight: bold; /* Bold text */
   padding: 5px 25px; /* Padding */
   border: none; /* Remove borders */
-  border-radius: 20px; /* Rounded corners */
+  border-radius: 10px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */

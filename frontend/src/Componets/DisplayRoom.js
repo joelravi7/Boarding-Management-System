@@ -148,7 +148,7 @@ function RoomList() {
         </div>
       </nav>
 
-      <div className="room-list-container">
+      <div className="room-list-container2">
                   <div className="filter-bar2">
                     <div className="filter-item">
                       <label htmlFor="location">Location</label>
