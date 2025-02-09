@@ -63,7 +63,7 @@
 .Homesector1-container{
   display: flex;
   background-image: url('../assets/homemobile.png'); /* Path to your image */
-  background-size: 580px;
+  background-size: 560px;
   background-position: 105%;
   background-repeat: no-repeat;
   align-items: center;
@@ -72,7 +72,7 @@
   margin-left:0%;
   max-width: 100%;
   margin-top: 0%;
-  height: 500px;
+  height: 400px;
   
 }
 
@@ -83,7 +83,7 @@
 }
 
 .dash-Maintopic1 {
-  font-size: 45px; /* Large text size for emphasis */
+  font-size: 35px; /* Large text size for emphasis */
   font-family: 'Poppins', sans-serif; /* Modern sans-serif font similar to the example */
   color:#162A2C; /* Dark green color */
   font-weight: bold; /* Bold for strong emphasis */
@@ -95,7 +95,7 @@
 
 
 .dash-Mainpara1{
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Poppins', sans-serif;
   margin-bottom: 45px;
   color: #686867;

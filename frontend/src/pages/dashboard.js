@@ -24,7 +24,7 @@ function HomePage() {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
-    const uniqueRoomTypes = [...new Set(rooms.map((room) => room.roomType))]; // Extract unique room types
+  const uniqueRoomTypes = [...new Set(rooms.map((room) => room.roomType))]; // Extract unique room types
   const roomsPerPage = 8;
   
 
@@ -46,26 +46,26 @@ function HomePage() {
       };
     
       useEffect(() => {
-        const fetchRoomsAndLocations = async () => {
-          try {
-            const response = await axios.get("http://localhost:8070/rooms");
-            const verifiedRooms = response.data.filter((room) => room.isVerified); // Ensure filtering
-            setRooms(verifiedRooms);
-            setFilteredRooms(verifiedRooms);
-          
-            // Extract unique locations for the dropdown
-            const uniqueLocations = [...new Set(verifiedRooms.map((room) => room.roomAddress))];
-            setLocations(uniqueLocations);
-            
-            setLoading(false);
-          } catch (error) {
-            setError("Error fetching rooms. Please try again later.");
-            setLoading(false);
-          }
-        };
+          const fetchRoomsAndLocations = async () => {
+            try {
+              const response = await axios.get("http://localhost:8070/rooms"); // Updated path
+              const verifiedRooms = response.data.filter((room) => room.isVerified && !room.isBooked); // Only verified and not booked rooms
+              setRooms(verifiedRooms);
+              setFilteredRooms(verifiedRooms);
         
-               fetchRoomsAndLocations();
-             }, []);
+              // Extract unique locations for the dropdown
+              const uniqueLocations = [...new Set(verifiedRooms.map((room) => room.roomCity))];
+              setLocations(uniqueLocations);
+        
+              setLoading(false);
+            } catch (error) {
+              setError("Error fetching rooms. Please try again later.");
+              setLoading(false);
+            }
+          };
+        
+          fetchRoomsAndLocations();
+        }, []);
     
       const applyFilters = () => {
         const filtered = rooms.filter((room) => {
@@ -146,11 +146,9 @@ function HomePage() {
                   <a className="nav-link" href="/RoomList">Properties</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/Userroom">About Us</a>
+                  <a className="nav-link" href="/">About Us</a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">Blogs</a>
-                </li>
+                
                 <li className="nav-item">
                   <a className="nav-link" href="/profile">Profile</a>
                 </li>
@@ -256,7 +254,7 @@ function HomePage() {
                         onClick={() => handleBooking(room)}
                       />
                       <div className="room-info">
-                        <h5>{room.roomType} Room - {room.roomAddress}</h5>
+                        <h5>{room.roomType} - {room.roomCity}</h5>
                         <p className="room-price">Rs {room.price.toLocaleString()}</p>
                       </div>
                     </div>

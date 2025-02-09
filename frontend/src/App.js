@@ -12,6 +12,8 @@ import RoomList from './pages/DisplayRoom.js';
 import Bookroom from './pages/Bookroom.js';
 import Register from "./pages/CustomerRegister.js";
 import Profilepage from './pages/Profile.js';
+import BookingForm from './pages/BookingForm.js'
+
 
 
 
@@ -36,6 +38,12 @@ function App() {
           <Route path='/AddRoom' element={<AddRoom />} />
           <Route path='/RoomList' element={<RoomList />} />
           <Route path='/Bookroom' element={<Bookroom />} />
+          <Route path='/Bookroomform' element={<BookingForm/>} />
+          
+          
+
+
+         
          
          
 

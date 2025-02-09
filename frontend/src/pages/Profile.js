@@ -13,9 +13,12 @@ function LoggedCustomer() {
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("");
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [selectedBuyer, setSelectedBuyer] = useState(null);
+
   const [updatedRoomData, setUpdatedRoomData] = useState({
     roomType: "",
     roomAddress: "",
+    roomCity: "",
     price: "",
     description: "",
     images: [],
@@ -111,7 +114,7 @@ function LoggedCustomer() {
 
     if (window.confirm("Are you sure you want to delete this room?")) {
       try {
-        const response = await axios.delete(`http://localhost:8070/Room/deleteroom/${roomId}`, {
+        const response = await axios.delete(`http://localhost:8070/Room/delete/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -134,7 +137,7 @@ function LoggedCustomer() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8070/Room/updateroom/${roomId}`, {
+      const response = await fetch(`http://localhost:8070/Room/update/${roomId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -229,6 +232,12 @@ function LoggedCustomer() {
     }
   };
 
+  const handleViewBuyerInfo = (room) => {
+    setSelectedBuyer(room);
+    const buyerInfoModal = new window.bootstrap.Modal(document.getElementById("buyerInfoModal"));
+    buyerInfoModal.show();
+  };
+
   // Logout function
   const handleLogout = () => {
     // Remove token from sessionstorage
@@ -311,50 +320,104 @@ function LoggedCustomer() {
         <div className="my-rooms-container w-45 p-3">
           <h2>My Rooms</h2>
           {rooms.length > 0 ? (
-            rooms.map((room) => (
-              <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
-                <div className="image-carousel me-3" style={{ width: "200px" }}>
-                  <div className="image-display">
-                    <img
-                      src={`http://localhost:8070${room.images[0]}`}
-                      alt="Room"
-                      className="card-img-top"
-                      style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
-                    />
-                  </div>
-                </div>
-                <div className="room-details">
-                  <h3>A <strong>{room.roomType}</strong> Listed - {room.roomAddress}</h3>
-                  <p className="room-price"><strong>Price</strong> Rs {room.price.toLocaleString()} / month</p>
-                  <p><strong>Description</strong>{room.description}</p>
-                  
-                    <p>
-                      <strong>Status:</strong>{" "}
-                      {room.isVerified ? (
-                        <>
-                          <span className="badge bg-success">Verified</span>
-                          <span className="ms-2">Your room is listed.</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="badge bg-warning text-dark">Unverified</span>
-                          <span className="ms-2">Verification takes 3 working days.</span>
-                        </>
-                      )}
-                    </p>
-
-                  <div className="d-flex justify-content-start">
-                    <button className="btn btn-warning me-2" onClick={() => handleRoomUpdate(room)}><strong>Update Room</strong></button>
-                    <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}><strong>Delete Room</strong></button>
-                  </div>
-                </div>
-              </div>
-            ))
+  rooms.map((room) => (
+    <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
+      <div className="image-carousel me-3" style={{ width: "200px" }}>
+        <div className="image-display">
+          <img
+            src={`http://localhost:8070${room.images[0]}`}
+            alt="Room"
+            className="card-img-top"
+            style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
+          />
+        </div>
+      </div>
+      <div className="room-details">
+        <h3><strong>{room.roomType}</strong> - {room.roomCity}</h3>
+        <p><strong>Posted On</strong>- {room.createdAt}</p>
+        <p className="room-price"><strong>Price</strong> Rs {room.price.toLocaleString()} / month</p>
+        <p><strong>Description </strong>{room.description}</p>
+        <p><strong>Address </strong>{room.roomAddress}</p>
+        
+        <p>
+          <strong>Verification:</strong>{" "}
+          {room.isVerified ? (
+            <>
+              <span className="badge bg-success">Verified</span>
+              <span className="ms-2">Your room is listed.</span>
+            </>
           ) : (
-            <p>No rooms available.</p>
+            <>
+              <span className="badge bg-warning text-dark">Unverified</span>
+              <span className="ms-2">Saff member will contact you to verify.</span>
+            </>
           )}
+        </p>
+
+        <p>
+          <strong>Booking:</strong>{" "}
+          {room.isBooked ? (
+            <>
+              <span className="badge bg-success">Booked</span>
+            </>
+          ) : (
+            <>
+              <span className="badge bg-warning text-dark">Not Yet</span>
+            </>
+          )}
+        </p>
+
+        
+
+        <div className="d-flex justify-content-start mt-2">
+          <button 
+            className="btn btn-warning me-1" 
+            onClick={() => handleRoomUpdate(room)} 
+            disabled={room.isVerified}
+          >
+            <strong>Update</strong>
+          </button>
+          <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}><strong>Delete </strong></button>
+         
+         {room.isBooked && (
+          <button className="btn btn-info" onClick={() => handleViewBuyerInfo(room)}>
+            View Buyer
+          </button>
+        )}
+        </div>
+      </div>
+    </div>
+  ))
+) : (
+  <p>No rooms available.</p>
+)}
+
 
         </div>
+        {/* Buyer Info Modal */}
+      <div className="modal fade" id="buyerInfoModal" tabIndex="-1" aria-labelledby="buyerInfoModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="buyerInfoModalLabel">Buyer Information</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+              {selectedBuyer ? (
+                <div>
+                  <p><strong>Name:</strong> {selectedBuyer.buyerName}</p>
+                  <p><strong>Contact:</strong> {selectedBuyer.buyerContactNumber}</p>
+                  <p><strong>NIC:</strong> {selectedBuyer.buyerNIC}</p>
+                  <p><strong>Duration:</strong> {selectedBuyer.buyingDuration} months</p>
+                  <p><strong>Booking Date:</strong> {new Date(selectedBuyer.buyingDate).toLocaleDateString()}</p>
+                </div>
+              ) : (
+                <p>Loading buyer info...</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
       
 
       {/* Modal for Room Update Form */}
@@ -380,7 +443,7 @@ function LoggedCustomer() {
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Room Location</label>
+                  <label className="form-label">Room Address</label>
                   <input
                     type="text"
                     className="form-control"
@@ -390,6 +453,19 @@ function LoggedCustomer() {
                     }
                   />
                 </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Room City</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={updatedRoomData.roomCity}
+                    onChange={(e) =>
+                      setUpdatedRoomData({ ...updatedRoomData, roomCity: e.target.value })
+                    }
+                  />
+                </div>
+
                 <div className="mb-3">
                   <label className="form-label">Price</label>
                   <input

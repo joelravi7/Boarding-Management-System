@@ -16,10 +16,10 @@ const AdminLogin = () => {
       const response = await axios.post("http://localhost:8070/admin/login", { email, password });
       setMessage(`Welcome back, ${response.data.username}!`);
       setAlertType("success");
-      localStorage.setItem("adminToken", response.data.token); // Save the admin token in localStorage
+      sessionStorage.setItem("token", response.data.token); // Save the admin token in sessionStorage
       navigate("/Admindash", { state: { message: `Welcome, ${response.data.username}!`, alertType: "success" } });
     } catch (err) {
-      setMessage(err.response?.data?.error || "Admin login failed!");
+      setMessage(err?.response?.data?.error || "Admin login failed!");
       setAlertType("danger");
     }
   };

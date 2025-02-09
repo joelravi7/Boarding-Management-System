@@ -16,7 +16,19 @@ function AdminDashboard() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  const token = sessionStorage.getItem("token");
+ 
+const token = sessionStorage.getItem("token"); 
+
+
+axios.get("http://localhost:3000/admin/dashboard", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+})
+.then(response => console.log(response.data))
+.catch(error => console.error("Error:", error));
+
+
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -35,6 +47,9 @@ function AdminDashboard() {
         setError("Error fetching rooms. Please try again later.");
         setLoading(false);
       }
+
+     
+     
     };
 
     fetchRooms();
@@ -55,15 +70,29 @@ function AdminDashboard() {
   };
 
   const handleVerification = async (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("Authorization token is missing. Please log in again.");
+      return;
+    }
+    
     try {
-      const response = await axios.put(`http://localhost:8070/Room/verify/${id}`, { isVerified: true });
+      const response = await axios.put(
+        `http://localhost:8070/Room/verify/${id}`,
+        { isVerified: true },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
 
       if (response.status === 200) {
+        const verifiedRoom = unverifiedRooms.find((room) => room._id === id);
         setUnverifiedRooms((prevRooms) => prevRooms.filter((room) => room._id !== id));
-        setVerifiedRooms((prevRooms) => [
-          ...prevRooms,
-          unverifiedRooms.find((room) => room._id === id),
-        ]);
+        setVerifiedRooms((prevRooms) => [...prevRooms, verifiedRoom]);
+        alert("Room successfully verified!");
       } else {
         alert("Failed to update room status.");
       }
@@ -71,6 +100,7 @@ function AdminDashboard() {
       alert("Error updating room status: " + (err.response?.data?.error || err.message));
     }
   };
+  
 
   return (
     <div className="container-fluid">
@@ -123,7 +153,7 @@ function AdminDashboard() {
                   <thead>
                     <tr>
                       <th>Room Type</th>
-                      <th>Location</th>
+                      <th>Address</th>
                       <th>Price</th>
                     </tr>
                   </thead>
@@ -147,8 +177,10 @@ function AdminDashboard() {
                                     </div>
                                   ))}
                                 </div>
+                                <p><strong>Room Added On:</strong> {room.createdAt || "N/A"}</p>
                                 <p><strong>Owner Name:</strong> {room.ownerName || "N/A"}</p>
                                 <p><strong>Owner Contact:</strong> {room.ownerContactNumber || "N/A"}</p>
+                                <p><strong>Located City:</strong> {room.roomCity|| "N/A"}</p>
                                 <p><strong>Negotiable:</strong> {room.isNegotiable|| "NO"}</p>
                                 <p><strong>Description:</strong> {room.description || "N/A"}</p>
                                 <button onClick={() => handleVerification(room._id)} className="approve-btn">Approve ✅</button>

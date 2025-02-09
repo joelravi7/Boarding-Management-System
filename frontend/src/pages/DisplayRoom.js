@@ -37,27 +37,30 @@ function RoomList() {
     }
   };
 
- useEffect(() => {
-         const fetchRoomsAndLocations = async () => {
-           try {
-             const response = await axios.get("http://localhost:8070/rooms");
-             const verifiedRooms = response.data.filter((room) => room.isVerified); // Ensure filtering
-             setRooms(verifiedRooms);
-             setFilteredRooms(verifiedRooms);
-           
-             // Extract unique locations for the dropdown
-             const uniqueLocations = [...new Set(verifiedRooms.map((room) => room.roomAddress))];
-             setLocations(uniqueLocations);
-             
-             setLoading(false);
-           } catch (error) {
-             setError("Error fetching rooms. Please try again later.");
-             setLoading(false);
-           }
-         };
-         
-                fetchRoomsAndLocations();
-              }, []);
+  useEffect(() => {
+    const fetchRoomsAndLocations = async () => {
+      try {
+        const response = await axios.get("http://localhost:8070/rooms"); // Updated path
+        const verifiedRooms = response.data.filter((room) => room.isVerified && !room.isBooked); // Only verified and not booked rooms
+        setRooms(verifiedRooms);
+        setFilteredRooms(verifiedRooms);
+  
+        // Extract unique locations for the dropdown
+        const uniqueLocations = [...new Set(verifiedRooms.map((room) => room.roomCity))];
+        setLocations(uniqueLocations);
+  
+        setLoading(false);
+      } catch (error) {
+        setError("Error fetching rooms. Please try again later.");
+        setLoading(false);
+      }
+    };
+  
+    fetchRoomsAndLocations();
+  }, []);
+  
+  
+  
       
        const applyFilters = () => {
          const filtered = rooms.filter((room) => {
@@ -214,7 +217,7 @@ function RoomList() {
                         onClick={() => handleBooking(room)}
                       />
                       <div className="room-info">
-                        <h5>{room.roomType} Room - {room.roomAddress}</h5>
+                        <h5>{room.roomType}  - {room.roomCity}</h5>
                         <p className="room-price">Rs {room.price.toLocaleString()}</p>
                       </div>
                     </div>

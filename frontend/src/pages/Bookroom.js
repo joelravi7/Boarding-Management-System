@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigat
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../Componets/CSS/Bookroom.css'; // Ensure the CSS is linked here
 
 function BookRoomPage() {
   const location = useLocation();
   const { room } = location.state || {}; // Get room details from navigation state
-
-  
+  const navigate = useNavigate(); // Initialize useNavigate
   const [paymentOption, setPaymentOption] = useState("physical"); // Default to physical payment
   const [agreeToTerms, setAgreeToTerms] = useState(false); // Track if user agrees to terms
   const [activeImageIndex, setActiveImageIndex] = useState(0); // Track active image index for carousel
 
   
 
-  
-  
   const handlePaymentOptionChange = (e) => {
     setPaymentOption(e.target.value);
   };
@@ -26,6 +23,11 @@ function BookRoomPage() {
 
   const handleThumbnailClick = (index) => {
     setActiveImageIndex(index); // Change the main image based on the clicked thumbnail
+  };
+
+  const handleConfirmBooking = () => {
+    // Navigate to the confirmation page with room details
+    navigate("/Bookroomform", { state: { room, paymentOption } });
   };
 
   if (!room) {
@@ -59,10 +61,10 @@ function BookRoomPage() {
       </nav>
 
       <div className="containerbody">
-        <h2 className="text-center mb-4">Book Room</h2>
+        <h2 className="text-center mb-4">Room Details</h2>
         <div className="card">
         <div className="card-body">
-        <h5 className="card-title">{room.roomType} Room for Rent - {room.roomAddress}</h5>
+        <h5 className="card-title">{room.roomType} for Rent - {room.roomCity}</h5>
           {/* Main Image Carousel */}
           <div id="roomImageCarousel" className="carousel slide" data-bs-ride="false">
             <div className="carousel-inner">
@@ -94,8 +96,9 @@ function BookRoomPage() {
 
           {/* Card Body Content */}
           <h5 className="card-title"><strong> Price </strong> Rs. {room.price.toLocaleString()}/ month</h5>
-          <p className="card-text">{room.description}</p>
-          <p className="card-text"><strong>Owner:</strong> {room.ownerName} ({room.ownerContactNumber})</p>
+          <p className="card-text"><strong>Room Added On:</strong>{room.createdAt}</p>
+          <p className="card-text"><strong>Description:</strong>{room.description}</p>
+          <p className="card-text"><strong>Owner:</strong> {room.ownerName} </p>
           <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}</p>
 
           
@@ -148,6 +151,7 @@ function BookRoomPage() {
           <button
             className="btn btn-primary mt-3"
             disabled={!agreeToTerms}
+            onClick={handleConfirmBooking}
           >
             Confirm Booking
           </button>

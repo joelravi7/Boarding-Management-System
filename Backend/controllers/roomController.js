@@ -2,25 +2,34 @@ const Room = require("../models/Room");
 const path = require("path");
 const fs = require("fs");
 
-// Get rooms for logged-in customer
+// Fetch all verified rooms
+const getAllRooms = async (req, res) => {
+  try {
+    const rooms = await Room.find({ isVerified: true });
+    res.json(rooms);
+  } catch (err) {
+    console.error("Error fetching all rooms:", err);
+    res.status(500).json({ error: "An error occurred while fetching rooms" });
+  }
+};
+
+// Fetch rooms of the logged-in customer
 const getMyRooms = async (req, res) => {
   try {
     const rooms = await Room.find({ customerId: req.userId });
-    if (rooms.length === 0) {
-      return res.status(404).json({ message: "No rooms found for this customer" });
-    }
-    res.json(rooms);
+    res.json(rooms.length ? rooms : { message: "No rooms found for this customer" });
   } catch (err) {
+    console.error("Error fetching customer rooms:", err);
     res.status(500).json({ error: "An error occurred while retrieving rooms" });
   }
 };
 
-// Add a new room
+// Add a new room (Only Room Inputs)
 const addRoom = async (req, res) => {
   try {
-    const { roomAddress, roomType, price, isNegotiable, ownerName, ownerContactNumber, description } = req.body;
+    const { roomAddress, roomCity, roomType, price, isNegotiable, ownerName, ownerContactNumber, description } = req.body;
 
-    if (!roomAddress || !roomType || !price || !ownerName || !ownerContactNumber || !description) {
+    if (!roomAddress || !roomCity || !roomType || !price || !ownerName || !ownerContactNumber || !description) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
@@ -29,8 +38,10 @@ const addRoom = async (req, res) => {
     }
 
     const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
+
     const newRoom = new Room({
       roomAddress,
+      roomCity,
       roomType,
       price,
       isNegotiable: isNegotiable === "true",
@@ -39,43 +50,52 @@ const addRoom = async (req, res) => {
       images: imagePaths,
       description,
       customerId: req.userId,
+      addedDate: Date.now(),
+      isVerified: false,  // Room is unverified by default
+      isBooked: false,     // Room is not booked initially
     });
 
     await newRoom.save();
-    res.status(201).json({ message: "Room added successfully!" });
+    res.status(201).json({ message: "Room added successfully!", newRoom });
   } catch (err) {
     console.error("Error adding room:", err);
     res.status(500).json({ error: "An error occurred while adding the room." });
   }
 };
 
-// Update a room
-const updateRoom = async (req, res) => {
-  const roomId = req.params.id;
 
+// Update room details
+const updateRoom = async (req, res) => {
   try {
+    const roomId = req.params.id;
     const room = await Room.findById(roomId);
-    if (!room) {
-      return res.status(404).json({ error: "Room not found" });
-    }
+
+    if (!room) return res.status(404).json({ error: "Room not found" });
 
     const { keepImages = "[]" } = req.body;
     const imagesToKeep = JSON.parse(keepImages);
-    room.images = room.images.filter((image) => imagesToKeep.includes(image));
+
+    // Delete removed images from server
+    room.images.forEach((imagePath) => {
+      if (!imagesToKeep.includes(imagePath)) {
+        const filePath = path.join(__dirname, "..", imagePath);
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      }
+    });
+
+    room.images = imagesToKeep;
 
     if (req.files && req.files.length > 0) {
       const uploadedImages = req.files.map((file) => `/uploads/${file.filename}`);
-      room.images = [...room.images, ...uploadedImages];
+      room.images.push(...uploadedImages);
     }
 
-    room.roomType = req.body.roomType || room.roomType;
-    room.roomAddress = req.body.roomAddress || room.roomAddress;
-    room.price = req.body.price || room.price;
-    room.description = req.body.description || room.description;
+    Object.assign(room, req.body);
 
     await room.save();
     res.json({ message: "Room updated successfully", room });
   } catch (err) {
+    console.error("Error updating room:", err);
     res.status(500).json({ error: "Failed to update room" });
   }
 };
@@ -86,27 +106,33 @@ const deleteRoom = async (req, res) => {
     const roomId = req.params.id;
     const deletedRoom = await Room.findOneAndDelete({ _id: roomId, customerId: req.userId });
 
-    if (!deletedRoom) {
-      return res.status(404).json({ error: "Room not found or not authorized" });
-    }
+    if (!deletedRoom) return res.status(404).json({ error: "Room not found or not authorized" });
+
+    // Delete room images from server
+    deletedRoom.images.forEach((imagePath) => {
+      const filePath = path.join(__dirname, "..", imagePath);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    });
 
     res.status(200).json({ message: "Room deleted successfully" });
   } catch (err) {
+    console.error("Error deleting room:", err);
     res.status(500).json({ error: "An error occurred while deleting the room" });
   }
 };
 
-// Get all unverified rooms
+// Get all unverified rooms (for admin)
 const getUnverifiedRooms = async (req, res) => {
   try {
-    const rooms = await Room.find({ isVerified: false });
-    res.json(rooms);
+    const unverifiedRooms = await Room.find({ isVerified: false });
+    res.json(unverifiedRooms);
   } catch (err) {
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error fetching unverified rooms:", err);
+    res.status(500).json({ error: "Error fetching unverified rooms" });
   }
 };
 
-// Verify a room (Approve/Reject)
+// Verify (Approve/Reject) a room
 const verifyRoom = async (req, res) => {
   try {
     if (typeof req.body.isVerified !== "boolean") {
@@ -119,21 +145,71 @@ const verifyRoom = async (req, res) => {
       { new: true }
     );
 
-    if (!updatedRoom) {
-      return res.status(404).json({ error: "Room not found" });
-    }
+    if (!updatedRoom) return res.status(404).json({ error: "Room not found" });
 
     res.json(updatedRoom);
   } catch (err) {
+    console.error("Error updating room verification status:", err);
     res.status(500).json({ error: "Error updating room verification status" });
   }
 };
 
+// Book a room
+const bookRoom = async (req, res) => {
+  try {
+    const { roomId, buyerName, buyerContactNumber, buyerNIC, buyingDuration } = req.body;
+
+    if (!roomId || !buyerName || !buyerContactNumber || !buyerNIC || !buyingDuration) {
+      return res.status(400).json({ error: "All fields are required for booking." });
+    }
+
+    const room = await Room.findById(roomId);
+    if (!room) return res.status(404).json({ error: "Room not found" });
+
+    if (room.isBooked) return res.status(400).json({ error: "Room is already booked" });
+
+    // Update the room with booking details
+    room.isBooked = true;
+    room.buyerName = buyerName;
+    room.buyerContactNumber = buyerContactNumber;
+    room.buyerNIC = buyerNIC;
+    room.buyerCustomerId = req.userId; // Automatically set buyerCustomerId
+    room.buyingDate = new Date();
+    room.buyingDuration = buyingDuration;
+
+    await room.save();
+
+    res.json({ message: "Room booked successfully!", room });
+  } catch (err) {
+    console.error("Error booking room:", err);
+    res.status(500).json({ error: "An error occurred while booking the room." });
+  }
+};
+
+
+// Fetch bookings for room owners
+const getOwnerBookings = async (req, res) => {
+  try {
+    const rooms = await Room.find({ customerId: req.userId, isBooked: true });
+    res.json(rooms.length ? rooms : { message: "No bookings found for your rooms" });
+  } catch (err) {
+    console.error("Error fetching bookings:", err);
+    res.status(500).json({ error: "An error occurred while fetching bookings" });
+  }
+};
+
+
+
+
 module.exports = {
+  getAllRooms,
   getMyRooms,
   addRoom,
   updateRoom,
   deleteRoom,
   getUnverifiedRooms,
   verifyRoom,
+  bookRoom,
+  getOwnerBookings,
+  
 };

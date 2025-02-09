@@ -1,18 +1,16 @@
 const express = require("express");
-const { 
-  registerAdmin, 
-  loginAdmin, 
-  getAdminProfile, 
-  updateAdmin 
-} = require("../controllers/adminController");
-
-const { verifyToken, verifyAdmin } = require("../middlewares/authMiddleware");
+const RoomController = require("../controllers/roomController");
+const adminAuth = require("../middlewares/adminAuth");
 
 const router = express.Router();
 
-router.post("/register", registerAdmin);
-router.post("/login", loginAdmin);
-router.get("/profile", verifyToken, verifyAdmin, getAdminProfile);
-router.put("/profile/update", verifyToken, verifyAdmin, updateAdmin);
+// Protect all routes under /admin using adminAuth middleware
+router.use(adminAuth);
+
+// Route to get all unverified rooms for admin
+router.get("/unverified-rooms", RoomController.getUnverifiedRooms);
+
+// Route to verify (approve/reject) a room for admin
+router.put("/verify-room/:id", RoomController.verifyRoom);
 
 module.exports = router;

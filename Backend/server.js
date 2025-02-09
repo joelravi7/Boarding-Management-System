@@ -47,6 +47,7 @@ const Room = require("./models/Room");
 const User = require("./models/Customer"); // Ensure this path is correct
 const Admin = require("./models/Admin");
 
+
 // Multer setup for image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -209,12 +210,12 @@ app.get("/rooms", async (req, res) => {
 
 
 // Access Customer routes
-const CustomerRouter = require("./Routes/customerRoute.js");
+const CustomerRouter = require("./Routes/customerRoute");
 app.use("/Customer", CustomerRouter);
 
 // Access Customer routes
-const RoomRouter = require("./Routes/roomRoute.js");
-app.use("/Room", RoomRouter);
+const roomRoutes = require("./Routes/roomRoute");
+app.use("/Room", roomRoutes); 
 
 
 

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Customer = require("../models/Customer");
 const Room = require("../models/Room");
 
+
 // Register a new customer
 exports.addCustomer = async (req, res) => {
   const { name, lname, dob, gender, phoneNumber1, phoneNumber2, address, email, password } = req.body;
@@ -122,3 +123,5 @@ exports.deleteCustomer = async (req, res) => {
     res.status(500).json({ error: "An error occurred while deleting the customer and their rooms" });
   }
 };
+
+

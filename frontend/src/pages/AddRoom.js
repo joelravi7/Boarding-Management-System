@@ -5,6 +5,7 @@ import '../Componets/CSS/AddRoom.css'
 
 function AddRoom() {
   const [roomAddress, setRoomAddress] = useState("");
+  const [roomCity, setRoomCity] = useState("");
   const [roomType, setRoomType] = useState("");
   const [price, setPrice] = useState("");
   const [isNegotiable, setIsNegotiable] = useState(false);
@@ -40,7 +41,9 @@ function AddRoom() {
     }
   
     if (
+      
       !roomAddress ||
+      !roomCity||
       !roomType ||
       !price ||
       !ownerName ||
@@ -55,6 +58,7 @@ function AddRoom() {
   
     const formData = new FormData();
     formData.append("roomAddress", roomAddress);
+    formData.append("roomCity", roomCity);
     formData.append("roomType", roomType);
     formData.append("price", price);
     formData.append("isNegotiable", isNegotiable.toString());
@@ -64,7 +68,7 @@ function AddRoom() {
     images.forEach((image) => formData.append("images", image));
   
     try {
-      const response = await axios.post("http://localhost:8070/Room/addroom", formData, {
+      const response = await axios.post("http://localhost:8070/Room/add", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -77,6 +81,7 @@ function AddRoom() {
   
       // Reset form fields
       setRoomAddress("");
+      setRoomCity("");
       setRoomType("");
       setPrice("");
       setIsNegotiable(false);
@@ -102,29 +107,49 @@ function AddRoom() {
   return (
   <>
   
-     {/* Navigation Bar */}
-     <nav className="navbar navbar-expand-lg">
-     <div className="container">
-       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-         <span className="navbar-toggler-icon"></span>
-       </button>
-       <div className="collapse navbar-collapse" id="navbarContent">
-         <ul className="navbar-nav ms-auto">
-           <li className="nav-item"><a className="nav-link" href="/dash">Dashboard</a></li>
-           <li className="nav-item"><a className="nav-link" href="/RoomList">Rooms</a></li>
-           <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-           <li className="nav-item"><a className="nav-link" href="/staff">Maintenance</a></li>
-           <li className="nav-item"><a className="nav-link" href="/profile">Profile</a></li>
-          {/* Conditionally render the Logout button */}
-          {localStorage.getItem("token") && (
+     {/* Navigation Bar and Welcome Section Combined */}
+     <div className="navbar navbar-expand-lg">
+        <div className="container">
+          <a className="navbar-brand" href="/">LOGO</a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarContent">
+              <ul className="navbar-nav ms-auto">
+                
                 <li className="nav-item">
-                  <button className="nav-link " onClick={handleLogout}>Logout</button>
+                  <a className="nav-link" href="/dash">Dashboard</a>
                 </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/RoomList">Properties</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/Userroom">About Us</a>
+                </li>
+                
+                <li className="nav-item">
+                  <a className="nav-link" href="/profile">Profile</a>
+                </li>
+                {sessionStorage.getItem("token") && (
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={handleLogout}>Logout</button>
+                  </li>
                 )}
-         </ul>
-       </div>
-     </div>
-   </nav>
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+   
    <div className="Postadd-container-body">
     <div className="Postadd-container">
       <h2 className="mt-1">Add a Room</h2>
@@ -184,15 +209,31 @@ function AddRoom() {
         <div className="row mb-3">
           <div className="col">
             <label htmlFor="roomAddress" className="form-label">
-              Room Location <span className="text-danger">*</span>
+              Room Address <span className="text-danger">*</span>
             </label>
             <input
               type="text"
               className="form-control"
               id="roomAddress"
-              placeholder="Enter the City"
+              placeholder="Enter the Address"
               value={roomAddress}
               onChange={(e) => setRoomAddress(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col">
+            <label htmlFor="roomCity" className="form-label">
+              Room City <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="roomCity"
+              placeholder="Enter the City"
+              value={roomCity}
+              onChange={(e) => setRoomCity(e.target.value)}
               required
             />
           </div>
