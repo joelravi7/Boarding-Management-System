@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getMyRooms,
+  getBookedroom,
   addRoom,
   updateRoom,
   deleteRoom,
@@ -10,6 +11,7 @@ const {
   getAllRooms,
   bookRoom,
   getOwnerBookings,
+  BuyerRating,
   
 } = require("../controllers/roomController");
 
@@ -22,6 +24,8 @@ router.get("/all", getAllRooms); // Fetch all verified rooms
 
 // Customer Routes
 router.get("/myrooms", auth, getMyRooms);
+router.get("/mybooking", auth, getBookedroom,);
+router.get("/rate", auth, BuyerRating,);
 router.post("/add", auth, upload.array("images", 10), addRoom);
 router.put("/update/:id", auth, upload.array("images", 10), updateRoom);
 router.delete("/delete/:id", auth, deleteRoom);

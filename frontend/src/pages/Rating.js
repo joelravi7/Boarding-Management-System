@@ -7,15 +7,16 @@ import "../Componets/CSS/Profile.css";
 
 
 function LoggedCustomer() {
-  const [customer, setCustomer] = useState(null);
+ 
   const navigate = useNavigate();
-  
+  const [rooms, setRooms] = useState([]);
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("");
+ 
+  const [selectedBuyer, setSelectedBuyer] = useState(null);
 
 
-  
-
+ 
   useEffect(() => {
     // Check if the token exists in sessionstorage
     const token = sessionStorage.getItem("token");
@@ -25,63 +26,37 @@ function LoggedCustomer() {
       return;
     }
   
-    // Fetch customer details if token exists
-    async function fetchCustomerDetails() {
-      try {
-        const response = await axios.get("http://localhost:8070/customer/display", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (response.status === 200) {
-          setCustomer(response.data);
-        } else {
-          // If the response is not successful, redirect to login
-          navigate("/login");
-        }
-      } catch (err) {
-        console.error("Error fetching customer details", err);
-        navigate("/login"); // Redirect if error occurs
-      }
-    }
-  
-    fetchCustomerDetails();
-   
+    
+    fetchRooms(); // Fetch rooms after customer details are fetched
   }, [navigate]);
   
 
-  
+  // Fetch rooms
+  const fetchRooms = async () => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      setMessage("Please log in to access your rooms.");
+      setAlertType("danger");
+      navigate("/login");
+      return;
+    }
 
-  const handleCustomerUpdate = () => {
-    if (customer && customer._id) {
-      navigate(`/update-customer/${customer._id}`);
-    } else {
-      alert("Customer details not found.");
+    try {
+      const response = await axios.get("http://localhost:8070/Room/mybooking", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRooms(response.data);
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Failed to load rooms.");
+      setAlertType("danger");
     }
   };
 
-  const handleCustomerDelete = () => {
-    if (customer && window.confirm("Are you sure you want to delete your account?")) {
-      axios
-        .delete(`http://localhost:8070/customer/delete/${customer._id}`, {
-          headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}` },
-        })
-        .then(() => {
-          alert("Account deleted successfully!");
-          sessionStorage.removeItem("token");
-          navigate("/register");
-        })
-        .catch((err) => {
-          console.error("Error deleting account:", err.message);
-          alert("Error deleting account: " + err.message);
-        });
-    }
+  const handleViewBuyerInfo = (room) => {
+    setSelectedBuyer(room);
+    const buyerInfoModal = new window.bootstrap.Modal(document.getElementById("buyerInfoModal"));
+    buyerInfoModal.show();
   };
-
-
-  
-
-  
-
-  
 
   // Logout function
   const handleLogout = () => {
@@ -159,40 +134,52 @@ function LoggedCustomer() {
       </nav>
 
       <div className="LoggedCustomer-container d-flex flex-wrap justify-content-center p-3">
-      <div className="customer-details-container w-45 p-3">
-          <h2>My Profile</h2>
-          {customer ? (
-            <div className="CustomerBox">
-                  <p><strong>First Name:</strong> {customer.name}</p>
-                  <p><strong>Last Name:</strong> {customer.Lname || "N/A"}</p>
-                  <p><strong>Date of Birth:</strong> {customer.DOB || "N/A"}</p>
-                  <p><strong>Gender:</strong> {customer.Gender || "N/A"}</p>
-                  <p><strong>Phone Number 1:</strong> {customer.Phonenumber1 || "N/A"}</p>
-                  <p><strong>Phone Number 2:</strong> {customer.Phonenumber2 || "N/A"}</p>
-                  <p><strong>Email:</strong> {customer.email || "N/A"}</p>
-                  <p><strong>Address:</strong> {customer.Address || "N/A"}</p>
-                
-             
-              <button type="button" className="btn btn-warning me-2" onClick={handleCustomerUpdate}><strong>Update Customer</strong></button>
-              <button type="button" className="btn btn-danger" onClick={handleCustomerDelete}><strong>Delete Account</strong></button>
+      
+
+        <div className="my-rooms-container w-45 p-3">
+          <h2>My Room</h2>
+          {rooms.length > 0 ? (
+        rooms.map((room) => (
+            <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
+            <div className="image-carousel me-3" style={{ width: "200px" }}>
+                <div className="image-display">
+                <img
+                    src={`http://localhost:8070${room.images[0]}`}
+                    alt="Room"
+                    className="card-img-top"
+                    style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
+                />
+                </div>
             </div>
-          ) : (
-            <p>Loading...</p>
-          )}
+            <div className="room-details">
+                <h3><strong>{room.roomType}</strong> - {room.roomCity}</h3>
+                <p><strong>Posted On</strong>- {room.createdAt}</p>
+                <p><strong>owner Name </strong>{room.ownerName}</p>
+                <p><strong>owner Contact Number </strong>{room.ownerContactNumber}</p>
+                <p className="room-price"><strong>Price</strong> Rs {room.price.toLocaleString()} / month</p>
+                <p><strong>Description </strong>{room.description}</p>
+                <p><strong>Address </strong>{room.roomAddress}</p>
+                <p><strong>Booked Date </strong>{room.createdAt}</p>
+                <p><strong>Duration </strong>{room.buyingDuration} Months</p>
+        
+
+        <div className="d-flex justify-content-start mt-2">
+        
         </div>
       </div>
-        
+    </div>
+  ))
+) : (
+  <p>No rooms available.</p>
+)}
 
 
-        
+        </div>
       
       
 
-             
-    
-            
-            
-        
+      
+      </div>
       
       </nav>
     </>

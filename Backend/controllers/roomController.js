@@ -24,6 +24,17 @@ const getMyRooms = async (req, res) => {
   }
 };
 
+// Fetch rooms of the logged-in customer
+const getBookedroom = async (req, res) => {
+  try {
+    const rooms = await Room.find({ buyerCustomerId: req.userId });
+    res.json(rooms.length ? rooms : { message: "No rooms found for this customer" });
+  } catch (err) {
+    console.error("Error fetching customer rooms:", err);
+    res.status(500).json({ error: "An error occurred while retrieving rooms" });
+  }
+};
+
 // Add a new room (Only Room Inputs)
 const addRoom = async (req, res) => {
   try {
@@ -198,12 +209,36 @@ const getOwnerBookings = async (req, res) => {
   }
 };
 
+const BuyerRating = async (req, res) => {
+  try {
+    const { roomId, buyerRating } = req.body;
+
+    if (!roomId || buyerRating) {
+      return res.status(400).json({ error: "Room ID and buyer rating are required." });
+    }
+
+    const room = await Room.findById(roomId);
+    if (!room) return res.status(404).json({ error: "Room not found" });
+
+    if (!room.isBooked) return res.status(400).json({ error: "Room is not booked yet." });
+
+    // Update buyer rating
+    room.buyerRating = buyerRating;
+    await room.save();
+
+    res.json({ message: "Buyer rating updated successfully!", room });
+  } catch (err) {
+    console.error("Error updating buyer rating:", err);
+    res.status(500).json({ error: "An error occurred while updating buyer rating." });
+  }
+};
 
 
 
 module.exports = {
   getAllRooms,
   getMyRooms,
+  getBookedroom,
   addRoom,
   updateRoom,
   deleteRoom,
@@ -211,5 +246,6 @@ module.exports = {
   verifyRoom,
   bookRoom,
   getOwnerBookings,
+  BuyerRating,
   
 };

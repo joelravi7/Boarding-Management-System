@@ -98,6 +98,13 @@ function RoomList() {
          setCurrentPage(pageNumber);
        };
 
+        // Logout function
+  const handleLogout = () => {
+    // Remove token fromsessionStorage
+  sessionStorage.removeItem("token");
+    // Redirect to login page
+    navigate("/login", { replace: true });
+  };
  
 
   return (
@@ -136,16 +143,34 @@ function RoomList() {
               <li className="nav-item">
                 <a className="nav-link" href="/profile">Profile</a>
               </li>
-              {message && (
-                <li className="nav-item">
-                  <div className="nav-link text-danger">{message}</div>
-                </li>
-              )}
-              {sessionStorage.getItem("token") && (
-                <li className="nav-item">
-                  <button className="nav-link" onClick={() => navigate("/login", { replace: true })}>Logout</button>
-                </li>
-              )}
+              {/* Dropdown Menu */}
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="profileDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Profile
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                  <li><a className="dropdown-item" href="/profile">View Profile</a></li>
+                  <li><a className="dropdown-item" href="/Roomrating">My Room</a></li>
+                  <li><a className="dropdown-item" href="/MyListings">My Listings</a></li>
+                  <li><a className="dropdown-item" href="/MyListings">Rate Us</a></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li>
+                  {sessionStorage.getItem("token") && (
+                  <li className="nav-item">
+                    <button className="nav-link" onClick={handleLogout}>Logout</button>
+                  </li>
+                )}
+                  </li>
+                </ul>
+              </li>
+             
             </ul>
           </div>
         </div>
