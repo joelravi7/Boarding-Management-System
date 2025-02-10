@@ -24,16 +24,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #ffffffd2;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.245);
   margin: 20px auto;
   max-width: 1200px;
   height: 100px;
-  margin-top: -9%;
+  margin-top: -21.7vh;
   margin-right: 15%;
   margin-left: 15%;
+  color: rgb(0, 0, 0);
+  
 }
 .filter-bar2 {
   display: flex;
@@ -71,6 +73,7 @@
   padding: 8px 10px;
   border: 0px solid;
   font-size: 14px;
+  background-color: #ffffff00;
 }
 
 .filter-search-btn {

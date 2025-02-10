@@ -106,22 +106,22 @@ axios.get("http://localhost:3000/admin/dashboard", {
     <div className="container-fluid">
       <div className="row">
         <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-          <div className="position-sticky">
+          <div className="position">
             <ul className="nav flex-column">
               <li className="nav-item">
-                <button className={`nav-link ${activeSection === "staff" ? "active" : ""}`} onClick={() => handleSectionClick("staff")}>
+                <button className={`nav-link2 ${activeSection === "staff" ? "active" : ""}`} onClick={() => handleSectionClick("staff")}>
                   Staff Management
                 </button>
               </li>
               <li className="nav-item">
-                <button className={`nav-link ${activeSection === "room" ? "active" : ""}`} onClick={() => handleSectionClick("room")}>
+                <button className={`nav-link2 ${activeSection === "room" ? "active" : ""}`} onClick={() => handleSectionClick("room")}>
                   Room Management {unverifiedRooms.length > 0 && (
                     <span className="badge bg-danger ms-2">{unverifiedRooms.length}</span>
                   )}
                 </button>
               </li>
               <li className="nav-item">
-                <button className={`nav-link ${activeSection === "customer" ? "active" : ""}`} onClick={() => handleSectionClick("customer")}>
+                <button className={`nav-link2 ${activeSection === "customer" ? "active" : ""}`} onClick={() => handleSectionClick("customer")}>
                   Feedback Management
                 </button>
               </li>
@@ -212,7 +212,7 @@ axios.get("http://localhost:3000/admin/dashboard", {
                       <React.Fragment key={room._id}>
                         <tr onClick={() => handleRoomClick(room)} style={{ cursor: 'pointer' }}>
                           <td>{room.roomType} - {room.ownerName || "N/A"}</td>
-                          <td>{room.roomAddress}</td>
+                          <td>{room.roomCity}</td>
                           <td>Rs {room.price.toLocaleString()}</td>
                         </tr>
                         {selectedRoom?._id === room._id && (
@@ -229,6 +229,8 @@ axios.get("http://localhost:3000/admin/dashboard", {
                                 </div>
                                 <p><strong>Owner Name:</strong> {room.ownerName || "N/A"}</p>
                                 <p><strong>Owner Contact:</strong> {room.ownerContactNumber || "N/A"}</p>
+                                <p><strong>Listed On:</strong> {room.createdAt || "N/A"}</p>
+                                <p><strong>Room Address:</strong> {room.roomAddress || "N/A"}</p>
                                 <p><strong>Negotiable:</strong> {room.isNegotiable|| "NO"}</p>
                                 <p><strong>Description:</strong> {room.description || "N/A"}</p>
                                 <button  className="approve-btn">Approved ✅</button>

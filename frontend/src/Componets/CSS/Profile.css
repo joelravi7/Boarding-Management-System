@@ -14,7 +14,7 @@
 
 .customer-details-container,
 .my-rooms-container {
-  width: 49%; /* Slightly reduce width to give more balanced spacing */
+  width: 85%; /* Slightly reduce width to give more balanced spacing */
   padding: 20px;
   box-sizing: border-box;
   background-color: #fff;

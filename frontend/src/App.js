@@ -15,6 +15,8 @@ import Profilepage from './pages/Profile.js';
 import BookingForm from './pages/BookingForm.js'
 import RoomDetailsPage from './pages/Rating.js';
 import Mylistings from './pages/MyListings.js';
+import AllListings from './pages/AllListings.js'
+
 
 
 
@@ -41,8 +43,13 @@ function App() {
           <Route path='/RoomList' element={<RoomList />} />
           <Route path='/Bookroom' element={<Bookroom />} />
           <Route path='/Bookroomform' element={<BookingForm/>} />
-          <Route path='/Roomrating' element={<RoomDetailsPage/>} />
+          <Route path='/MyRoom' element={<RoomDetailsPage/>} />
           <Route path='/MyListings' element={<Mylistings/>} />
+          <Route path='/allListings' element={<AllListings/>} />
+
+          
+
+
 
           
           

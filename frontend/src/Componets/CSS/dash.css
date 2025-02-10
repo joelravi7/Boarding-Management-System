@@ -8,40 +8,36 @@
   }
 }
 
-
-
 /* navbar Styles */
 .navbar {
-  background-color: #f0f0f0;
+  background: #063970;
   padding-right: 5% ;
+  height: 55px;
 }
 
-.navbar-logo {
-  width: 150px; /* Set the desired width */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensure the image fits well without distortion */
-  margin-left: 25%; /* Optional: Add some spacing */
-  margin-top: 10%;
-}
+
 
 /* Navbar Links */
 .nav-link {
-  color:#162A2C;
+  color:#ffffff;
   font-size: 18px;
   margin-right: 15px;
   transition: color 0.3s ease;
   margin-bottom: 0%;
-  margin-top: 4%;
+  margin-top: -0.5%;
  
  
 }/* Navbar Links */
 .nav-link2 {
-  color:#162A2C;
+  color:#000000;
   font-size: 18px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   margin-right: 15px;
   transition: color 0.3s ease;
-  margin-bottom: 0%;
-  margin-top: 7%;
+  border: #ffffff;
+  margin-bottom: 2%;
+  margin-top: 14%;
+  background-color: #ffffff;
  
 }
 
@@ -49,7 +45,7 @@
 
 .nav-link.active,
 .nav-link:hover {
-  color: #162A2C !important;
+  color: #f5feff !important;
   font-weight: bold;
 }
 
@@ -62,32 +58,43 @@
 
 }
 
-.Homesector1-container{
+@keyframes backgroundSlider {
+  0% { background-image: url('../assets/homepageimage.jpg'); }
+  25% { background-image: url('../assets/unilife.webp'); }
+  50% { background-image: url('../assets/moving-house-check.avif'); }
+  75% { background-image: url('../assets/key-exchnage.webp'); }
+  100% { background-image: url('../assets/Moving-Day.png'); }
+}
+
+
+
+.Homesector1-container {
   display: flex;
-  background-image: url('../assets/homemobile.png'); /* Path to your image */
-  background-size: 560px;
-  background-position: 105%;
-  background-repeat: no-repeat;
   align-items: center;
   padding: 35px;
-  background-color: #f0f0f0; /* Light gray background */
-  margin-left:0%;
+  margin-left: 0%;
   max-width: 100%;
   margin-top: 0%;
-  height: 400px;
+  min-height: 80vh;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   
+  /* Apply the animation */
+  animation: backgroundSlider 360s infinite ease-in-out;
 }
 
 
 /* Text Section (h1 and p) */
 .Homesector1-container .text-section {
-  max-width: 65%; /* Restrict width for the text */
+  max-width: 70%; /* Restrict width for the text */
 }
 
 .dash-Maintopic1 {
-  font-size: 35px; /* Large text size for emphasis */
+  font-size: 38px; /* Large text size for emphasis */
   font-family: 'Poppins', sans-serif; /* Modern sans-serif font similar to the example */
-  color:#162A2C; /* Dark green color */
+  color:#ffffff; /* Dark green color */
   font-weight: bold; /* Bold for strong emphasis */
   text-align: left; /* Centered text */
   margin: 20px auto; /* Top and bottom margin with centered layout */
@@ -97,10 +104,10 @@
 
 
 .dash-Mainpara1{
-  font-size: 16px;
+  font-size: 18px;
   font-family: 'Poppins', sans-serif;
   margin-bottom: 45px;
-  color: #686867;
+  color: #ffffff;
   margin: 20px auto;
   margin-left: 3%;
   margin-right: 13%;
@@ -115,14 +122,15 @@
   color: #fff; /* White Text */
   font-size: 16px; /* Font size */
   font-weight: bold; /* Bold text */
-  padding: 5px 25px; /* Padding */
-  border: none; /* Remove borders */
+  height: 40px;
+  width: 100px;
+   border: none; /* Remove borders */
   border-radius: 10px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
   margin-left:5%;
-  margin-top: 0%;
+  margin-top: 2.5%;
   margin-bottom: 3%;
 }
 
@@ -299,10 +307,12 @@
 /* FAQ.css */
 
 .FAQ-container{
-  height: 350px, auto;
+  padding-top: 2%;
+  height:  auto;
   align-items: center;
   justify-content: space-between;
-  background-color: #fcfdfe;  
+  background-color: #F9FCFF; 
+  min-height: 300px; 
   
 }
 

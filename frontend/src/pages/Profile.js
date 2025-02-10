@@ -94,7 +94,7 @@ function LoggedCustomer() {
   return (
     <>
     < nav className="body">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg ">
         <div className="container">
           <button
             className="navbar-toggler"
@@ -136,18 +136,18 @@ function LoggedCustomer() {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Profile
+                   Account
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="profileDropdown">
                   <li><a className="dropdown-item" href="/profile">View Profile</a></li>
-                  <li><a className="dropdown-item" href="/Roomrating">My Room</a></li>
+                  <li><a className="dropdown-item" href="/MyRoom">My Room</a></li>
                   <li><a className="dropdown-item" href="/MyListings">My Listings</a></li>
                   <li><a className="dropdown-item" href="/MyListings">Rate Us</a></li>
                   <li><hr className="dropdown-divider" /></li>
                   <li>
                   {sessionStorage.getItem("token") && (
                   <li className="nav-item">
-                    <button className="nav-link" onClick={handleLogout}>Logout</button>
+                    <button className="dropdown-item" onClick={handleLogout}><strong>Logout</strong></button>
                   </li>
                 )}
                   </li>

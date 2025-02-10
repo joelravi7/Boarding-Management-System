@@ -103,7 +103,80 @@ function BookForm() {
     setPaymentCompleted(true);
   };
 
+  // Logout function
+  const handleLogout = () => {
+    // Remove token from sessionstorage
+    sessionStorage.removeItem("token");
+    // Redirect to login page
+    navigate("/login", { replace: true });
+  };
+  
   return (
+    <>
+    <nav className="navbar navbar-expand-lg ">
+        <div className="container">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarContent"
+            aria-controls="navbarContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarContent">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+                <a className="nav-link" href="/dash">Dashboard</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/AddRoom">Post Add</a>
+              </li>
+              <li className="nav-item">
+                  <a className="nav-link" href="/RoomList">Properties</a>
+                </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/Userroom">About Us</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/maintenance">Blogs</a>
+              </li>
+              
+              {/* Dropdown Menu */}
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="profileDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Account
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                  <li><a className="dropdown-item" href="/profile">View Profile</a></li>
+                  <li><a className="dropdown-item" href="/MyRoom">My Room</a></li>
+                  <li><a className="dropdown-item" href="/MyListings">My Listings</a></li>
+                  <li><a className="dropdown-item" href="/MyListings">Rate Us</a></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li>
+                  {sessionStorage.getItem("token") && (
+                  <li className="nav-item">
+                    <button className="dropdown-item" onClick={handleLogout}><strong>Logout</strong></button>
+                  </li>
+                )}
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
     <div className="billing-container mt-3">
       <h2 className="text-center mb-4">Book Room - {room.roomType}</h2>
 
@@ -246,41 +319,22 @@ function BookForm() {
           ) : (
             <>
               <div className="alert alert-success text-center">
-                Payment successful! Take a screenshot of the details below.
+                Payment successful! 
               </div>
 
-              {/* Display Room and Renter Details */}
-              <div className="d-flex gap-4">
-                <div className="section1">
-                  <h3>Room Details</h3>
-                  <p><strong>Room Type:</strong> {room.roomType}</p>
-                  <p><strong>Owner Name:</strong> {room.ownerName}</p>
-                  <p><strong>Owner Contact Number:</strong> {room.ownerContactNumber || "N/A"}</p>
-                  <p><strong>Room Address:</strong> {room.roomAddress || "N/A"}</p>
-                  <p><strong>Located City:</strong> {room.roomCity || "N/A"}</p>
-                  <p><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}</p>
-                  <p><strong>Price: Rs.</strong> {room.price.toLocaleString()} /month</p>
-                </div>
-
-                <div className="section2">
-                  <h3>Renter Details</h3>
-                  <p><strong>Buyer Name:</strong> {formData.buyerName}</p>
-                  <p><strong>Buyer Contact Number:</strong> {formData.buyerContactNumber}</p>
-                  <p><strong>Buyer NIC:</strong> {formData.buyerNIC}</p>
-                  <p><strong>Buying Duration:</strong> {formData.buyingDuration}</p>
-                </div>
-              </div>
               <button
-                className="btn btn-dark w-100 mt-3"
-                onClick={() => navigate("/dash")}
+                className="btn btn-warning w-50 justify-content-center mt-2"
+                onClick={() => navigate("/MyRoom")}
               >
-                Go to Dashboard
+                View Your Room Details
               </button>
             </>
           )}
         </div>
       </div>
     </div>
+    
+      </>
   );
 }
 

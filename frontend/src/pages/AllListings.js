@@ -74,7 +74,7 @@ function RoomList() {
            : true;
  
        const isLocationValid = locationFilter
-       ? room.roomCity.toLowerCase().startsWith(locationFilter.toLowerCase())
+       ? room.roomAddress.toLowerCase().startsWith(locationFilter.toLowerCase())
        : true;
    
        const isPropertyTypeValid = propertyTypeFilter
@@ -111,68 +111,60 @@ function RoomList() {
     <>
       
 
-      {/* Navbar */}
-      <nav className="navbar navbar-expand-lg">
-        <div className="container">
-          <a className="navbar-brand" href="/">LOGO</a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarContent"
-            aria-controls="navbarContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-                <a className="nav-link" href="/dash">Dashboard</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/AddRoom">Post Add</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/Userroom">About Us</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/maintenance">Blogs</a>
-              </li>
-              
-              {/* Dropdown Menu */}
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="profileDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                   Account
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-                  <li><a className="dropdown-item" href="/profile">View Profile</a></li>
-                  <li><a className="dropdown-item" href="/MyRoom">My Room</a></li>
-                  <li><a className="dropdown-item" href="/MyListings">My Listings</a></li>
-                  <li><a className="dropdown-item" href="/MyListings">Rate Us</a></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li>
-                  {sessionStorage.getItem("token") && (
+      {/* Navigation Bar and Welcome Section Combined */}
+      <div className="navbar navbar-expand-lg">
+            <div className="container">
+              <a className="nav-link text-warning" href="/">LOGO</a>
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                  <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarContent">
+                <ul className="navbar-nav ms-auto">
+                 
                   <li className="nav-item">
-                    <button className="dropdown-item" onClick={handleLogout}>Logout</button>
+                    <a className="nav-link" href="/">Home</a>
                   </li>
-                )}
+                  <li className="nav-item">
+                    <a className="nav-link" href="/">About Us</a>
                   </li>
+                   <li className="nav-item">
+                    <a className="nav-link" href="/maintenance">Blogs</a>
+                  </li>
+    
+                  {/* Dropdown Menu */}
+                  <li className="nav-item dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      href="#"
+                      id="profileDropdown"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                    Account
+                    </a>
+                    <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                      <li><a className="dropdown-item" href="/login">Login</a></li>
+                      <li><a className="dropdown-item" href="/register">Register</a></li>
+                    </ul>
+                  </li>
+    
+                  
                 </ul>
-              </li>
-             
-            </ul>
-          </div>
-        </div>
-      </nav>
+              </div>
+    
+              </div>
+            </div>
+        
+    
 
       <div className="room-list-container2">
                   <div className="filter-bar2">
