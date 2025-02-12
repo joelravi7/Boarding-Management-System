@@ -14,6 +14,8 @@ function LoggedCustomer() {
   const [alertType, setAlertType] = useState("");
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedBuyer, setSelectedBuyer] = useState(null);
+   const [unconfirmedBooking, setunconfirmedBooking] = useState([]);
+  
 
   const [updatedRoomData, setUpdatedRoomData] = useState({
     roomType: "",
@@ -33,10 +35,7 @@ function LoggedCustomer() {
       navigate("/login"); // Redirect if token does not exist
       return;
     }
-  
 
-  
-    
     fetchRooms(); // Fetch rooms after customer details are fetched
   }, [navigate]);
   
@@ -50,17 +49,51 @@ function LoggedCustomer() {
       navigate("/login");
       return;
     }
-
+  
     try {
       const response = await axios.get("http://localhost:8070/Room/myrooms", {
         headers: { Authorization: `Bearer ${token}` },
       });
+      
+      console.log("API Response:", response.data); // Debugging log
       setRooms(response.data);
     } catch (err) {
       setMessage(err.response?.data?.error || "Failed to load rooms.");
       setAlertType("danger");
     }
   };
+  
+
+  const handlebVerification = async (id) => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+        alert("Authorization token is missing. Please log in again.");
+        return;
+    }
+
+    try {
+        const response = await axios.put(
+            `http://localhost:8070/room/confirmBooking/${id}`, // Use `id` instead of `roomId`
+            { isBookedconfirm: true }, // Changed from isVerified to isBookedConfirm
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            const verifiedRoom = unconfirmedBooking.find((room) => room._id === id);
+            setunconfirmedBooking((prevRooms) => prevRooms.filter((room) => room._id !== id));
+            setunconfirmedBooking((prevRooms) => [...prevRooms, verifiedRoom]);
+            alert("Room booking successfully confirmed!");
+        } else {
+            alert("Failed to update room booking status.");
+        }
+    } catch (err) {
+        alert("Error updating room booking status: " + (err.response?.data?.error || err.message));
+    }
+};
 
   
   const handleRepostRoom = async (roomId) => {
@@ -344,6 +377,9 @@ function LoggedCustomer() {
             </>
           )}
         </p>
+        
+
+
         <p><strong>Rating: </strong>
           {Array.from({ length: 5 }, (_, index) => (
             index < room.buyerRating ? (
@@ -380,6 +416,16 @@ function LoggedCustomer() {
         >
           Repost Room
         </button>
+        {room.isBooked && (
+          <button 
+            onClick={() => handlebVerification(room._id)} 
+            className="approve-btn" 
+            disabled={room.isBookedConfirm} 
+          > 
+            {room.isBookedConfirm ? "Confirmed" : "Confirm Booking"} 
+          </button>
+        )}
+
         </div>
       </div>
     </div>

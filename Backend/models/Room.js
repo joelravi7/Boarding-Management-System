@@ -14,7 +14,9 @@ const roomSchema = new mongoose.Schema(
     customerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the customer who added the room
     isVerified: { type: Boolean, default: false }, // Admin verification
 
+    
     isBooked: { type: Boolean, default: false }, 
+    isBookedconfirm: { type: Boolean, default: true }, 
     buyerName: { type: String },
     buyerContactNumber: { type: String },
     buyerNIC: { type: String },

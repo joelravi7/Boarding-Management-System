@@ -198,6 +198,29 @@ const bookRoom = async (req, res) => {
 };
 
 
+// Verify (Approve/Reject) a room booking confirmation
+const verifyBookingconfirm = async (req, res) => {
+  try {
+    if (typeof req.body.isBookedconfirm!== "boolean") {
+      return res.status(400).json({ error: "Invalid value for isBookedconfirm" });
+    }
+
+    const updatedRoom = await Room.findByIdAndUpdate(
+      req.params.id,
+      { isBookedconfirm: req.body.isBookedconfirm },
+      { new: true }
+    );
+
+    if (!updatedRoom) return res.status(404).json({ error: "Room not found" });
+
+    res.json(updatedRoom);
+  } catch (err) {
+    console.error("Error updating room verification status:", err);
+    res.status(500).json({ error: "Error updating room verification status" });
+  }
+};
+
+
 // Fetch bookings for room owners
 const getOwnerBookings = async (req, res) => {
   try {
@@ -257,6 +280,11 @@ const buyerRating = async (req, res) => {
       return res.status(400).json({ error: "Room is not booked yet." });
     }
 
+    // Check if the booking is confirmed
+    if (!room.isBookedconfirm) {
+      return res.status(400).json({ error: "Booking is not confirmed yet." });
+    }
+
     // Update buyer rating and rating description
     room.buyerRating = buyerRating;
     room.ratingdescription = ratingdescription; // Save the description along with the rating
@@ -286,5 +314,6 @@ module.exports = {
   getOwnerBookings,
   buyerRating,
   repostRoom,
+  verifyBookingconfirm,
   
 };

@@ -13,6 +13,7 @@ const {
   getOwnerBookings,
   buyerRating,
   repostRoom,
+  verifyBookingconfirm,
   
 } = require("../controllers/roomController");
 
@@ -35,6 +36,7 @@ router.delete("/delete/:id", auth, deleteRoom);
 router.post("/book", auth, bookRoom); // Customers can book a room (No need for ":id" in URL)
 router.put("/repost/:roomId", auth, repostRoom);
 router.get("/owner/bookings", auth, getOwnerBookings); // Owners fetch bookings of their rooms
+router.put("/confirmbooking/:id", auth, verifyBookingconfirm); // Owners fetch bookings of their rooms
 
 
 // Admin Routes (Verification)
