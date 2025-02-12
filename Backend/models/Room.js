@@ -21,7 +21,8 @@ const roomSchema = new mongoose.Schema(
     buyerCustomerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Reference to the buyer
     buyingDate: { type: Date }, // Set only when the room is booked/purchased
     buyingDuration: { type: Number }, // Duration of stay in months/days (based on your requirement)
-    buyerRating: { type: Number, min: 1, max: 5 } // Rating given by the owner (optional)
+    buyerRating: { type: Number, min: 1, max: 5 }, // Rating given by the owner (optional)
+    ratingdescription: { type: String},
   },
   { timestamps: true } // Mongoose automatically adds createdAt and updatedAt fields
 );

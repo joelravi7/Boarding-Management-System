@@ -209,29 +209,67 @@ const getOwnerBookings = async (req, res) => {
   }
 };
 
-const BuyerRating = async (req, res) => {
+const repostRoom = async (req, res) => {
   try {
-    const { roomId, buyerRating } = req.body;
+    const { roomId } = req.params;
 
-    if (!roomId || buyerRating) {
-      return res.status(400).json({ error: "Room ID and buyer rating are required." });
-    }
-
+    // Find the room
     const room = await Room.findById(roomId);
     if (!room) return res.status(404).json({ error: "Room not found" });
 
-    if (!room.isBooked) return res.status(400).json({ error: "Room is not booked yet." });
+    // Reset the booking and buyer-related fields
+    room.isBooked = false;
+    room.isVerified = false;
+    room.buyerName = null;
+    room.buyerContactNumber = null;
+    room.buyerNIC = null;
+    room.buyerCustomerId = null;
+    room.buyingDate = null;
+    room.buyingDuration = null;
 
-    // Update buyer rating
-    room.buyerRating = buyerRating;
+    // Save the updated room
     await room.save();
 
-    res.json({ message: "Buyer rating updated successfully!", room });
+    res.json({ message: "Room reposted successfully! Room Rating will be added to the Filter Bar.", room });
+  } catch (err) {
+    console.error("Error reposting room:", err);
+    res.status(500).json({ error: "An error occurred while reposting the room." });
+  }
+};
+
+
+
+const buyerRating = async (req, res) => {
+  try {
+    const { roomId, buyerRating, ratingdescription } = req.body;
+
+    // Check if both roomId, buyerRating, and ratingdescription are provided
+    if (!roomId || !buyerRating || !ratingdescription) {
+      return res.status(400).json({ error: "Room ID, buyer rating, and rating description are required." });
+    }
+
+    const room = await Room.findById(roomId);
+    if (!room) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+
+    if (!room.isBooked) {
+      return res.status(400).json({ error: "Room is not booked yet." });
+    }
+
+    // Update buyer rating and rating description
+    room.buyerRating = buyerRating;
+    room.ratingdescription = ratingdescription; // Save the description along with the rating
+    await room.save();
+
+    res.json({ message: "Buyer rating and description updated successfully!", room });
   } catch (err) {
     console.error("Error updating buyer rating:", err);
     res.status(500).json({ error: "An error occurred while updating buyer rating." });
   }
 };
+
+
 
 
 
@@ -246,6 +284,7 @@ module.exports = {
   verifyRoom,
   bookRoom,
   getOwnerBookings,
-  BuyerRating,
+  buyerRating,
+  repostRoom,
   
 };

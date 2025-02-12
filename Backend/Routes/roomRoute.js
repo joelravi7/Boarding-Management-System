@@ -11,7 +11,8 @@ const {
   getAllRooms,
   bookRoom,
   getOwnerBookings,
-  BuyerRating,
+  buyerRating,
+  repostRoom,
   
 } = require("../controllers/roomController");
 
@@ -25,13 +26,14 @@ router.get("/all", getAllRooms); // Fetch all verified rooms
 // Customer Routes
 router.get("/myrooms", auth, getMyRooms);
 router.get("/mybooking", auth, getBookedroom,);
-router.get("/rate", auth, BuyerRating,);
+router.post("/rate", buyerRating,);
 router.post("/add", auth, upload.array("images", 10), addRoom);
 router.put("/update/:id", auth, upload.array("images", 10), updateRoom);
 router.delete("/delete/:id", auth, deleteRoom);
 
 // Booking Routes (No need for image upload)
 router.post("/book", auth, bookRoom); // Customers can book a room (No need for ":id" in URL)
+router.put("/repost/:roomId", auth, repostRoom);
 router.get("/owner/bookings", auth, getOwnerBookings); // Owners fetch bookings of their rooms
 
 

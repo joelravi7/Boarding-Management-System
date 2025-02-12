@@ -147,7 +147,6 @@ app.post("/Adminregister", async (req, res) => {
   }
 });
 
-// Login Route
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -164,10 +163,24 @@ app.post("/login", async (req, res) => {
       return res.status(500).json({ error: "JWT Secret is not defined" });
     }
 
+    // Check if the user has any booked rooms where they are the owner
+    const bookedRoom = await Room.findOne({ customerId: user._id, isBooked: true });
+
+    let alertMessage = null;
+    if (bookedRoom) {
+      alertMessage = `Reminder: The room in ${bookedRoom.roomCity}  you Listed is  booked! View buyer infor in listings`;
+    }
+
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.json({ token, username: user.name, userLname: user.Lname });
-  
+
+    res.json({ 
+      token, 
+      username: user.name, 
+      userLname: user.Lname,
+      alertMessage  // Send alert message if a room is booked
+    });
+
   } catch (err) {
     console.error("Error during login:", err.message);
     res.status(500).json({ error: err.message });

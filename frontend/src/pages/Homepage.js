@@ -261,6 +261,15 @@ function HomePage() {
                           <div className="room-info">
                             <h5>{room.roomType} - {room.roomCity}</h5>
                             <p className="room-price">Rs {room.price.toLocaleString()}</p>
+                            <h5>Rating:
+                              {Array.from({ length: 5 }, (_, index) => (
+                                index < room.buyerRating ? (
+                                  <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
+                                ) : (
+                                  <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
+                                )
+                              ))}
+                            </h5>
                           </div>
                         </div>
                       ))

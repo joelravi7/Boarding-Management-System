@@ -63,7 +63,25 @@ function LoggedCustomer() {
   };
 
   
-
+  const handleRepostRoom = async (roomId) => {
+    try {
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        alert("Authentication required. Please log in.");
+        return;
+      }
+  
+      const response = await axios.put(`http://localhost:8070/room/repost/${roomId}`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      alert(response.data.message); // Show success message
+      window.location.reload(); // Reload to reflect changes
+    } catch (err) {
+      console.error("Error reposting room:", err.response?.data || err.message);
+      alert(err.response?.data?.error || "An error occurred while reposting the room.");
+    }
+  };
   
 
   const deleteRoom = async (roomId) => {
@@ -314,7 +332,6 @@ function LoggedCustomer() {
             </>
           )}
         </p>
-
         <p>
           <strong>Booking:</strong>{" "}
           {room.isBooked ? (
@@ -327,6 +344,17 @@ function LoggedCustomer() {
             </>
           )}
         </p>
+        <p><strong>Rating: </strong>
+          {Array.from({ length: 5 }, (_, index) => (
+            index < room.buyerRating ? (
+              <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
+            ) : (
+              <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
+            )
+          ))}
+        </p>
+        <p><strong>Ratingdescription: </strong>{room.ratingdescription}</p>
+       
 
         
 
@@ -345,6 +373,13 @@ function LoggedCustomer() {
             View Buyer
           </button>
         )}
+        <button
+          className="btn btn-warning"
+          onClick={() => handleRepostRoom(room._id)}
+          disabled={!room.isBooked} // Disable button if room is not booked
+        >
+          Repost Room
+        </button>
         </div>
       </div>
     </div>

@@ -49,21 +49,24 @@
   font-weight: bold;
 }
 
+
+
+
   /* welcome Section */
   
 /* Container styles for text and image */
 .sector01{
   background-color: #fcfdfe; /* Light gray background */
-  
 
 }
 
 @keyframes backgroundSlider {
-  0% { background-image: url('../assets/homepageimage.jpg'); }
-  25% { background-image: url('../assets/SLIIT-malabe.jpg'); }
-  50% { background-image: url('../assets/moving-house-check.avif'); }
-  75% { background-image: url('../assets/key-exchnage.webp'); }
-  100% { background-image: url('../assets/Moving-Day.png'); }
+  0% { background-image: url('../assets/SLIIT-malabe.jpg'); }
+  25% { background-image: url('../assets/Moving-Day.png'); }
+  50% { background-image: url('../assets/homepageimage.jpg'); }
+  75% { background-image: url('../assets/moving-house-check.avif'); }
+  100% { background-image: url('../assets/key-exchnage.webp'); }
+  
 }
 
 
@@ -90,6 +93,7 @@
 .Homesector1-container .text-section {
   max-width: 70%; /* Restrict width for the text */
 }
+
 
 .dash-Maintopic1 {
   font-size: 38px; /* Large text size for emphasis */

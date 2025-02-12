@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"; // Navigation hook
 import styles from "../Componets/CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
 
+import logo from "../Componets/assets/APPLOGO.png";
+
 import instagram from '../Componets/assets/Instagram.webp';
 import facebook from '../Componets/assets/facebook.png';
 import twitter from '../Componets/assets/twitter.png'
@@ -13,6 +15,13 @@ import searchIcon from "../Componets/assets/searchimage.png";
 
 function HomePage() {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  // Extract message from location state (if available)
+  const [alertMessage2, setAlertMessage2] = useState(location.state?.message2 || "");
+  const [welcomemessage, setwelcomemessage] = useState(location.state?.message1 || "");
+  const [alertType, setAlertType] = useState(location.state?.alertType || "");
+
   const { state } = location || {};
   const message = state?.message || null;
   const [rooms, setRooms] = useState([]);
@@ -27,8 +36,20 @@ function HomePage() {
   const uniqueRoomTypes = [...new Set(rooms.map((room) => room.roomType))]; // Extract unique room types
   const roomsPerPage = 8;
   
+  useEffect(() => {
+    if (alertMessage2) {
+      // Clear the message from state after displaying it once
+      const timer = setTimeout(() => {
+        setAlertMessage2("");
+        setAlertType("");
+        navigate(".", { replace: true, state: {} }); // Reset state to avoid showing it again
+      }, 6000000); // Hide after 6 seconds
 
-  const navigate = useNavigate(); // Initialize useNavigate hook
+      return () => clearTimeout(timer); // Cleanup on unmount
+    }
+  }, [alertMessage2, navigate]);
+
+ 
 
   const handleBooking = (room) => {
         const token = sessionStorage.getItem("token");
@@ -119,12 +140,39 @@ function HomePage() {
   
   return (
     <>
+    
+     {/* Alert Message (Pop-up Style) */}
+      {alertMessage2 ? (
+        <div
+          className={`alert alert-${alertType} alert-dismissible fade show fixed-top mx-auto mt-5 p-3 shadow w-50 text-center border border-dark`}
+          role="alert"
+        >
+          {alertMessage2}
+          <button
+            type="button"
+            className="btn-close position-absolute top-0 end-0 m-0"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+            onClick={() => setAlertMessage2(null)}
+          ></button>
+        </div>
+      ) : null}
+
+
+
+
+
     < nav className="body">
       
         {/* Navigation Bar and Welcome Section Combined */}
         <div className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="nav-link text-warning" href="/">LOGO</a>
+          <div className="LOGO-container">
+            <a className="nav-link text-warning" href="/">
+            <img src={logo} alt="LOGO" width="80" />
+            </a>
+          </div>
+
           <button
             className="navbar-toggler"
             type="button"
@@ -179,9 +227,9 @@ function HomePage() {
                 </ul>
               </li>
 
-              {message && (
+              {welcomemessage && (
                 <li className="nav-item">
-                  <div className="nav-link text-warning">{message}</div>
+                  <div className="nav-link text-warning">{welcomemessage}</div>
                 </li>
               )}
             </ul>
@@ -278,6 +326,15 @@ function HomePage() {
                       <div className="room-info">
                         <h5>{room.roomType} - {room.roomCity}</h5>
                         <p className="room-price">Rs {room.price.toLocaleString()}</p>
+                        <h5>Rating:
+                          {Array.from({ length: 5 }, (_, index) => (
+                            index < room.buyerRating ? (
+                              <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
+                            ) : (
+                              <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
+                            )
+                          ))}
+                        </h5>
                       </div>
                     </div>
                   ))

@@ -154,7 +154,21 @@ function BookRoomPage() {
           <p className="card-text"><strong>Room Added On:</strong>{room.createdAt}</p>
           <p className="card-text"><strong>Description:</strong>{room.description}</p>
           <p className="card-text"><strong>Owner:</strong> {room.ownerName} </p>
-          <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}</p>
+          <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}
+          </p> <p><strong>Previous Renter's Rating: </strong>
+          {room.buyerRating > 0 ? (
+            Array.from({ length: 5 }, (_, index) => (
+              index < room.buyerRating ? (
+                <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
+              ) : (
+                <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
+              )
+            ))
+          ) : (
+            <span>No Rating</span> // No stars, so show "No Rating"
+          )}
+        </p>
+        <p>{room.ratingdescription}</p>
 
           
 

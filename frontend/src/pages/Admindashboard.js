@@ -177,6 +177,16 @@ axios.get("http://localhost:3000/admin/dashboard", {
                                     </div>
                                   ))}
                                 </div>
+                                <h5><strong>Rating: </strong>
+                                  {Array.from({ length: 5 }, (_, index) => (
+                                    index < room.buyerRating ? (
+                                      <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
+                                    ) : (
+                                      <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
+                                    )
+                                  ))}
+                                </h5>
+                                <p><strong>Ratingdescription: </strong>{room.ratingdescription}</p>
                                 <p><strong>Room Added On:</strong> {room.createdAt || "N/A"}</p>
                                 <p><strong>Owner Name:</strong> {room.ownerName || "N/A"}</p>
                                 <p><strong>Owner Contact:</strong> {room.ownerContactNumber || "N/A"}</p>
