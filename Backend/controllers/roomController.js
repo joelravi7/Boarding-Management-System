@@ -201,13 +201,16 @@ const bookRoom = async (req, res) => {
 // Verify (Approve/Reject) a room booking confirmation
 const verifyBookingconfirm = async (req, res) => {
   try {
-    if (typeof req.body.isBookedconfirm!== "boolean") {
+    if (typeof req.body.isBookedconfirm !== "boolean") {
       return res.status(400).json({ error: "Invalid value for isBookedconfirm" });
     }
 
     const updatedRoom = await Room.findByIdAndUpdate(
       req.params.id,
-      { isBookedconfirm: req.body.isBookedconfirm },
+      { 
+        isBookedconfirm: req.body.isBookedconfirm,
+        $unset: { buyerRating: "", ratingdescription: "" } // Remove rating fields
+      },
       { new: true }
     );
 
@@ -219,6 +222,7 @@ const verifyBookingconfirm = async (req, res) => {
     res.status(500).json({ error: "Error updating room verification status" });
   }
 };
+
 
 
 // Fetch bookings for room owners
@@ -253,7 +257,7 @@ const repostRoom = async (req, res) => {
     // Save the updated room
     await room.save();
 
-    res.json({ message: "Room reposted successfully! Room Rating will be added to the Filter Bar.", room });
+    res.json({ message: "Room reposted successfully! Room Rating will be Used in the listing.", room });
   } catch (err) {
     console.error("Error reposting room:", err);
     res.status(500).json({ error: "An error occurred while reposting the room." });

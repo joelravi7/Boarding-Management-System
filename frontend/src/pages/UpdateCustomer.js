@@ -1,60 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
-function UpdateCustomer() {
-  const [customer, setCustomer] = useState({
-    name: "",
-    Lname: "",
-    DOB: "",
-    Gender: "",
-    Phonenumber1: "",
-    Phonenumber2: "",
-    Address: "",
-    email: "",
-    password: "", // For password
-    confirmPassword: "", // For password confirmation
-  });
-  const [error, setError] = useState(null); // For error state
-  const { id } = useParams();
+function UpdateCustomer({ customer, onClose }) {
+  const [updatedCustomer, setUpdatedCustomer] = useState(customer);
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCustomerData() {
-      const token = sessionStorage.getItem("token");
-
-      if (!token) {
-        alert("You are not logged in!");
-        navigate("/login");
-        return;
-      }
-
-      try {
-        // Fetch customer data from the backend
-        const response = await axios.get(`http://localhost:8070/customer/get/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (response.data.status === "Customer fetched successfully") {
-          setCustomer(response.data.customer);
-        } else {
-          setError("Customer details not found.");
-          alert("Customer details not found.");
-        }
-      } catch (error) {
-        console.error("Error fetching customer data:", error.message);
-        setError("Failed to load customer details.");
-        alert("Failed to load customer details.");
-      }
-    }
-
-    fetchCustomerData();
-  }, [id, navigate]);
+    setUpdatedCustomer(customer);
+  }, [customer]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCustomer((prevCustomer) => ({
+    setUpdatedCustomer((prevCustomer) => ({
       ...prevCustomer,
       [name]: value,
     }));
@@ -70,76 +28,25 @@ function UpdateCustomer() {
       return;
     }
 
-    if (customer.password !== customer.confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
     try {
-  const updatedCustomer = { ...customer };
-  delete updatedCustomer.confirmPassword;
+      const response = await axios.put(`http://localhost:8070/customer/update/${customer._id}`, updatedCustomer, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-  const response = await axios.put(`http://localhost:8070/customer/update/${id}`, updatedCustomer, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  console.log(response.data); // Log response for debugging
-  if (response.status === 200) {
-    alert("Details updated successfully!");
-    navigate("/profile");
-  } else {
-    alert("Failed to update details.");
-  }
-} catch (error) {
-  console.error("Error updating customer details:", error.message);
-  alert("Failed to update details.");
-}
-
+      if (response.status === 200) {
+        alert("Details updated successfully!");
+        onClose(); // Close the modal
+      } else {
+        alert("Failed to update details.");
+      }
+    } catch (error) {
+      console.error("Error updating customer details:", error.message);
+      alert("Failed to update details.");
+    }
   };
 
-  
-
   return (
-    < nav className="body">
-      {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg">
-        <div className="container">
-          <a className="navbar-brand" href="/">LOGO</a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarContent"
-            aria-controls="navbarContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarContent">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item"><a className="nav-link" href="/">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="/Rooms">Rooms</a></li>
-              <li className="nav-item"><a className="nav-link" href="/staff">Staff</a></li>
-              <li className="nav-item"><a className="nav-link" href="/maintenance">Maintenance</a></li>
-              <li className="nav-item"><a className="nav-link" href="/Profile">Profile</a></li>
-              
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-    <div className="updateRegistration-container">
-      <h2 className="mt-4">Update Your Account</h2>
-
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col">
             <label htmlFor="name" className="form-label">
@@ -300,8 +207,6 @@ function UpdateCustomer() {
           Update
         </button>
       </form>
-    </div>
-    </nav>
   );
 }
 

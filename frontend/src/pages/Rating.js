@@ -176,12 +176,13 @@ function LoggedCustomer() {
                     <p><strong>Duration</strong> {room.buyingDuration} Months</p>
 
                     <button 
-                      className="btn btn-primary mt-2" 
+                      className="btn btn-primary mt-2 w-50" 
                       data-bs-toggle="modal" 
                       data-bs-target="#rateRoomModal"
-                      onClick={() => setFormData({ ...formData, roomId: room._id })} // Set roomId in formData
+                      onClick={() => setFormData({ ...formData, roomId: room._id })}
+                      disabled={room.buyerRating} // Disable if rating exists
                     >
-                      Rate this room
+                      {room.rating ? "Already Rated" : "Rate this room"}
                     </button>
                   </div>
                 </div>

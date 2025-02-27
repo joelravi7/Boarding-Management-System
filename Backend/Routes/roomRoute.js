@@ -44,3 +44,4 @@ router.get("/unverified", adminAuth, getUnverifiedRooms);
 router.put("/verify/:id", adminAuth, verifyRoom);
 
 module.exports = router;
+

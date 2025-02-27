@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line
 import "../Componets/CSS/Profile.css";
+import { Pencil, Trash2, Eye, RefreshCcw, CheckCircle } from "lucide-react";
 
 
 function LoggedCustomer() {
@@ -73,7 +74,7 @@ function LoggedCustomer() {
 
     try {
         const response = await axios.put(
-            `http://localhost:8070/room/confirmBooking/${id}`, // Use `id` instead of `roomId`
+            `http://localhost:8070/room/confirBooking/${id}`, // Use `id` instead of `roomId`
             { isBookedconfirm: true }, // Changed from isVerified to isBookedConfirm
             {
                 headers: {
@@ -395,36 +396,43 @@ function LoggedCustomer() {
         
 
         <div className="d-flex justify-content-start mt-2">
-          <button 
-            className="btn btn-warning me-1" 
-            onClick={() => handleRoomUpdate(room)} 
-            disabled={room.isVerified}
+        <button 
+            className="btn  me-1" 
+            onClick={() => handleRoomUpdate(room)}
+            title="Edit Room"
           >
-            <strong>Update</strong>
+            <Pencil size={20} /> {/* Edit Icon */}
           </button>
-          <button className="btn btn-danger" onClick={() => deleteRoom(room._id)}><strong>Delete </strong></button>
-         
-         {room.isBooked && (
-          <button className="btn btn-info" onClick={() => handleViewBuyerInfo(room)}>
-            View Buyer
-          </button>
-        )}
-        <button
-          className="btn btn-warning"
-          onClick={() => handleRepostRoom(room._id)}
-          disabled={!room.isBooked} // Disable button if room is not booked
-        >
-          Repost Room
-        </button>
-        {room.isBooked && (
+
+
           <button 
-            onClick={() => handlebVerification(room._id)} 
-            className="approve-btn" 
-            disabled={room.isBookedConfirm} 
-          > 
-            {room.isBookedConfirm ? "Confirmed" : "Confirm Booking"} 
+          className="btn " 
+          onClick={() => deleteRoom(room._id)}
+          title="Delete Room"
+          >
+            <Trash2 size={20} /> {/* Bin Icon */}
           </button>
-        )}
+         
+          
+
+        <button className="btn " onClick={() => handleRepostRoom(room._id)}
+          disabled={!room.isBooked}
+        >
+          <RefreshCcw size={20} />  
+        </button>
+
+        {room.isBooked && (
+            <button 
+            className="btn btn-info" 
+            onClick={() => handleViewBuyerInfo(room)}
+            title="View Buyer info"
+            >
+              <Eye size={20} /> 
+            </button>
+          )}
+
+        
+
 
         </div>
       </div>
