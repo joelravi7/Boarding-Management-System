@@ -24,32 +24,41 @@
 .navbar {
   background: #063970;
   padding-right: 5%;
-  height: 55px;
+  height: 65px;
+}
+.LOGO-container{
+  margin-left: 0%;
+  margin-top: -1.5%;
+  margin-bottom: 0%;
+}
+.nav-link{
+  color: #fffefc !important;
+  margin-right: 15px;
+  font-size: 18px !important;
+  transition: color 0.3s ease;
+  margin-bottom: 0%;  
+  margin-top: 6%;
 }
 
-/* Navbar Links */
-.nav-link {
-  color: #ffffff !important; /* Ensure white color */
-  font-size: 18px;
+
+.nav-link-text-warning{
+  color: #fdb603 !important; /* Ensure white color */
+  font-size: 20px;
   margin-right: 15px;
   transition: color 0.3s ease;
   margin-bottom: 0%;
-  margin-top: -0.5%;
+  margin-top: 8%;
 }
 
+.nav-link-text-warning:hover{
+  font-weight: bold;
+}
 /* Active/ Hover State for Navbar Links */
 .nav-link.active,
 .nav-link:hover {
   color: #ffffff !important; /* Keep white on hover */
   font-weight: bold;
 }
-
-
-
-
-
-
-
 
   /* welcome Section */
   

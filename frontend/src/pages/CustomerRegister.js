@@ -45,7 +45,7 @@ function Addmember() {
     };
 
     axios
-      .post("http://localhost:8070/register", newCustomer)
+      .post("http://localhost:8070/Customer/add", newCustomer)
       .then(() => {
         alert("Registration successful!");
         setName("");

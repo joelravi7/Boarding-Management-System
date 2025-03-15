@@ -4,13 +4,12 @@ const mongoose = require("mongoose");
 const Customer = require("../models/Customer");
 const Room = require("../models/Room");
 
-
 // Register a new customer
 exports.addCustomer = async (req, res) => {
-  const { name, lname, dob, gender, phoneNumber1, phoneNumber2, address, email, password } = req.body;
+  const { name, Lname, Gender, Phonenumber, Address, email, password } = req.body;
 
-  if (!name || !lname || !dob || !gender || !phoneNumber1 || !phoneNumber2 || !address || !email || !password) {
-    return res.status(400).json({ status: "Error", message: "Missing required fields" });
+  if (!name || !email || !password) {
+    return res.status(400).json({ status: "Error", message: "Name, email, and password are required" });
   }
 
   try {
@@ -20,12 +19,12 @@ exports.addCustomer = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newCustomer = new Customer({ name, lname, dob, gender, phoneNumber1, phoneNumber2, address, email, password: hashedPassword });
-
+    const newCustomer = new Customer({ name, Lname, Gender, Phonenumber, Address, email, password: hashedPassword });
+    
     await newCustomer.save();
     const token = jwt.sign({ id: newCustomer._id, role: "customer" }, process.env.JWT_SECRET || "your-secret-key", { expiresIn: "1h" });
 
-    res.status(201).json({ status: "Registration successful", token, customer: newCustomer });
+    res.status(201).json({ status: "Success", token, customer: newCustomer });
   } catch (err) {
     res.status(500).json({ status: "Error", message: err.message });
   }
@@ -44,10 +43,10 @@ exports.getCustomerDetails = async (req, res) => {
   }
 };
 
-// Update user data
+// Update customer details
 exports.updateCustomer = async (req, res) => {
   const userId = req.params.id;
-  const { name, email, password, lname, dob, gender, phoneNumber1, phoneNumber2, address } = req.body;
+  const { name, email, password, Lname, Gender, Phonenumber, Address } = req.body;
 
   try {
     const user = await Customer.findById(userId);
@@ -56,12 +55,10 @@ exports.updateCustomer = async (req, res) => {
     user.name = name || user.name;
     user.email = email || user.email;
     user.password = password ? await bcrypt.hash(password, 10) : user.password;
-    user.lname = lname || user.lname;
-    user.dob = dob || user.dob;
-    user.gender = gender || user.gender;
-    user.phoneNumber1 = phoneNumber1 || user.phoneNumber1;
-    user.phoneNumber2 = phoneNumber2 || user.phoneNumber2;
-    user.address = address || user.address;
+    user.Lname = Lname || user.Lname;
+    user.Gender = Gender || user.Gender;
+    user.Phonenumber = Phonenumber || user.Phonenumber;
+    user.Address = Address || user.Address;
 
     await user.save();
     res.status(200).json({ message: "User updated successfully", user });
@@ -90,7 +87,7 @@ exports.getCustomerById = async (req, res) => {
     if (!customer) {
       return res.status(404).json({ status: "Error", message: "Customer not found" });
     }
-    res.status(200).json({ status: "Customer fetched successfully", customer });
+    res.status(200).json({ status: "Success", customer });
   } catch (err) {
     res.status(500).json({ status: "Error", message: err.message });
   }
@@ -123,5 +120,3 @@ exports.deleteCustomer = async (req, res) => {
     res.status(500).json({ error: "An error occurred while deleting the customer and their rooms" });
   }
 };
-
-

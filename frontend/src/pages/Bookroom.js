@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigat
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../Componets/CSS/Bookroom.css'; // Ensure the CSS is linked here
-
+import logo from "../Componets/assets/unistaylogo.png";
 function BookRoomPage() {
   const location = useLocation();
   const { room } = location.state || {}; // Get room details from navigation state
@@ -53,6 +53,11 @@ function BookRoomPage() {
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg">
       <div className="container">
+        <div className="LOGO-container">
+          <a className="nav-link text-warning" href="/">
+          <img src={logo} alt="LOGO" width="130" />
+          </a>
+          </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -116,8 +121,9 @@ function BookRoomPage() {
       </nav>
 
       <div className="containerbody">
-        <h2 className="text-center mb-4">Room Details</h2>
+      <h2 className="text-center mb-4">Room Details</h2>
         <div className="card">
+        
         <div className="card-body">
         <h5 className="card-title">{room.roomType} for Rent - {room.roomCity}</h5>
           {/* Main Image Carousel */}
@@ -154,21 +160,43 @@ function BookRoomPage() {
           <p className="card-text"><strong>Room Added On:</strong>{room.createdAt}</p>
           <p className="card-text"><strong>Description:</strong>{room.description}</p>
           <p className="card-text"><strong>Owner:</strong> {room.ownerName} </p>
-          <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}
-          </p> <p><strong>Previous Renter's Rating: </strong>
-          {room.buyerRating > 0 ? (
-            Array.from({ length: 5 }, (_, index) => (
-              index < room.buyerRating ? (
-                <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
-              ) : (
-                <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
-              )
-            ))
-          ) : (
-            <span>No Rating</span> // No stars, so show "No Rating"
-          )}
-        </p>
-        <p>{room.ratingdescription}</p>
+          <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}</p>
+           {/* Display Rating History */}
+           <div className="mt-3">
+                        <h5><strong>Rating History</strong>  </h5>
+                        {room.ratingHistory && room.ratingHistory.length > 0 ? (
+                          room.ratingHistory.map((rating, index) => (
+                            <div key={index}>
+                              <div>  
+                              <strong>Buyer Name:</strong> {rating.buyerName}
+                            
+                                <div>
+                                  <strong>Rating:</strong>
+                                  {/* Display 5 stars, highlighting the rated number in yellow */}
+                                  {Array.from({ length: 5 }, (_, starIndex) => (
+                                    <span
+                                      key={starIndex}
+                                      style={{
+                                        fontSize: "20px",
+                                        color: starIndex < rating.rating ? "#FFD700" : "#D3D3D3", // Yellow for rated stars, gray for un-rated
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      ★
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                              <strong>Description:</strong> {rating.description}
+                              {/* Separation line */}
+                              <hr style={{ margin: "10px 0", borderTop: "1px solid #ccc" }} />
+                            </div>
+                          ))
+                        ) : (
+                          <p>No ratings yet.</p>
+                        )}
+                      </div>
+          
 
           
 

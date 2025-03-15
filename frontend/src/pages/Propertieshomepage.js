@@ -114,11 +114,10 @@ function RoomList() {
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <div className="LOGO-container">
+         <div className="LOGO-container">
             <a className="nav-link text-warning" href="/">
             <img src={logo} alt="LOGO" width="130" />
-            </a>
-            </div>
+            </a></div>
           <button
             className="navbar-toggler"
             type="button"
@@ -133,15 +132,14 @@ function RoomList() {
           <div className="collapse navbar-collapse" id="navbarContent">
             <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-                <a className="nav-link" href="/dash">Dashboard</a>
+                <a className="nav-link" href="/dash">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/AddRoom">Post Add</a>
+                <a className="nav-link" href="/Login">Post Add</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/Userroom">About Us</a>
               </li>
-             
               
               {/* Dropdown Menu */}
               <li className="nav-item dropdown">
@@ -156,11 +154,10 @@ function RoomList() {
                    Account
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-                  <li><a className="dropdown-item" href="/profile">View Profile</a></li>
-                  <li><a className="dropdown-item" href="/MyRoom">My Room</a></li>
-                  <li><a className="dropdown-item" href="/MyListings">My Listings</a></li>
-                  <li><a className="dropdown-item" href="/MyListings">Rate Us</a></li>
+                  <li><a className="dropdown-item" href="/Login">Login</a></li>
                   <li><hr className="dropdown-divider" /></li>
+                  <li><a className="dropdown-item" href="/Register">Register</a></li>
+                 
                   <li>
                   {sessionStorage.getItem("token") && (
                   <li className="nav-item">

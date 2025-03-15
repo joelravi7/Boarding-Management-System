@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line
 import "../Componets/CSS/Profile.css";
 import UpdateCustomer from "./UpdateCustomer"; // Import the UpdateCustomer component
-
+import logo from "../Componets/assets/unistaylogo.png";
 function LoggedCustomer() {
   const [customer, setCustomer] = useState(null);
   const navigate = useNavigate();
@@ -58,6 +58,11 @@ function LoggedCustomer() {
       < nav className="body">
       <nav className="navbar navbar-expand-lg ">
         <div className="container">
+          <div className="LOGO-container">
+                      <a className="nav-link text-warning" href="/">
+                      <img src={logo} alt="LOGO" width="130" />
+                      </a>
+                      </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -84,9 +89,7 @@ function LoggedCustomer() {
               <li className="nav-item">
                 <a className="nav-link" href="/Userroom">About Us</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/maintenance">Blogs</a>
-              </li>
+             
               
               {/* Dropdown Menu */}
               <li className="nav-item dropdown">
@@ -128,10 +131,8 @@ function LoggedCustomer() {
             <div className="CustomerBox">
               <p><strong>First Name:</strong> {customer.name}</p>
               <p><strong>Last Name:</strong> {customer.Lname || "N/A"}</p>
-              <p><strong>Date of Birth:</strong> {customer.DOB || "N/A"}</p>
               <p><strong>Gender:</strong> {customer.Gender || "N/A"}</p>
-              <p><strong>Phone Number 1:</strong> {customer.Phonenumber1 || "N/A"}</p>
-              <p><strong>Phone Number 2:</strong> {customer.Phonenumber2 || "N/A"}</p>
+              <p><strong>Phone Number :</strong> {customer.Phonenumber || "N/A"}</p>
               <p><strong>Email:</strong> {customer.email || "N/A"}</p>
               <p><strong>Address:</strong> {customer.Address || "N/A"}</p>
               

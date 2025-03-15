@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../Componets/CSS/AddRoom.css'
-
+import logo from "../Componets/assets/unistaylogo.png";
 function AddRoom() {
   const [roomAddress, setRoomAddress] = useState("");
   const [roomCity, setRoomCity] = useState("");
@@ -110,7 +110,12 @@ function AddRoom() {
      {/* Navigation Bar and Welcome Section Combined */}
      <div className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="/">LOGO</a>
+          <div className="LOGO-container">
+            <a className="nav-link text-warning" href="/">
+            <img src={logo} alt="LOGO" width="130" />
+            </a>
+          </div>
+          
           <button
             className="navbar-toggler"
             type="button"
@@ -136,9 +141,7 @@ function AddRoom() {
               <li className="nav-item">
                 <a className="nav-link" href="/">About Us</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/maintenance">Blogs</a>
-              </li>
+              
 
               {/* Dropdown Menu */}
               <li className="nav-item dropdown">

@@ -15,19 +15,13 @@ const CustomerSchema = new Schema({
         type: String,
         required:  false,
     },
-    DOB: {
-        type: Date,
-        required: false,
-    },
+    
     Gender: {
         type: String,
         required:  false,
     },
-    Phonenumber1: {
-        type: Number,
-        required:  false,
-    },
-    Phonenumber2: {
+   
+    Phonenumber: {
         type: Number,
         required:  false,
     },

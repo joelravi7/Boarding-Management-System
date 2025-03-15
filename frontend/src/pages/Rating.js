@@ -4,16 +4,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Bootstrap JS
 import "../Componets/CSS/Profile.css";
-
+import logo from "../Componets/assets/unistaylogo.png";
 function LoggedCustomer() {
   const location = useLocation();
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    buyerRating: "",
-    ratingdescription: "", // Add ratingdescription to formData state
-    roomId: "", // Add roomId to formData state
+    roomId: "",
+    buyerName: "",
+    rating: "",
+    description: "", // Rating description
   });
 
   useEffect(() => {
@@ -53,7 +54,7 @@ function LoggedCustomer() {
   const handleRateRoom = async (e) => {
     e.preventDefault();
 
-    if (!formData.buyerRating || !formData.ratingdescription) {
+    if (!formData.rating || !formData.description) {
       setError("Please provide both a rating and a description.");
       return;
     }
@@ -68,9 +69,10 @@ function LoggedCustomer() {
       const response = await axios.post(
         "http://localhost:8070/room/rate",
         {
-          roomId: formData.roomId, // Use roomId from formData
-          buyerRating: formData.buyerRating,
-          ratingdescription: formData.ratingdescription, // Send the rating description
+          roomId: formData.roomId, // Automatically taken from formData
+          rating: formData.rating,
+          buyerName: formData.buyerName, // Automatically taken from formData
+          description: formData.description, // Send the rating description
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -80,7 +82,9 @@ function LoggedCustomer() {
       if (response.status === 200) {
         alert("Thank you for rating the room!");
         // Reset form after successful submission
-        setFormData({ buyerRating: "", ratingdescription: "", roomId: "" });
+        setFormData({ rating: "", buyerName: "", description: "", roomId: "" });
+        // Refresh rooms to show updated rating status
+        fetchRooms();
       }
     } catch (err) {
       setError(err.response?.data?.error || "An error occurred while submitting the rating.");
@@ -88,9 +92,9 @@ function LoggedCustomer() {
   };
 
   const handleRatingChange = (rating) => {
-    setFormData({ ...formData, buyerRating: rating });
+    setFormData({ ...formData, rating });
   };
-  
+
   // Logout function
   const handleLogout = () => {
     sessionStorage.removeItem("token");
@@ -102,6 +106,11 @@ function LoggedCustomer() {
       <nav className="body">
         <nav className="navbar navbar-expand-lg">
           <div className="container">
+              <div className="LOGO-container">
+                <a className="nav-link text-warning" href="/">
+                <img src={logo} alt="LOGO" width="130" />
+                </a>
+                </div>
             <button
               className="navbar-toggler"
               type="button"
@@ -175,15 +184,67 @@ function LoggedCustomer() {
                     <p><strong>Booked Date</strong> {room.createdAt}</p>
                     <p><strong>Duration</strong> {room.buyingDuration} Months</p>
 
-                    <button 
-                      className="btn btn-primary mt-2 w-50" 
-                      data-bs-toggle="modal" 
-                      data-bs-target="#rateRoomModal"
-                      onClick={() => setFormData({ ...formData, roomId: room._id })}
-                      disabled={room.buyerRating} // Disable if rating exists
+                    <button
+                      className="btn btn-primary mt-2 w-50"
+                      data-bs-toggle={room.isBookedconfirm ? "modal" : ""}
+                      data-bs-target={room.isBookedconfirm ? "#rateRoomModal" : ""}
+                      onClick={() => {
+                        if (room.isBookedconfirm) {
+                          if (room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)) {
+                            alert("You have already rated this room.");
+                          } else {
+                            setFormData({ ...formData, roomId: room._id, buyerName: room.buyerName });
+                          }
+                        } else {
+                          alert("Owner has not confirmed the booking yet.");
+                        }
+                      }}
+                      disabled={room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)} // Disable if buyer has already rated the room
                     >
-                      {room.rating ? "Already Rated" : "Rate this room"}
+                      {room.isBookedconfirm
+                        ? room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)
+                          ? "Already Rated"
+                          : "Rate this Room"
+                        : "Owner hasn't confirmed yet"}
                     </button>
+
+
+                    {/* Display Rating History */}
+                      <div className="mt-3">
+                        <h5> Rating History </h5>
+                        {room.ratingHistory && room.ratingHistory.length > 0 ? (
+                          room.ratingHistory.map((rating, index) => (
+                            <div key={index}>
+                              <div>
+                                <strong>Buyer Name:</strong> {rating.buyerName}
+                                <div>
+                                  <strong>Rating:</strong>
+                                  {/* Display 5 stars, highlighting the rated number in yellow */}
+                                  {Array.from({ length: 5 }, (_, starIndex) => (
+                                    <span
+                                      key={starIndex}
+                                      style={{
+                                        fontSize: "20px",
+                                        color: starIndex < rating.rating ? "#FFD700" : "#D3D3D3", // Yellow for rated stars, gray for un-rated
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      ★
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                              <strong>Description:</strong> {rating.description}
+                              {/* Separation line */}
+                              <hr style={{ margin: "10px 0", borderTop: "1px solid #ccc" }} />
+                            </div>
+                          ))
+                        ) : (
+                          <p>No ratings yet.</p>
+                        )}
+                      </div>
+
+
                   </div>
                 </div>
               ))
@@ -215,7 +276,7 @@ function LoggedCustomer() {
                         style={{
                           fontSize: "30px",
                           cursor: "pointer",
-                          color: index < formData.buyerRating ? "#FFD700" : "#D3D3D3", // Filled or empty stars
+                          color: index < formData.rating ? "#FFD700" : "#D3D3D3", // Filled or empty stars
                         }}
                       >
                         ★
@@ -227,9 +288,9 @@ function LoggedCustomer() {
                 <div className="mb-3">
                   <label className="form-label">Rating Description</label>
                   <textarea
-                    name="ratingdescription"
+                    name="description"
                     className="form-control"
-                    value={formData.ratingdescription}
+                    value={formData.description}
                     onChange={handleChange}
                     required
                   />
@@ -247,4 +308,4 @@ function LoggedCustomer() {
   );
 }
 
-export default LoggedCustomer;
+export default LoggedCustomer; 

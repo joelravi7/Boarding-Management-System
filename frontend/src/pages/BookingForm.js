@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Componets/CSS/BookingForm.css";
-
+import logo from "../Componets/assets/unistaylogo.png";
 function BookForm() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -92,6 +92,11 @@ function BookForm() {
     <>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
+          <div className="LOGO-container">
+                    <a className="nav-link text-warning" href="/">
+                    <img src={logo} alt="LOGO" width="130" />
+                    </a>
+                    </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -110,7 +115,7 @@ function BookForm() {
               <li className="nav-item"><a className="nav-link" href="/AddRoom">Post Add</a></li>
               <li className="nav-item"><a className="nav-link" href="/RoomList">Properties</a></li>
               <li className="nav-item"><a className="nav-link" href="/Userroom">About Us</a></li>
-              <li className="nav-item"><a className="nav-link" href="/maintenance">Blogs</a></li>
+              
               
               {/* Dropdown Menu */}
               <li className="nav-item dropdown">

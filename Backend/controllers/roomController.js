@@ -64,6 +64,7 @@ const addRoom = async (req, res) => {
       addedDate: Date.now(),
       isVerified: false,  // Room is unverified by default
       isBooked: false,     // Room is not booked initially
+      isBookedconfirm: false,     // Room is not booked confirm initially
     });
 
     await newRoom.save();
@@ -187,6 +188,7 @@ const bookRoom = async (req, res) => {
     room.buyerCustomerId = req.userId; // Automatically set buyerCustomerId
     room.buyingDate = new Date();
     room.buyingDuration = buyingDuration;
+    room.isBookedconfirm = false,     // Room is not booked confirm initially
 
     await room.save();
 
@@ -253,6 +255,7 @@ const repostRoom = async (req, res) => {
     room.buyerCustomerId = null;
     room.buyingDate = null;
     room.buyingDuration = null;
+    room.isBookedconfirm = false,     // Room is not booked confirm initially
 
     // Save the updated room
     await room.save();
@@ -268,11 +271,11 @@ const repostRoom = async (req, res) => {
 
 const buyerRating = async (req, res) => {
   try {
-    const { roomId, buyerRating, ratingdescription } = req.body;
+    const { roomId, buyerName, rating, description } = req.body;
 
-    // Check if both roomId, buyerRating, and ratingdescription are provided
-    if (!roomId || !buyerRating || !ratingdescription) {
-      return res.status(400).json({ error: "Room ID, buyer rating, and rating description are required." });
+    // Check if both roomId, buyerId, rating, and description are provided
+    if (!roomId || !buyerName || !rating || !description) {
+      return res.status(400).json({ error: "Room ID, buyerName, rating, and description are required." });
     }
 
     const room = await Room.findById(roomId);
@@ -280,24 +283,30 @@ const buyerRating = async (req, res) => {
       return res.status(404).json({ error: "Room not found" });
     }
 
+    // Check if the room is booked
     if (!room.isBooked) {
       return res.status(400).json({ error: "Room is not booked yet." });
-    }
+    } 
 
     // Check if the booking is confirmed
     if (!room.isBookedconfirm) {
       return res.status(400).json({ error: "Booking is not confirmed yet." });
     }
 
-    // Update buyer rating and rating description
-    room.buyerRating = buyerRating;
-    room.ratingdescription = ratingdescription; // Save the description along with the rating
+    // Add the rating to the ratingHistory array
+    room.ratingHistory.push({
+      buyerName,
+      rating,
+      description,
+    });
+
+    // Save the updated room document
     await room.save();
 
-    res.json({ message: "Buyer rating and description updated successfully!", room });
+    res.json({ message: "Buyer rating and description added to rating history successfully!", room });
   } catch (err) {
     console.error("Error updating buyer rating:", err);
-    res.status(500).json({ error: "An error occurred while updating buyer rating." });
+    res.status(500).json({ error: "An error occurred while adding buyer rating." });
   }
 };
 

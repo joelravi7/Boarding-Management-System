@@ -10,23 +10,31 @@ const roomSchema = new mongoose.Schema(
     ownerName: { type: String, required: true },
     ownerContactNumber: { type: String, required: true },
     description: { type: String, required: true },
-    images: [{ type: String, required: true }], // Array of image URLs
+    images: [{ type: String, required: true }],
     customerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the customer who added the room
     isVerified: { type: Boolean, default: false }, // Admin verification
 
-    
-    isBooked: { type: Boolean, default: false }, 
-    isBookedconfirm: { type: Boolean, default: true }, 
-    buyerName: { type: String },
+    isBooked: { type: Boolean, default: false },
+    isBookedconfirm: { type: Boolean, default: false },
     buyerContactNumber: { type: String },
     buyerNIC: { type: String },
-    buyerCustomerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Reference to the buyer
-    buyingDate: { type: Date }, // Set only when the room is booked/purchased
-    buyingDuration: { type: Number }, // Duration of stay in months/days (based on your requirement)
-    buyerRating: { type: Number, min: 1, max: 5 }, // Rating given by the owner (optional)
-    ratingdescription: { type: String},
+    buyingDate: { type: Date },
+    buyingDuration: { type: Number },
+
+    buyerName: { type: String },
+    buyerCustomerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+    // Embedded rating history schema
+    ratingHistory: [
+      {
+        buyerName:  { type: String },
+        rating: { type: Number, min: 1, max: 5, required: true }, // Rating given by the owner
+        description: { type: String }, // Description of the rating
+        createdAt: { type: Date, default: Date.now }, // Timestamp for when the rating is created
+      },
+    ],
   },
-  { timestamps: true } // Mongoose automatically adds createdAt and updatedAt fields
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("Room", roomSchema);
+module.exports = mongoose.model("Room", roomSchema); 

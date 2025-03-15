@@ -29,9 +29,11 @@ function UpdateCustomer({ customer, onClose }) {
     }
 
     try {
-      const response = await axios.put(`http://localhost:8070/customer/update/${customer._id}`, updatedCustomer, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.put(
+        `http://localhost:8070/customer/update/${customer._id}`,
+        updatedCustomer,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       if (response.status === 200) {
         alert("Details updated successfully!");
@@ -47,166 +49,135 @@ function UpdateCustomer({ customer, onClose }) {
 
   return (
     <form onSubmit={handleSubmit}>
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="name" className="form-label">
-              First Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
-              value={customer.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="Lname" className="form-label">
-              Last Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="Lname"
-              name="Lname"
-              value={customer.Lname}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="DOB" className="form-label">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id="DOB"
-              name="DOB"
-              value={customer.DOB}
-              onChange={handleChange}
-             
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="Gender" className="form-label">
-              Gender
-            </label>
-            <select
-              id="Gender"
-              name="Gender"
-              value={customer.Gender}
-              onChange={handleChange}
-              className="form-control"
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="Phonenumber1" className="form-label">
-              Phone Number 1
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="Phonenumber1"
-              name="Phonenumber1"
-              value={customer.Phonenumber1}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="Phonenumber2" className="form-label">
-              Phone Number 2
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="Phonenumber2"
-              name="Phonenumber2"
-              value={customer.Phonenumber2 || ""}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="Address" className="form-label">
-            Address
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="name" className="form-label">
+            First Name
           </label>
           <input
             type="text"
             className="form-control"
-            id="Address"
-            name="Address"
-            value={customer.Address}
+            id="name"
+            name="name"
+            value={updatedCustomer.name}
             onChange={handleChange}
             required
           />
         </div>
-
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email
+        <div className="col">
+          <label htmlFor="Lname" className="form-label">
+            Last Name
           </label>
           <input
-            type="email"
+            type="text"
             className="form-control"
-            id="email"
-            name="email"
-            value={customer.email}
+            id="Lname"
+            name="Lname"
+            value={updatedCustomer.Lname}
             onChange={handleChange}
             required
           />
         </div>
+      </div>
 
-        <div className="row mb-3">
-          <div className="col">
-            <label htmlFor="password" className="form-label">
-              New Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={customer.password}
-              onChange={handleChange}
-            />
-          </div>
+      <div className="row mb-3">
+        <label htmlFor="Gender" className="form-label">
+          Gender
+        </label>
+        <select
+          id="Gender"
+          name="Gender"
+          value={updatedCustomer.Gender}
+          onChange={handleChange}
+          className="form-control"
+          required
+        >
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
 
-          <div className="col">
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={customer.confirmPassword}
-              onChange={handleChange}
-            />
-          </div>
+      <div className="row mb-3">
+        <label htmlFor="Phonenumber" className="form-label">
+          Phone Number
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="Phonenumber"
+          name="Phonenumber"
+          value={updatedCustomer.Phonenumber}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="Address" className="form-label">
+          Address
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="Address"
+          name="Address"
+          value={updatedCustomer.Address}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="email" className="form-label">
+          Email
+        </label>
+        <input
+          type="email"
+          className="form-control"
+          id="email"
+          name="email"
+          value={updatedCustomer.email}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="row mb-3">
+        <div className="col">
+          <label htmlFor="password" className="form-label">
+            New Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            value={updatedCustomer.password || ""}
+            onChange={handleChange}
+          />
         </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Update
-        </button>
-      </form>
+        <div className="col">
+          <label htmlFor="confirmPassword" className="form-label">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={updatedCustomer.confirmPassword || ""}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      <button type="submit" className="btn btn-primary w-100">
+        Update
+      </button>
+    </form>
   );
 }
 

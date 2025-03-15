@@ -10,7 +10,9 @@ require("dotenv").config(); // Load environment variables from .env file
 const fs = require("fs");
 
 const app = express();
+
 const PORT = process.env.PORT || 8070; // Fallback to 8070 if PORT is not defined
+
 
 
 
@@ -48,6 +50,7 @@ const User = require("./models/Customer"); // Ensure this path is correct
 const Admin = require("./models/Admin");
 
 
+
 // Multer setup for image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -80,40 +83,6 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
 });
 
-// Registration Route
-app.post("/register", async (req, res) => {
-  const { name, Lname, DOB, Gender, Phonenumber1, Phonenumber2, Address, email, password } = req.body;
-
-  try {
-    // Check if the email is already registered
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: "Email already registered" });
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    const newUser = new User({
-      name,
-      Lname,
-      DOB,
-      Gender,
-      Phonenumber1,
-      Phonenumber2,
-      Address,
-      email,
-      password: hashedPassword,
-    });
-    await newUser.save();
-
-    res.json({ message: "User registered successfully" });
-  } catch (err) {
-    console.error("Error during registration:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
 
 // Admin Registration Route
 app.post("/Adminregister", async (req, res) => {
@@ -229,7 +198,6 @@ app.use("/Customer", CustomerRouter);
 // Access Customer routes
 const roomRoutes = require("./Routes/roomRoute");
 app.use("/Room", roomRoutes); 
-
 
 
 // Error handling for unhandled routes

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import logo from "../Componets/assets/unistaylogo.png";
 
 import styles from "../Componets/CSS/dash.css"; // Import CSS styles
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap for styling
@@ -120,58 +121,65 @@ function HomePage() {
      <>
         < nav className="body">
           
-            {/* Navigation Bar and Welcome Section Combined */}
-            <div className="navbar navbar-expand-lg">
-            <div className="container">
-              <a className="nav-link text-warning" href="/">LOGO</a>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarContent"
-                aria-controls="navbarContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                  <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarContent">
-                <ul className="navbar-nav ms-auto">
-                 
-                  <li className="nav-item">
-                    <a className="nav-link" href="/allListings">Properties</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/">About Us</a>
-                  </li>
-                   <li className="nav-item">
-                    <a className="nav-link" href="/maintenance">Blogs</a>
-                  </li>
-    
-                  {/* Dropdown Menu */}
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      id="profileDropdown"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                    Account
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="profileDropdown">
-                      <li><a className="dropdown-item" href="/login">Login</a></li>
-                      <li><a className="dropdown-item" href="/register">Register</a></li>
-                    </ul>
-                  </li>
-    
-                  
-                </ul>
-              </div>
-    
-              </div>
-            </div>
+           {/* Navigation Bar and Welcome Section Combined */}
+                   <div className="navbar navbar-expand-lg">
+                   <div className="container">
+                     <div className="LOGO-container">
+                       <a className="nav-link text-warning" href="/">
+                       <img src={logo} alt="LOGO" width="130" />
+                       </a>
+                     </div>
+           
+                     <button
+                       className="navbar-toggler"
+                       type="button"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#navbarContent"
+                       aria-controls="navbarContent"
+                       aria-expanded="false"
+                       aria-label="Toggle navigation"
+                     >
+                         <span className="navbar-toggler-icon"></span>
+                       </button>
+                       <div className="collapse navbar-collapse" id="navbarContent">
+                       <ul className="navbar-nav ms-auto">
+                         <li className="nav-item">
+                           <a className="nav-link" href="/Properties">Properties</a>
+                         </li>
+                         <li className="nav-item">
+                           <a className="nav-link" href="/">About Us</a>
+                         </li>
+                          
+           
+                         {/* Dropdown Menu */}
+                         <li className="nav-item dropdown">
+                           <a
+                             className="nav-link dropdown-toggle"
+                             href="#"
+                             id="profileDropdown"
+                             role="button"
+                             data-bs-toggle="dropdown"
+                             aria-expanded="false"
+                           >
+                             Account
+                           </a>
+                           <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                             <li><a className="dropdown-item" href="/login">Login</a></li>
+                             <li><hr className="dropdown-divider" /></li>
+                             <li><a className="dropdown-item" href="/register">Register</a></li>
+                             
+                             <li>
+                            
+                             </li>
+                           </ul>
+                         </li>
+           
+                       
+                       </ul>
+                     </div>
+           
+                     </div>
+                   </div>
     
             {/* Welcome Section */}
             <section id="dash">
@@ -261,20 +269,46 @@ function HomePage() {
                           <div className="room-info">
                             <h5>{room.roomType} - {room.roomCity}</h5>
                             <p className="room-price">Rs {room.price.toLocaleString()}</p>
-                            <h5>Rating:
-                              {Array.from({ length: 5 }, (_, index) => (
-                                index < room.buyerRating ? (
-                                  <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
-                                ) : (
-                                  <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
-                                )
-                              ))}
-                            </h5>
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
+                                      {/* Rating History Summary */}
+                      <div className="mt-3">
+                       
+                       {room.ratingHistory && room.ratingHistory.length > 0 ? (() => {
+                         // Count occurrences of each rating
+                         const ratingCounts = room.ratingHistory.reduce((acc, { rating }) => {
+                           acc[rating] = (acc[rating] || 0) + 1;
+                           return acc;
+                         }, {});
+
+                         // Find the most common rating
+                         const mostRated = Object.keys(ratingCounts).reduce((a, b) =>
+                           ratingCounts[a] > ratingCounts[b] ? a : b
+                         );
+
+                         return (
+                           <div>
+                             <strong>Most Rated:</strong> 
+                             <div>
+                               {Array.from({ length: 5 }, (_, index) => (
+                                 <span key={index} style={{ color: index < mostRated ? "#FFD700" : "#D3D3D3" }}>
+                                   ★
+                                 </span>
+                               ))}
+                             </div>
+                           </div>
+                         );
+                       })() : (
+                         <p>No ratings yet.</p>
+                       )}
+                     </div>
+
+                     </div>
+                   </div>
+                 ))
+               )}
+             </div>
+   
+              </div>
+                          
     
                   <div className="pagination">
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
@@ -287,8 +321,7 @@ function HomePage() {
                       </button>
                     ))}
                   </div>
-                </div>
-        
+                
     
                 {/* Process Section */}
                 <section className="statistics-section">

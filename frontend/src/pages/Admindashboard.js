@@ -177,22 +177,47 @@ axios.get("http://localhost:3000/admin/dashboard", {
                                     </div>
                                   ))}
                                 </div>
-                                <h5><strong>Rating: </strong>
-                                  {Array.from({ length: 5 }, (_, index) => (
-                                    index < room.buyerRating ? (
-                                      <span key={index} style={{ color: "#FFD700" }}>★</span> // Filled star
-                                    ) : (
-                                      <span key={index} style={{ color: "#D3D3D3" }}>★</span> // Empty star
-                                    )
-                                  ))}
-                                </h5>
-                                <p><strong>Ratingdescription: </strong>{room.ratingdescription}</p>
+                                
                                 <p><strong>Room Added On:</strong> {room.createdAt || "N/A"}</p>
                                 <p><strong>Owner Name:</strong> {room.ownerName || "N/A"}</p>
                                 <p><strong>Owner Contact:</strong> {room.ownerContactNumber || "N/A"}</p>
                                 <p><strong>Located City:</strong> {room.roomCity|| "N/A"}</p>
                                 <p><strong>Negotiable:</strong> {room.isNegotiable|| "NO"}</p>
                                 <p><strong>Description:</strong> {room.description || "N/A"}</p>
+                                {/* Display Rating History */}
+                                <div className="mt-3">
+                                    <h5><strong>Rating History</strong>  </h5>
+                                    {room.ratingHistory && room.ratingHistory.length > 0 ? (
+                                      room.ratingHistory.map((rating, index) => (
+                                        <div key={index}>
+                                          <div>
+                                            <strong>Buyer Name:</strong> {rating.buyerName}
+                                            <div>
+                                              <strong>Rating:</strong>
+                                              {/* Display 5 stars, highlighting the rated number in yellow */}
+                                              {Array.from({ length: 5 }, (_, starIndex) => (
+                                                <span
+                                                  key={starIndex}
+                                                  style={{
+                                                    fontSize: "20px",
+                                                    color: starIndex < rating.rating ? "#FFD700" : "#D3D3D3", // Yellow for rated stars, gray for un-rated
+                                                    cursor: "pointer",
+                                                  }}
+                                                >
+                                                  ★
+                                                </span>
+                                              ))}
+                                            </div>
+                                          </div>
+                                          <strong>Description:</strong> {rating.description}
+                                          {/* Separation line */}
+                                          <hr style={{ margin: "10px 0", borderTop: "1px solid #ccc" }} />
+                                        </div>
+                                      ))
+                                    ) : (
+                                      <p>No ratings yet.</p>
+                                    )}
+                                  </div>
                                 <button onClick={() => handleVerification(room._id)} className="approve-btn">Approve ✅</button>
                               </div>
                             </td>
