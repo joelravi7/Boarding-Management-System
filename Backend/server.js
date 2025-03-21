@@ -46,8 +46,9 @@ connection.once("open", () => {
 
 // Models
 const Room = require("./models/Room");
-const User = require("./models/Customer"); // Ensure this path is correct
+const User = require("./models/Customer"); 
 const Admin = require("./models/Admin");
+const Message = require("./models/Message");
 
 
 
@@ -198,6 +199,10 @@ app.use("/Customer", CustomerRouter);
 // Access Customer routes
 const roomRoutes = require("./Routes/roomRoute");
 app.use("/Room", roomRoutes); 
+
+// Access Customer routes
+const messageRoutes = require("./Routes/messageRoute");
+app.use("/Message", messageRoutes); 
 
 
 // Error handling for unhandled routes

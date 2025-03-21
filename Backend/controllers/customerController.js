@@ -6,7 +6,7 @@ const Room = require("../models/Room");
 
 // Register a new customer
 exports.addCustomer = async (req, res) => {
-  const { name, Lname, Gender, Phonenumber, Address, email, password } = req.body;
+  const { name, Lname, Gender, Phonenumber, Address, email, password, profileImage } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ status: "Error", message: "Name, email, and password are required" });
@@ -19,8 +19,17 @@ exports.addCustomer = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newCustomer = new Customer({ name, Lname, Gender, Phonenumber, Address, email, password: hashedPassword });
-    
+    const newCustomer = new Customer({
+      name,
+      Lname,
+      Gender,
+      Phonenumber,
+      Address,
+      email,
+      password: hashedPassword,
+      profileImage,  // Adding profileImage here
+    });
+
     await newCustomer.save();
     const token = jwt.sign({ id: newCustomer._id, role: "customer" }, process.env.JWT_SECRET || "your-secret-key", { expiresIn: "1h" });
 
@@ -30,6 +39,7 @@ exports.addCustomer = async (req, res) => {
   }
 };
 
+
 // Get logged-in customer details
 exports.getCustomerDetails = async (req, res) => {
   try {
@@ -37,16 +47,17 @@ exports.getCustomerDetails = async (req, res) => {
     if (!customer) {
       return res.status(404).json({ status: "Error", message: "Customer not found" });
     }
-    res.status(200).json(customer);
+    res.status(200).json(customer);  // Profile image will be included in the response
   } catch (err) {
     res.status(500).json({ status: "Error", message: err.message });
   }
 };
 
+
 // Update customer details
 exports.updateCustomer = async (req, res) => {
   const userId = req.params.id;
-  const { name, email, password, Lname, Gender, Phonenumber, Address } = req.body;
+  const { name, email, password, Lname, Gender, Phonenumber, Address, profileImage } = req.body;
 
   try {
     const user = await Customer.findById(userId);
@@ -59,6 +70,7 @@ exports.updateCustomer = async (req, res) => {
     user.Gender = Gender || user.Gender;
     user.Phonenumber = Phonenumber || user.Phonenumber;
     user.Address = Address || user.Address;
+    user.profileImage = profileImage || user.profileImage;  // Update profile image if provided
 
     await user.save();
     res.status(200).json({ message: "User updated successfully", user });
@@ -66,6 +78,7 @@ exports.updateCustomer = async (req, res) => {
     res.status(500).json({ error: "An error occurred during the update" });
   }
 };
+
 
 // Admin - Get all customers
 exports.getAllCustomers = async (req, res) => {

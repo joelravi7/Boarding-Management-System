@@ -1,6 +1,7 @@
 /* Profile.css */
 .body{
-  background-color: #f8fcfc;
+  background-color: #d5d5d5;
+  height: 100%, !important;
 }
 
 /* General styles for the customer profile page */
@@ -8,10 +9,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 20px;
-  gap: 20px; /* Adds consistent spacing between the two sections */
+  padding: 3%;
+  margin-left: 25%;
+  margin-right: 15%;
 }
-
+.icon{
+  margin-left: 435px;
+}
 .customer-details-container,
 .my-rooms-container {
   width: 85%; /* Slightly reduce width to give more balanced spacing */
@@ -23,11 +27,18 @@
 }
 .CustomerBox{
   border: 1px solid #e0e0e0;
-  padding: 18px;
   border-radius: 8px;
   margin-bottom: 20px;
   background-color: #f9f9f9;
   transition: box-shadow 0.3s ease;
+}
+
+.CustomerForm{
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .customer-details-container h2,
 .my-rooms-container h2 {
@@ -48,15 +59,13 @@ button {
   margin-top: 15px;
 }
 
-.my-rooms-container {
-  margin-top: 0; /* No extra margin-top needed */
-}
+
 
 .room-card {
   border: 1px solid #e0e0e0;
   padding: 18px;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin: 25px;
   background-color: #f9f9f9;
   transition: box-shadow 0.3s ease;
 }
@@ -134,7 +143,11 @@ button {
 }
 
 
-
+.image-display{
+  padding-left: 150%;
+  margin-bottom: 20px;
+  
+}
 
 
 /* Responsive styles */

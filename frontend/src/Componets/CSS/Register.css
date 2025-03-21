@@ -1,31 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-.Registration-container-body{
+.Registration-container-body {
   background-color: #F0F0F0;
   margin-top: -1%;
   padding-top: 2%;
 }
 
-/* Container for Registration Form */
-.Registration-container{
-  max-width: 500px;
-  max-height: 800px;
-  margin: 10px auto; /* Center the form */
-  padding: 30px;
-  margin-top: 1%;
-  background-color: #f8fcfc ;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px  rgba(0, 0, 0, 0.64); 
+/* Animation for Registration Container */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
-
+/* Container for Registration Form */
+.Registration-container {
+  max-width: 500px;
+  max-height: 800px;
+  margin: 10px auto;
+  padding: 30px;
+  margin-top: 1%;
+  background-color: #f8fcfc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.64);
+  animation: fadeInUp 0.8s ease-out;
+}
 
 /* Heading */
 h2 {
   text-align: center;
   font-weight: bold;
-  color: #000000; /* Darker green */
+  color: #000000;
   margin-bottom: 20px;
 }
 
@@ -50,8 +60,8 @@ h2 {
 
 .form-control:focus {
   outline: none;
-  border-color: #050505; /* Highlight border on focus */
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5); /* Green glow */
+  border-color: #050505;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Submit Button */
@@ -69,13 +79,13 @@ h2 {
 }
 
 .btn-primary:hover {
-  background-color: #252525; /* Darker green on hover */
-  transform: scale(1.05); /* Slight enlarge effect */
+  background-color: #252525;
+  transform: scale(1.05);
 }
 
 .btn-primary:focus {
   outline: none;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Blue focus outline */
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
 /* Alert Messages */

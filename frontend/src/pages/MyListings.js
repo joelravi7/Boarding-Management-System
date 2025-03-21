@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Add this line
 import "../Componets/CSS/Profile.css";
-import { Pencil, Trash2, Eye, RefreshCcw, CheckCircle } from "lucide-react";
+import { Pencil, Trash2, Eye, RefreshCcw } from "lucide-react";
 import logo from "../Componets/assets/unistaylogo.png";
 
 function LoggedCustomer() {
@@ -13,6 +13,8 @@ function LoggedCustomer() {
   const [rooms, setRooms] = useState([]);
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("");
+  const [activeImageIndex, setActiveImageIndex] = useState(0); // Track active image index for carousel
+  
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedBuyer, setSelectedBuyer] = useState(null);
    const [unconfirmedBooking, setunconfirmedBooking] = useState([]);
@@ -40,7 +42,9 @@ function LoggedCustomer() {
     fetchRooms(); // Fetch rooms after customer details are fetched
   }, [navigate]);
   
-
+  const handleThumbnailClick = (index) => {
+    setActiveImageIndex(index); // Change the main image based on the clicked thumbnail
+  };
   // Fetch rooms
   const fetchRooms = async () => {
     const token = sessionStorage.getItem("token");
@@ -266,10 +270,10 @@ function LoggedCustomer() {
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <div className="LOGO-container">
-                      <a className="nav-link text-warning" href="/">
-                      <img src={logo} alt="LOGO" width="130" />
-                      </a>
-                      </div>
+            <a className="nav-link text-warning" href="/">
+            <img src={logo} alt="LOGO" width="130" />
+            </a>
+            </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -330,25 +334,43 @@ function LoggedCustomer() {
         </div>
       </nav>
 
-      <div className="LoggedCustomer-container d-flex flex-wrap justify-content-center p-3">
-      
-
-        <div className="my-rooms-container w-45 p-3">
+      <div className="Listing-container d-flex flex-wrap justify-content-center p-3">
+        <div className="my-rooms-container w-55 p-3">
           <h2>My Listings</h2>
           {rooms.length > 0 ? (
-  rooms.map((room) => (
-    <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
-      <div className="image-carousel me-3" style={{ width: "200px" }}>
-        <div className="image-display">
-          <img
-            src={`http://localhost:8070${room.images[0]}`}
-            alt="Room"
-            className="card-img-top"
-            style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
-          />
-        </div>
-      </div>
+          rooms.map((room) => (
+            <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
+              
       <div className="room-details">
+      
+      {/* Main Image Carousel */}
+      <div id="roomImageCarousel" className="carousel slide" data-bs-ride="false">
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <img
+                  src={`http://localhost:8070${room.images[activeImageIndex]}`}
+                  alt={`Room ${activeImageIndex + 1}`}
+                  className="d-block w-100"
+                  style={{ maxWidth: '400px', maxHeight: '350px', margin: 'auto', borderRadius: '10px', marginTop: '10px'}} // Custom image size
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Thumbnails */}
+          <div className="row mt-3 justify-content-center">
+            {room.images.map((image, index) => (
+              <div key={index} className="col-1">
+                <img
+                  src={`http://localhost:8070${image}`}
+                  alt={`Thumbnail ${index + 1}`}
+                  className="img-thumbnail"
+                  onClick={() => handleThumbnailClick(index)} // Set active image on thumbnail click
+                  
+                />
+              </div>
+            ))}
+          </div>
         <h3><strong>{room.roomType}</strong> - {room.roomCity}</h3>
         <p><strong>Posted On</strong>- {room.createdAt}</p>
         <p className="room-price"><strong>Price</strong> Rs {room.price.toLocaleString()} / month</p>
@@ -381,47 +403,6 @@ function LoggedCustomer() {
             </>
           )}
         </p>
-        
-
-
-        {/* Display Rating History */}
-        <div className="mt-3">
-                        <h5> Rating History </h5>
-                        {room.ratingHistory && room.ratingHistory.length > 0 ? (
-                          room.ratingHistory.map((rating, index) => (
-                            <div key={index}>
-                              <div>
-                                <strong>Buyer Name:</strong> {rating.buyerName}
-                                <div>
-                                  <strong>Rating:</strong>
-                                  {/* Display 5 stars, highlighting the rated number in yellow */}
-                                  {Array.from({ length: 5 }, (_, starIndex) => (
-                                    <span
-                                      key={starIndex}
-                                      style={{
-                                        fontSize: "20px",
-                                        color: starIndex < rating.rating ? "#FFD700" : "#D3D3D3", // Yellow for rated stars, gray for un-rated
-                                        cursor: "pointer",
-                                      }}
-                                    >
-                                      ★
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                              <strong>Description:</strong> {rating.description}
-                              {/* Separation line */}
-                              <hr style={{ margin: "10px 0", borderTop: "1px solid #ccc" }} />
-                            </div>
-                          ))
-                        ) : (
-                          <p>No ratings yet.</p>
-                        )}
-                      </div>
-       
-
-        
-
         <div className="d-flex justify-content-start mt-2">
         <button 
             className="btn  me-1" 
@@ -467,12 +448,48 @@ function LoggedCustomer() {
               </button>
             </>
           )}
+        </div>
 
+
+        {/* Display Rating History */}
+        <div className="mt-3">
+                        <h5><strong>Rating History</strong> Rating History </h5>
+                        {room.ratingHistory && room.ratingHistory.length > 0 ? (
+                          room.ratingHistory.map((rating, index) => (
+                            <div key={index}>
+                              <div>
+                                <strong>Buyer Name:</strong> {rating.buyerName}
+                                <div>
+                                  <strong>Rating:</strong>
+                                  {/* Display 5 stars, highlighting the rated number in yellow */}
+                                  {Array.from({ length: 5 }, (_, starIndex) => (
+                                    <span
+                                      key={starIndex}
+                                      style={{
+                                        fontSize: "20px",
+                                        color: starIndex < rating.rating ? "#FFD700" : "#D3D3D3", // Yellow for rated stars, gray for un-rated
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      ★
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                              <strong>Description:</strong> {rating.description}
+                              {/* Separation line */}
+                              <hr style={{ margin: "10px 0", borderTop: "1px solid #ccc" }} />
+                            </div>
+                          ))
+                        ) : (
+                          <p>No ratings yet.</p>
+                        )}
+                      </div>
+       
 
         
 
-
-        </div>
+        
       </div>
     </div>
   ))

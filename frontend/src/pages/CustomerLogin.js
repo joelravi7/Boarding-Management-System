@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import '../Componets/CSS/CustomerLogin.css';
-
+import logo from "../Componets/assets/unistaylogo.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,7 +61,12 @@ const Login = () => {
       {/* Navigation Bar */}
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="/">LOGO</a>
+        <div className="LOGO-container">
+          <a className="nav-link text-warning" href="/">
+          <img src={logo} alt="LOGO" width="130" />
+          </a>
+          </div>
+       
           <button
             className="navbar-toggler"
             type="button"

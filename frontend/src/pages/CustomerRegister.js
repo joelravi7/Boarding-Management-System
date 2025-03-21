@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import '../Componets/CSS/Register.css'
-
+import logo from "../Componets/assets/unistaylogo.png";
 function Addmember() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -72,7 +72,12 @@ function Addmember() {
     {/* Navigation Bar*/}
     <nav className="navbar navbar-expand-lg">
       <div className="container">
-      <a className="navbar-brand" href="/">LOGO</a>
+        <div className="LOGO-container">
+          <a className="nav-link text-warning" href="/">
+          <img src={logo} alt="LOGO" width="130" />
+          </a>
+          </div>
+     
         <a className="navbar-brand" href="/"></a>
           <button
             className="navbar-toggler"

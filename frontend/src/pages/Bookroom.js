@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom"; // Import useNaviga
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../Componets/CSS/Bookroom.css'; // Ensure the CSS is linked here
 import logo from "../Componets/assets/unistaylogo.png";
+import { FaCommentDots } from "react-icons/fa";
+
 function BookRoomPage() {
   const location = useLocation();
   const { room } = location.state || {}; // Get room details from navigation state
@@ -10,7 +12,9 @@ function BookRoomPage() {
   const [paymentOption, setPaymentOption] = useState("physical"); // Default to physical payment
   const [agreeToTerms, setAgreeToTerms] = useState(false); // Track if user agrees to terms
   const [activeImageIndex, setActiveImageIndex] = useState(0); // Track active image index for carousel
-
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
   
 
   const handlePaymentOptionChange = (e) => {
@@ -28,6 +32,16 @@ function BookRoomPage() {
   const handleConfirmBooking = () => {
     // Navigate to the confirmation page with room details
     navigate("/Bookroomform", { state: { room, paymentOption } });
+  };
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      setChatHistory([...chatHistory, message]);
+      setMessage("");
+    }
   };
 
   if (!room) {
@@ -162,7 +176,7 @@ function BookRoomPage() {
           <p className="card-text"><strong>Owner:</strong> {room.ownerName} </p>
           <p className="card-text"><strong>Negotiable:</strong> {room.isNegotiable ? "Yes" : "No"}</p>
            {/* Display Rating History */}
-           <div className="mt-3">
+           <div className="rating">
                         <h5><strong>Rating History</strong>  </h5>
                         {room.ratingHistory && room.ratingHistory.length > 0 ? (
                           room.ratingHistory.map((rating, index) => (
@@ -255,8 +269,36 @@ function BookRoomPage() {
         </div>
       </div>
     </div>
+   
+     {/* Floating Chat Button */}
+     <div className="chat-icon" onClick={toggleChat}>
+        <FaCommentDots size={24} />
+      </div>
+
+      {/* Chat Box */}
+      {isChatOpen && (
+        <div className="chat-box">
+          <div className="chat-header">Message</div>
+          <div className="chat-body">
+            {chatHistory.map((msg, index) => (
+              <div key={index} className="chat-message">{msg}</div>
+            ))}
+          </div>
+          <div className="chat-footer">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <button onClick={handleSendMessage}>Send</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
 export default BookRoomPage;
+
+

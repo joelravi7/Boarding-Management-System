@@ -16,7 +16,10 @@ function LoggedCustomer() {
     rating: "",
     description: "", // Rating description
   });
-
+  const [activeImageIndex, setActiveImageIndex] = useState(0); // Track active image index for carousel
+  const handleThumbnailClick = (index) => {
+    setActiveImageIndex(index); // Change the main image based on the clicked thumbnail
+  };
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (!token) {
@@ -159,21 +162,45 @@ function LoggedCustomer() {
           </div>
         </nav>
 
-        <div className="LoggedCustomer-container d-flex flex-wrap justify-content-center p-3">
+        <div className="rating-container d-flex flex-wrap justify-content-center p-3">
+         
           <div className="my-rooms-container w-45 p-3">
             <h2>My Room</h2>
             {rooms.length > 0 ? (
               rooms.map((room) => (
+                
+                
                 <div key={room._id} className="room-card p-3 mb-3 border rounded d-flex align-items-center">
-                  <div className="image-carousel me-3" style={{ width: "200px" }}>
-                    <img
-                      src={`http://localhost:8070${room.images[0]}`}
-                      alt="Room"
-                      className="card-img-top"
-                      style={{ height: "200px", width: "200px", objectFit: "cover", borderRadius: "10px" }}
-                    />
-                  </div>
+                  
                   <div className="room-details">
+                     {/* Main Image Carousel */}
+      <div id="roomImageCarousel" className="carousel slide" data-bs-ride="false">
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <img
+                  src={`http://localhost:8070${room.images[activeImageIndex]}`}
+                  alt={`Room ${activeImageIndex + 1}`}
+                  className="d-block w-100"
+                  style={{ maxWidth: '400px', maxHeight: '350px', margin: 'auto', borderRadius: '10px', marginTop: '10px'}} // Custom image size
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Thumbnails */}
+          <div className="row mt-3 justify-content-center">
+            {room.images.map((image, index) => (
+              <div key={index} className="col-1">
+                <img
+                  src={`http://localhost:8070${image}`}
+                  alt={`Thumbnail ${index + 1}`}
+                  className="img-thumbnail"
+                  onClick={() => handleThumbnailClick(index)} // Set active image on thumbnail click
+                  
+                />
+              </div>
+            ))}
+          </div>
                     <h3><strong>{room.roomType}</strong> - {room.roomCity}</h3>
                     <p><strong>Posted On</strong>- {room.createdAt}</p>
                     <p><strong>Owner Name</strong> {room.ownerName}</p>
@@ -184,29 +211,33 @@ function LoggedCustomer() {
                     <p><strong>Booked Date</strong> {room.createdAt}</p>
                     <p><strong>Duration</strong> {room.buyingDuration} Months</p>
 
-                    <button
-                      className="btn btn-primary mt-2 w-50"
-                      data-bs-toggle={room.isBookedconfirm ? "modal" : ""}
-                      data-bs-target={room.isBookedconfirm ? "#rateRoomModal" : ""}
-                      onClick={() => {
-                        if (room.isBookedconfirm) {
-                          if (room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)) {
-                            alert("You have already rated this room.");
-                          } else {
-                            setFormData({ ...formData, roomId: room._id, buyerName: room.buyerName });
+                    <div className="d-flex flex-column align-items-center">
+                      {!room.isBookedconfirm && (
+                        <p className="text-danger mb-1">Owner hasn't confirmed yet.</p>
+                      )}
+                      <button
+                        className="btn btn-primary mt-2 w-50"
+                        data-bs-toggle={room.isBookedconfirm ? "modal" : ""}
+                        data-bs-target={room.isBookedconfirm ? "#rateRoomModal" : ""}
+                        onClick={() => {
+                          if (room.isBookedconfirm) {
+                            if (room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)) {
+                              alert("You have already rated this room.");
+                            } else {
+                              setFormData({ ...formData, roomId: room._id, buyerName: room.buyerName });
+                            }
                           }
-                        } else {
-                          alert("Owner has not confirmed the booking yet.");
-                        }
-                      }}
-                      disabled={room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)} // Disable if buyer has already rated the room
-                    >
-                      {room.isBookedconfirm
-                        ? room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)
-                          ? "Already Rated"
-                          : "Rate this Room"
-                        : "Owner hasn't confirmed yet"}
-                    </button>
+                        }}
+                        disabled={!room.isBookedconfirm || (room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName))}
+                      >
+                        {room.isBookedconfirm
+                          ? room.ratingHistory && room.ratingHistory.some(rating => rating.buyerName === room.buyerName)
+                            ? "Already Rated"
+                            : "Rate this Room"
+                          : "Rate this Room"}
+                      </button>
+                    </div>
+
 
 
                     {/* Display Rating History */}

@@ -13,17 +13,17 @@ const CustomerSchema = new Schema({
     
     Lname: {
         type: String,
-        required:  false,
+        required: false,
     },
     
     Gender: {
         type: String,
-        required:  false,
+        required: false,
     },
    
     Phonenumber: {
         type: Number,
-        required:  false,
+        required: false,
     },
     email: {
         type: String,
@@ -33,12 +33,15 @@ const CustomerSchema = new Schema({
     },
     Address: {
         type: String,
-        required:  false,
+        required: false,
     },
     password: {
         type: String,
         required: true,
         minlength: 6, // Minimum password length
+    },
+    profileImage: { 
+        type: String,
     },
 });
 
