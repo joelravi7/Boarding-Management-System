@@ -453,7 +453,7 @@ function LoggedCustomer() {
 
         {/* Display Rating History */}
         <div className="mt-3">
-                        <h5><strong>Rating History</strong> Rating History </h5>
+                        <h5><strong>Rating History</strong> </h5>
                         {room.ratingHistory && room.ratingHistory.length > 0 ? (
                           room.ratingHistory.map((rating, index) => (
                             <div key={index}>
